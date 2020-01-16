@@ -11,14 +11,19 @@ class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
 
+    const MALE = 1;
+    const FEMALE = 2;
+    const OTHERS = 3;
+
+    const ACTIVE = 1;
+    const DISABLED = 2;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -37,4 +42,29 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function plans()
+    {
+        return $this->hasMany('App\Plan');
+    }
+
+    public function groups()
+    {
+        return $this->hasMany('App\Group');
+    }
+
+    public function posts()
+    {
+        return $this->hasMany('App\Post');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
+
+    public function tags()
+    {
+        return $this->morphToMany('App\Tag', 'taggable');
+    }
 }
