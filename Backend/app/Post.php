@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    const PLAN = 1;
+    const GROUP = 2;
+
     protected $guarded = [];
 
     public function user()
@@ -30,6 +33,6 @@ class Post extends Model
 
     public function images()
     {
-        return $this->morphMany('App\Images', 'imageable');
+        return $this->morphMany('App\Image', 'imageable');
     }
 }

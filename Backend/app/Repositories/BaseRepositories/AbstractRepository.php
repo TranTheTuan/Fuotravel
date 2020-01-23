@@ -29,11 +29,6 @@ abstract class AbstractRepository implements RepositoryInterface
         return $this->model = $model;
     }
 
-    public function all($request, $toArray = false, $with = [])
-    {
-        $this->model->all();
-    }
-
     public function create(array $data)
     {
         return $this->model->create($data);

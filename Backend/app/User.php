@@ -67,4 +67,14 @@ class User extends Authenticatable
     {
         return $this->morphToMany('App\Tag', 'taggable');
     }
+
+    public function members()
+    {
+        return $this->hasMany('App\Member');
+    }
+
+    public function relationship()
+    {
+        return $this->hasMany('App\Relationship');
+    }
 }

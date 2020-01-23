@@ -6,6 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Member extends Model
 {
+    const PENDING = 1;
+    const FOLLOWING = 2;
+    const MEMBER = 3;
+    const BANNED = 4;
+    const ADMIN = 5;
+    const MODERATOR = 6;
+
+    const PLAN = 1;
+    const GROUP = 2;
+
     protected $guarded = [];
 
     public function user()

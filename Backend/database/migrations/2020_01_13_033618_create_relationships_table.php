@@ -14,10 +14,10 @@ class CreateRelationshipsTable extends Migration
     public function up()
     {
         Schema::create('relationships', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('first_user_id');
             $table->unsignedBigInteger('second_user_id');
-            $table->primary(['first_user_id', 'second_user_id']);
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
             $table->unsignedBigInteger('action_user_id');
             $table->timestamps();
         });

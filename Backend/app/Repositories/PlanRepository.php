@@ -5,37 +5,18 @@ namespace App\Repositories;
 use App\Repositories\BaseRepositories\AbstractRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Plan;
+use App\Member;
 
 class PlanRepository extends AbstractRepository
 {
-    const UPLOAD_PATH = 'uploads/plan/';
-
 	public function model()
     {
         return 'App\Plan';
     }
 
-    public function creatingRules()
+    public function all()
     {
-        return [
-            'title' => 'required|string|max:100',
-            'description' => 'nullable|string|max:1000',
-            'cover' => 'required|string',
-            'departure' => 'required|string',
-            'start_at' => 'required|date',
-            'destination' => 'required|string',
-            'arrival_at' => 'requried|date',
-            'members_quantity' => 'required|numeric|min:2'
-        ];
-    }
-
-    public function uploadCover($file)
-    {
-        $fileName = time() . '.' . $file->getClientOriginalExtension();
-
-        $file->move(self::UPLOAD_PATH, $fileName);
-
-        return self::UPLOAD_PATH . $fileName;
+        return $this->model->all();
     }
 
     public function create(array $data)
@@ -64,5 +45,4 @@ class PlanRepository extends AbstractRepository
         }
         return false;
     }
-
 }
