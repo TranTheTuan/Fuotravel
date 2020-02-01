@@ -71,49 +71,4 @@ class PlanController extends ApiController
     {
         return $this->sendResponse($this->planRepo->cancel($plan_id));
     }
-
-    public function join(Request $request, $plan_id)
-    {
-        $data = $request->all();
-        $data['memberable_id'] = $plan_id;
-        return $this->sendResponse($this->memberRepo->join($data));
-    }
-
-    public function accept(Request $request, $plan_id, $user_id)
-    {
-        $data = $request->all();
-        $data['memberable_id'] = $plan_id;
-        $data['user_id'] = $user_id;
-        return $this->sendResponse($this->memberRepo->accept($data));
-    }
-
-    public function ban(Request $request, $plan_id, $user_id)
-    {
-        $data = $request->all();
-        $data['memberable_id'] = $plan_id;
-        $data['user_id'] = $user_id;
-        return $this->sendResponse($this->memberRepo->ban($data));
-    }
-
-    public function follow(Request $request, $plan_id)
-    {
-        $data = $request->all();
-        $data['memberable_id'] = $plan_id;
-        return $this->sendResponse($this->memberRepo->follow($data));
-    }
-
-    public function unfollow(Request $request, $plan_id)
-    {
-        $data = $request->all();
-        $data['memberable_id'] = $plan_id;
-        return $this->sendResponse($this->memberRepo->unfollow($data));
-    }
-
-    public function kick(Request $request, $plan_id, $user_id)
-    {
-        $data = $request->all();
-        $data['memberable_id'] = $plan_id;
-        $data['user_id'] = $user_id;
-        return $this->sendResponse($this->memberRepo->kick($data));
-    }
 }

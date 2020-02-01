@@ -9,7 +9,7 @@ class ApiController extends Controller
     /**
      * @param $data
      * @param int $httpStatusCode
-     * @return JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function sendResponse($data, $httpStatusCode = 200)
     {
@@ -24,7 +24,7 @@ class ApiController extends Controller
     /**
      * @param $error
      * @param int $httpStatusCode
-     * @return JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function sendError($error, $httpStatusCode = 400)
     {

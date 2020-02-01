@@ -28,6 +28,11 @@ class Plan extends Model
         return $this->morphMany('App\Post', 'postable');
     }
 
+    public function comments()
+    {
+        return $this->morphMany('App\Comment', 'commentable');
+    }
+
     public function members()
     {
         return $this->morphMany('App\Member', 'memberable');

@@ -20,6 +20,11 @@ abstract class AbstractRepository implements RepositoryInterface
 
     abstract function model();
 
+    public function all()
+    {
+        return $this->model->all();
+    }
+
     public function makeModel()
     {
         $model = $this->app->make($this->model());

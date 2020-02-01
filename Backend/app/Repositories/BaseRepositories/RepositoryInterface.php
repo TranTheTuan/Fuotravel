@@ -4,7 +4,7 @@ namespace App\Repositories\BaseRepositories;
 
 interface RepositoryInterface
 {
-//    public function all($request, $toArray = true, $with = []);
+    public function all();
 
     // public function paginate($perPage = 15, $columns = array('*'));
 

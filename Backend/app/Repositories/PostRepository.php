@@ -22,13 +22,21 @@ class PostRepository extends AbstractRepository
     public function create(array $data)
     {
         $postable_type = $this->checkPostableType($data);
-        return $postable_type->posts()->create(['caption' => $data['caption'], 'user_id' => $data['user_id']]);
+        return $postable_type->posts()->create(['caption' => $data['caption'], 'user_id' => Auth::id()]);
+    }
+
+    public function delete($post_id)
+    {
+        $post = Post::find($post_id);
+        $post->images()->delete();
+        $post->delete();
+        return true;
     }
 
     private function checkPostableType($data)
     {
         $postable_type = NULL;
-        if($data['memberable'] == Post::PLAN) {
+        if($data['postable'] == Post::PLAN) {
             $postable_type = Plan::find($data['postable_id']);
         } else {
             $postable_type = Group::find($data['postable_id']);

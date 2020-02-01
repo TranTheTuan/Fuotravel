@@ -14,11 +14,6 @@ class PlanRepository extends AbstractRepository
         return 'App\Plan';
     }
 
-    public function all()
-    {
-        return $this->model->all();
-    }
-
     public function create(array $data)
     {
         $user = Auth::user();

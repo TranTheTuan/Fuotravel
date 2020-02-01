@@ -48,49 +48,4 @@ class GroupController extends ApiController
 
         return $this->sendResponse($this->groupRepo->update($data, $group_id));
     }
-
-    public function join(Request $request, $group_id)
-    {
-        $data = $request->all();
-        $data['memberable_id'] = $group_id;
-        return $this->sendResponse($this->memberRepo->join($data));
-    }
-
-    public function accept(Request $request, $group_id, $user_id)
-    {
-        $data = $request->all();
-        $data['memberable_id'] = $group_id;
-        $data['user_id'] = $user_id;
-        return $this->sendResponse($this->memberRepo->accept($data));
-    }
-
-    public function ban(Request $request, $group_id, $user_id)
-    {
-        $data = $request->all();
-        $data['memberable_id'] = $group_id;
-        $data['user_id'] = $user_id;
-        return $this->sendResponse($this->memberRepo->ban($data));
-    }
-
-    public function follow(Request $request, $group_id)
-    {
-        $data = $request->all();
-        $data['memberable_id'] = $group_id;
-        return $this->sendResponse($this->memberRepo->follow($data));
-    }
-
-    public function unfollow(Request $request, $group_id)
-    {
-        $data = $request->all();
-        $data['memberable_id'] = $group_id;
-        return $this->sendResponse($this->memberRepo->unfollow($data));
-    }
-
-    public function kick(Request $request, $group_id, $user_id)
-    {
-        $data = $request->all();
-        $data['memberable_id'] = $group_id;
-        $data['user_id'] = $user_id;
-        return $this->sendResponse($this->memberRepo->kick($data));
-    }
 }

@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Services\ImageService;
 use App\Repositories\PostRepository;
 use App\Http\Controllers\ApiController;
-use App\Image;
 
 class PostController extends ApiController
 {
@@ -21,10 +18,11 @@ class PostController extends ApiController
         $this->imageService = $imageService;
     }
 
-    public function create(Request $request, $postable_id)
+    public function create(Request $request, $postable_id, $postable)
     {
         $data = $request->all();
         $data['postable_id'] = $postable_id;
+        $data['postable'] = $postable;
         $post = $this->postRepo->create($data);
 
         if($data['images']) {
@@ -43,5 +41,11 @@ class PostController extends ApiController
         $data = $request->all();
         $post = $this->postRepo->update($data, $post_id);
         return $this->sendResponse($post);
+    }
+
+    public function delete($post_id)
+    {
+        $this->postRepo->delete($post_id);
+        return $this->sendResponse('deleted');
     }
 }

@@ -37,16 +37,30 @@ Route::middleware('auth:api')->group(function() {
     });
 
     Route::prefix('members')->group(function () {
-        Route::post('join/{plan_id}', 'API\MemberController@join');
-        Route::post('accept/{plan_id}/{user_id}', 'API\MemberController@accept');
-        Route::post('ban/{plan_id}/{user_id}', 'API\MemberController@ban');
-        Route::post('follow/{plan_id}', 'API\MemberController@follow');
-        Route::post('unfollow/{plan_id}', 'API\MemberController@unfollow');
-        Route::post('kick/{plan_id}/{user_id}', 'API\MemberController@kick');
+        Route::post('join/{memberable_id}', 'API\MemberController@join');
+        Route::post('accept/{memberable_id}/{user_id}', 'API\MemberController@accept');
+        Route::post('ban/{memberable_id}/{user_id}', 'API\MemberController@ban');
+        Route::post('follow/{memberable_id}', 'API\MemberController@follow');
+        Route::post('unfollow/{memberable_id}', 'API\MemberController@unfollow');
+        Route::post('kick/{memberable_id}/{user_id}', 'API\MemberController@kick');
     });
 
     Route::prefix('posts')->group(function() {
-        Route::post('create/{postable_id}', 'API\PostController@create');
+        Route::post('create/{postable_id}/postable/{postable}', 'API\PostController@create');
+        Route::delete('{post_id}', 'API\PostController@delete');
+    });
+
+    Route::prefix('tags')->group(function () {
+        Route::get('/', 'API\TagController@index');
+        Route::post('add/{taggable_id}/taggable/{taggble}', 'API\TagController@add');
+        Route::get('{taggable_id}/taggable/{taggable}', 'API\TagController@show');
+        Route::post('detach/{taggable_id}/taggable/{taggble}', 'API\TagController@detach');
+    });
+
+    Route::prefix('comments')->group(function () {
+        Route::get('{commentable_id}/commentable/{commentable}', 'API\CommentController@show');
+        Route::post('create/{commentable_id}/commentable/{commentable}', 'API\CommentController@create');
+        Route::delete('{post_id}', 'API\CommentController@delete');
     });
 });
 

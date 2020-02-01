@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
+    const USER = 1;
+    const PLAN = 2;
+    const GROUP = 3;
+    const POST = 4;
+
     protected $guarded = [];
 
     public function posts()
