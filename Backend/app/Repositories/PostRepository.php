@@ -21,7 +21,7 @@ class PostRepository extends AbstractRepository
 
     public function create(array $data)
     {
-        $postable_type = $this->checkPostableType($data);
+        $postable_type = $this->checkPostableType($data['postable_id'], $data['postable']);
         return $postable_type->posts()->create(['caption' => $data['caption'], 'user_id' => Auth::id()]);
     }
 
@@ -33,20 +33,17 @@ class PostRepository extends AbstractRepository
         return true;
     }
 
-    public function getByPostableType(array $data)
+    public function getByPostableType($postable_id, $postable)
     {
-        $postable_type = $this->checkPostableType($data);
+        $postable_type = $this->checkPostableType($postable_id, $postable);
         return $postable_type->posts;
     }
 
-    private function checkPostableType($data)
+    private function checkPostableType($postable_id, $postable)
     {
-        $postable_type = NULL;
-        if($data['postable'] == Post::PLAN) {
-            $postable_type = Plan::find($data['postable_id']);
-        } else {
-            $postable_type = Group::find($data['postable_id']);
+        if($postable == Post::PLAN) {
+            return Plan::find($postable_id);
         }
-        return $postable_type;
+        return Group::find($postable_id);
     }
 }

@@ -22,7 +22,7 @@ class VoteController extends ApiController
         $data['voteable_id'] = $voteable_id;
         $data['voteable'] = $voteable;
 
-        return $this->sendResponse($this->voteRepo->upvote($data));
+        return $this->sendResponse($this->voteRepo->upvote($voteable_id, $voteable));
     }
 
     public function downvote($voteable_id, $voteable)
@@ -30,6 +30,6 @@ class VoteController extends ApiController
         $data['voteable_id'] = $voteable_id;
         $data['voteable'] = $voteable;
 
-        return $this->sendResponse($this->voteRepo->downvote($data));
+        return $this->sendResponse($this->voteRepo->downvote($voteable_id, $voteable));
     }
 }

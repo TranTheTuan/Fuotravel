@@ -30,20 +30,17 @@ class CommentRepository extends AbstractRepository
         return true;
     }
 
-    public function showComments($data)
+    public function showComments($commentable_id, $commentable)
     {
-        $commentable_type = $this->checkCommentableType($data);
+        $commentable_type = $this->checkCommentableType($commentable_id, $commentable);
         return $commentable_type->comments;
     }
 
-    private function checkCommentableType($data)
+    private function checkCommentableType($commentable_id, $commentable)
     {
-        $commentable_type = NULL;
-        if($data['commentable'] == Comment::PLAN) {
-            $commentable_type = Plan::find($data['commentable_id']);
-        } else {
-            $commentable_type = Post::find($data['commentable_id']);
+        if($commentable == Comment::PLAN) {
+            return Plan::find($commentable_id);
         }
-        return $commentable_type;
+        return Post::find($commentable_id);
     }
 }

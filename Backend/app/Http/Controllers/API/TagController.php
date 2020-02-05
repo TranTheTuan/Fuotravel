@@ -18,9 +18,7 @@ class TagController extends ApiController
     public function add(Request $request, $taggable_id, $taggable)
     {
         $data['tags'] = $request->all();
-        $data['taggable_id'] = $taggable_id;
-        $data['taggable'] = $taggable;
-        $added = $this->tagRepo->addTags($data);
+        $added = $this->tagRepo->addTags($data, $taggable_id, $taggable);
         if ($added) {
             return $this->sendResponse(__('api/api.added_tags'));
         }
@@ -34,17 +32,13 @@ class TagController extends ApiController
 
     public function show($taggable_id, $taggable)
     {
-        $data['taggable_id'] = $taggable_id;
-        $data['taggable'] = $taggable;
-        return $this->sendResponse($this->tagRepo->showTags($data));
+        return $this->sendResponse($this->tagRepo->showTags($taggable_id, $taggable));
     }
 
     public function detach(Request $request, $taggable_id, $taggable)
     {
-        $data['tags'] = $request->all();
-        $data['taggable_id'] = $taggable_id;
-        $data['taggable'] = $taggable;
-        $added = $this->tagRepo->detachTags($data);
+        $data = $request->all();
+        $added = $this->tagRepo->detachTags($data, $taggable_id, $taggable);
         if ($added) {
             return $this->sendResponse(__('api/api.detached_tags'));
         }

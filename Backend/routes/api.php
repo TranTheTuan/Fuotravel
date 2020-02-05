@@ -39,12 +39,12 @@ Route::middleware('auth:api')->group(function() {
     });
 
     Route::prefix('members')->group(function () {
-        Route::post('join/{memberable_id}', 'API\MemberController@join');
-        Route::post('accept/{memberable_id}/{user_id}', 'API\MemberController@accept');
-        Route::post('ban/{memberable_id}/{user_id}', 'API\MemberController@ban');
-        Route::post('follow/{memberable_id}', 'API\MemberController@follow');
-        Route::post('unfollow/{memberable_id}', 'API\MemberController@unfollow');
-        Route::post('kick/{memberable_id}/{user_id}', 'API\MemberController@kick');
+        Route::post('join/{memberable_id}/memberable/{memberable}', 'API\MemberController@join');
+        Route::post('accept/{user_id}/{memberable_id}/memberable/{memberable}', 'API\MemberController@accept');
+        Route::post('ban/{user_id}/{memberable_id}/memberable/{memberable}', 'API\MemberController@ban');
+        Route::post('follow/{memberable_id}/memberable/{memberable}', 'API\MemberController@follow');
+        Route::post('unfollow/{memberable_id}/memberable/{memberable}', 'API\MemberController@unfollow');
+        Route::post('kick/{user_id}/{memberable_id}/memberable/{memberable}', 'API\MemberController@kick');
     });
 
     Route::prefix('posts')->group(function() {

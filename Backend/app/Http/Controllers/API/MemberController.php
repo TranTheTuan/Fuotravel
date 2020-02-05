@@ -17,48 +17,33 @@ class MemberController extends ApiController
         $this->memberRepo = $memberRepo;
     }
 
-    public function join(Request $request, $memberable_id)
+    public function join($memberable_id, $memberable)
     {
-        $data = $request->all();
-        $data['memberable_id'] = $memberable_id;
-        return $this->sendResponse($this->memberRepo->join($data));
+        return $this->sendResponse($this->memberRepo->join($memberable_id, $memberable));
     }
 
-    public function accept(Request $request, $memberable_id, $user_id)
+    public function accept($user_id, $memberable_id, $memberable)
     {
-        $data = $request->all();
-        $data['memberable_id'] = $memberable_id;
-        $data['user_id'] = $user_id;
-        return $this->sendResponse($this->memberRepo->accept($data));
+        return $this->sendResponse($this->memberRepo->accept($user_id, $memberable_id, $memberable));
     }
 
-    public function ban(Request $request, $memberable_id, $user_id)
+    public function ban($user_id, $memberable_id, $memberable)
     {
-        $data = $request->all();
-        $data['memberable_id'] = $memberable_id;
-        $data['user_id'] = $user_id;
-        return $this->sendResponse($this->memberRepo->ban($data));
+        return $this->sendResponse($this->memberRepo->ban($user_id, $memberable_id, $memberable));
     }
 
-    public function follow(Request $request, $memberable_id)
+    public function follow($memberable_id, $memberable)
     {
-        $data = $request->all();
-        $data['memberable_id'] = $memberable_id;
-        return $this->sendResponse($this->memberRepo->follow($data));
+        return $this->sendResponse($this->memberRepo->follow($memberable_id, $memberable));
     }
 
-    public function unfollow(Request $request, $memberable_id)
+    public function unfollow($memberable_id, $memberable)
     {
-        $data = $request->all();
-        $data['memberable_id'] = $memberable_id;
-        return $this->sendResponse($this->memberRepo->unfollow($data));
+        return $this->sendResponse($this->memberRepo->unfollow($memberable_id, $memberable));
     }
 
-    public function kick(Request $request, $memberable_id, $user_id)
+    public function kick($user_id, $memberable_id, $memberable)
     {
-        $data = $request->all();
-        $data['memberable_id'] = $memberable_id;
-        $data['user_id'] = $user_id;
-        return $this->sendResponse($this->memberRepo->kick($data));
+        return $this->sendResponse($this->memberRepo->kick($user_id, $memberable_id, $memberable));
     }
 }

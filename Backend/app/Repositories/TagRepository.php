@@ -17,9 +17,9 @@ class TagRepository extends AbstractRepository
         return 'App\Tag';
     }
 
-    public function addTags(array $data)
+    public function addTags(array $data, $taggable_id, $taggable)
     {
-        $taggable_type = $this->getTaggableType($data);
+        $taggable_type = $this->getTaggableType($taggable_id, $taggable);
         if ($taggable_type) {
             foreach ($data['tags'] as $tag) {
                 $taggable_type->tags()->attach($tag);
@@ -29,15 +29,15 @@ class TagRepository extends AbstractRepository
         return false;
     }
 
-    public function showTags(array $data)
+    public function showTags($taggable_id, $taggable)
     {
-        $taggable_type = $this->getTaggableType($data);
+        $taggable_type = $this->getTaggableType($taggable_id, $taggable);
         return $taggable_type->tags;
     }
 
-    public function detachTags(array $data)
+    public function detachTags(array $data, $taggable_id, $taggable)
     {
-        $taggable_type = $this->getTaggableType($data);
+        $taggable_type = $this->getTaggableType($taggable_id, $taggable);
         if ($taggable_type) {
             foreach ($data['tags'] as $tag) {
                 $taggable_type->tags()->detach($tag);
@@ -47,18 +47,15 @@ class TagRepository extends AbstractRepository
         return false;
     }
 
-    private function getTaggableType(array $data)
+    private function getTaggableType($taggable_id, $taggable)
     {
-        $taggable_type = Null;
-        if ($data['taggable'] == Tag::USER) {
-            $taggable_type = Auth::user();
-        } elseif ($data['taggable'] == Tag::PLAN) {
-            $taggable_type = Plan::find($data['taggable_id']);
-        } elseif ($data['taggable'] == Tag::GROUP) {
-            $taggable_type = Group::find($data['taggable_id']);
-        } else {
-            $taggable_type = Post::find($data['taggable_id']);
+        if ($taggable == Tag::USER) {
+            return Auth::user();
+        } elseif ($taggable == Tag::PLAN) {
+            return Plan::find($taggable_id);
+        } elseif ($taggable == Tag::GROUP) {
+            return Group::find($taggable_id);
         }
-        return $taggable_type;
+        return Post::find($taggable_id);
     }
 }

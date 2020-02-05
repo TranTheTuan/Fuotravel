@@ -14,20 +14,17 @@ class ImageRepository extends AbstractRepository
         return 'App\Image';
     }
 
-    public function showImages($data)
+    public function showImages($imageable_id, $imageable)
     {
-        $imageable_type = $this->checkImagableType($data);
+        $imageable_type = $this->checkImagableType($imageable_id, $imageable);
         return $imageable_type->images;
     }
 
-    public function checkImagableType($data)
+    private function checkImagableType($imageable_id, $imageable)
     {
-        $imageable_type = NULL;
-        if ($data['imageable'] == Image::POST) {
-            $imageable_type = Post::find($data['imageable_id']);
-        } else {
-            $imageable_type = Comment::find($data['imageable_id']);
+        if ($imageable == Image::POST) {
+            return Post::find($imageable_id);
         }
-        return $imageable_type;
+        return Comment::find($imageable_id);
     }
 }

@@ -17,9 +17,6 @@ class ImageController extends ApiController
 
     public function show($imageable_id, $imageable)
     {
-        $data['imageable_id'] = $imageable_id;
-        $data['imageable'] = $imageable;
-
-        return $this->sendResponse($this->imageRepo->showImages($data));
+        return $this->sendResponse($this->imageRepo->showImages($imageable_id, $imageable));
     }
 }

@@ -40,10 +40,7 @@ class CommentController extends ApiController
 
     public function show($commentable_id, $commentable)
     {
-        $data['commentable_id'] = $commentable_id;
-        $data['commentable'] = $commentable;
-
-        return $this->sendResponse($this->commentRepo->showComments($data));
+        return $this->sendResponse($this->commentRepo->showComments($commentable_id, $commentable));
     }
 
     public function delete($comment_id)

@@ -15,31 +15,30 @@ class VoteRepository extends AbstractRepository
         return 'App\Vote';
     }
 
-    public function upvote(array $data)
+    public function upvote($voteable_id, $voteable)
     {
-        $voteable_type = $this->checkVoteableType($data);
+        $voteable_type = $this->checkVoteableType($voteable_id, $voteable);
         $voteable_type->votes()->updateOrCreate(
             ['user_id' => Auth::id()],
             ['vote_type' => Vote::UP]);
-        $vote = $this->getVoteCount($data);
+        $vote = $this->getVoteCount($voteable_type);
         $voteable_type->update(['vote' => $vote]);
         return $vote;
     }
 
-    public function downvote(array $data)
+    public function downvote($voteable_id, $voteable)
     {
-        $voteable_type = $this->checkVoteableType($data);
+        $voteable_type = $this->checkVoteableType($voteable_id, $voteable);
         $voteable_type->votes()->updateOrCreate(
             ['user_id' => Auth::id()],
             ['vote_type' => Vote::DOWN]);
-        $vote = $this->getVoteCount($data);
+        $vote = $this->getVoteCount($voteable_type);
         $voteable_type->update(['vote' => $vote]);
         return $vote;
     }
 
-    private function getVoteCount(array $data)
+    private function getVoteCount($voteable_type)
     {
-        $voteable_type = $this->checkVoteableType($data);
         $upvote = $voteable_type->votes()->where('vote_type', Vote::UP)->count();
         $downvote = $voteable_type->votes()->where('vote_type', Vote::DOWN)->count();
         $vote = $upvote - $downvote;
@@ -47,11 +46,11 @@ class VoteRepository extends AbstractRepository
         return $vote;
     }
 
-    private function checkVoteableType(array $data)
+    private function checkVoteableType($voteable_id, $voteable)
     {
-        if ($data['voteable'] == Vote::POST) {
-            return Post::find($data['voteable_id']);
+        if ($voteable == Vote::POST) {
+            return Post::find($voteable_id);
         }
-        return Comment::find($data['voteable_id']);
+        return Comment::find($voteable_id);
     }
 }

@@ -64,8 +64,6 @@ class GroupController extends ApiController
 
     public function getPosts($group_id)
     {
-        $data['postable'] = Post::GROUP;
-        $data['postable_id'] = $group_id;
-        return $this->sendResponse($this->postRepo->getByPostableType($data));
+        return $this->sendResponse($this->postRepo->getByPostableType($group_id, Post::GROUP));
     }
 }
