@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Group;
 use App\Repositories\BaseRepositories\AbstractRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Plan;
@@ -39,5 +40,11 @@ class PlanRepository extends AbstractRepository
             return $plan->save();
         }
         return false;
+    }
+
+    public function getByGroups($group_id)
+    {
+        $group = Group::find($group_id);
+        return $group->plans;
     }
 }

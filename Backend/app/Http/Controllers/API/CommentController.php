@@ -5,11 +5,12 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\ApiController;
 use App\Repositories\CommentRepository;
 use App\Services\ImageService;
+use App\Services\VoteService;
 use Illuminate\Http\Request;
 
 class CommentController extends ApiController
 {
-    const UPLOAD_PATH = 'upload/comments';
+    const UPLOAD_PATH = 'uploads/comments';
 
     protected $commentRepo, $imageService;
 
@@ -41,8 +42,8 @@ class CommentController extends ApiController
     {
         $data['commentable_id'] = $commentable_id;
         $data['commentable'] = $commentable;
-        $comments = $this->commentRepo->showComments($data);
-        return $this->sendResponse($comments);
+
+        return $this->sendResponse($this->commentRepo->showComments($data));
     }
 
     public function delete($comment_id)

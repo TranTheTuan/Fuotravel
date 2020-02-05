@@ -33,6 +33,12 @@ class PostRepository extends AbstractRepository
         return true;
     }
 
+    public function getByPostableType(array $data)
+    {
+        $postable_type = $this->checkPostableType($data);
+        return $postable_type->posts;
+    }
+
     private function checkPostableType($data)
     {
         $postable_type = NULL;

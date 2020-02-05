@@ -35,4 +35,9 @@ class Post extends Model
     {
         return $this->morphMany('App\Image', 'imageable');
     }
+
+    public function votes()
+    {
+        return $this->morphMany('App\Vote', 'voteable');
+    }
 }

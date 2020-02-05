@@ -34,6 +34,8 @@ Route::middleware('auth:api')->group(function() {
         Route::get('{group_id}', 'API\GroupController@show');
         Route::post('create', 'API\GroupController@create');
         Route::put('update/{group_id}', 'API\GroupController@update');
+        Route::get('{group_id}/plans', 'API\GroupController@getPlans');
+        Route::get('{group_id}/posts', 'API\GroupController@getPosts');
     });
 
     Route::prefix('members')->group(function () {
@@ -62,9 +64,35 @@ Route::middleware('auth:api')->group(function() {
         Route::post('create/{commentable_id}/commentable/{commentable}', 'API\CommentController@create');
         Route::delete('{post_id}', 'API\CommentController@delete');
     });
+
+    Route::prefix('votes')->group(function () {
+        Route::post('upvote/{votable_id}/votable/{votable}', 'API\VoteController@upvote');
+        Route::post('downvote/{votable_id}/votable/{votable}', 'API\VoteController@downvote');
+    });
+
+    Route::prefix('images')->group(function () {
+        Route::get('{imageable_id}/imageable/{imageable}', 'API\ImageController@show');
+    });
+
+    Route::prefix('users')->group(function () {
+        Route::prefix('friendships')->group(function () {
+            Route::prefix('requests')->group(function () {
+                Route::get('sent', 'API\UserController@sentFriendRequests');
+                Route::get('received', 'API\UserController@getFriendRequests');
+                Route::post('send/{recipient_id}', 'API\UserController@sendFriendRequest');
+                Route::put('accept/{sender_id}', 'API\UserController@acceptFriendRequest');
+                Route::delete('cancel/{sender_id}', 'API\UserController@cancelFriendRequest');
+            });
+            Route::prefix('block')->group(function () {
+                Route::post('/{target_id}', 'API\UserController@block');
+                Route::get('blocked', 'API\UserController@blockedFriends');
+            });
+            Route::get('/', 'API\UserController@getFriends');
+        });
+    });
 });
 
 Route::get('/draft', function() {
     // App::setLocale('en');
-    return App::getLocale();
+    return config('constant.COMMENT');
 });

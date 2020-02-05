@@ -37,4 +37,9 @@ class Plan extends Model
     {
         return $this->morphMany('App\Member', 'memberable');
     }
+
+    public function group()
+    {
+        return $this->belongsTo('App\Group');
+    }
 }

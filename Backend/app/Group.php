@@ -13,6 +13,11 @@ class Group extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function plans()
+    {
+        return $this->hasMany('App\Plan');
+    }
+
     public function tags()
     {
         return $this->morphToMany('App\Tag', 'taggable');
