@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Post;
 use Illuminate\Http\Request;
 use App\Services\ImageService;
 use App\Repositories\PostRepository;
@@ -20,6 +21,7 @@ class PostController extends ApiController
 
     public function create(Request $request, $postable_id, $postable)
     {
+        $this->authorize('create', [$postable_id, $postable]);
         $data = $request->all();
         $data['postable_id'] = $postable_id;
         $data['postable'] = $postable;
@@ -38,6 +40,7 @@ class PostController extends ApiController
 
     public function update(Request $request, $post_id)
     {
+        $this->authorize('update', Post::find($post_id));
         $data = $request->all();
         $post = $this->postRepo->update($data, $post_id);
         return $this->sendResponse($post);
@@ -45,6 +48,7 @@ class PostController extends ApiController
 
     public function delete($post_id)
     {
+        $this->authorize('update', Post::find($post_id));
         $this->postRepo->delete($post_id);
         return $this->sendResponse('deleted');
     }

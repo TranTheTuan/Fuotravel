@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Group;
 use App\Http\Controllers\ApiController;
 use App\Repositories\MemberRepository;
 use Illuminate\Http\Request;
 use App\Plan;
 use App\Repositories\PlanRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\PlanRequest;
 use App\Services\ImageService;
@@ -31,11 +33,17 @@ class PlanController extends ApiController
 
     public function show($plan_id)
     {
+        $this->authorize('view', Plan::find($plan_id));
+
         return $this->sendResponse($this->planRepo->find($plan_id));
     }
 
     public function create(PlanRequest $request)
     {
+        if ($request->filled('group_id')) {
+            $group_id = $request->group_id;
+            $this->authorize('create', Group::find($group_id));
+        }
         $data = $request->only(['title', 'description', 'departure', 'start_at', 'destination', 'arrival_at', 'members_quantity', 'group_id']);
 
         if($request->file('cover') && $request->file('cover')->isValid()) {
@@ -47,6 +55,7 @@ class PlanController extends ApiController
 
     public function update(PlanRequest $request, $plan_id)
     {
+        $this->authorize('update', Plan::find($plan_id));
         $data = $request->only(['title', 'description', 'departure', 'start_at', 'destination', 'arrival_at', 'members_quantity']);
 
         if($request->file('cover') && $request->file('cover')->isValid()) {
@@ -58,17 +67,20 @@ class PlanController extends ApiController
 
     public function delete($plan_id)
     {
+        $this->authorize('delete', Plan::find($plan_id));
         $this->planRepo->delete($plan_id);
         return $this->sendResponse(__('api/api.deleted'));
     }
 
     public function updateStatus($plan_id)
     {
-       return $this->sendResponse($this->planRepo->updateStatus($plan_id));
+        $this->authorize('update', Plan::find($plan_id));
+        return $this->sendResponse($this->planRepo->updateStatus($plan_id));
     }
 
     public function cancel($plan_id)
     {
+        $this->authorize('update', Plan::find($plan_id));
         return $this->sendResponse($this->planRepo->cancel($plan_id));
     }
 }

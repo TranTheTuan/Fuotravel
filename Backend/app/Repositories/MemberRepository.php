@@ -65,7 +65,22 @@ class MemberRepository extends AbstractRepository
         return true;
     }
 
-    private function checkMemberableType($memberable_id, $memberable)
+    public function appoint($user_id, $memberable_id, $memberable, $role)
+    {
+        $memberable_type = $this->checkMemberableType($memberable_id, $memberable);
+        $memberable_type->members()->create(['user_id' => $user_id, 'status' => $role]);
+        return true;
+    }
+
+    public function discharge($user_id, $memberable_id, $memberable, $role)
+    {
+        $memberable_type = $this->checkMemberableType($memberable_id, $memberable);
+        $member_id = $memberable_type->members->where('user_id', $user_id)->where('status', $role)->pluck('id');
+        Member::whereIn('id', $member_id)->delete();
+        return true;
+    }
+
+    public function checkMemberableType($memberable_id, $memberable)
     {
         $memberable_type = NULL;
         if($memberable == Member::PLAN) {

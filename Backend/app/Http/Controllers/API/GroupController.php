@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Group;
 use App\Http\Controllers\ApiController;
 use App\Post;
 use App\Repositories\GroupRepository;
@@ -48,6 +49,7 @@ class GroupController extends ApiController
 
     public function update(Request $request, $group_id)
     {
+        $this->authorize('update', Group::find($group_id));
         $data = $request->only(['name', 'about']);
 
         if($request->file('cover') && $request->file('cover')->isValid()) {

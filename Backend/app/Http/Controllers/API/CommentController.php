@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Comment;
 use App\Http\Controllers\ApiController;
 use App\Repositories\CommentRepository;
 use App\Services\ImageService;
-use App\Services\VoteService;
 use Illuminate\Http\Request;
 
 class CommentController extends ApiController
@@ -27,7 +27,7 @@ class CommentController extends ApiController
         $data['commentable'] = $commentable;
         $comment = $this->commentRepo->create($data);
 
-        if($data['images']) {
+        if($request->hasFile('images')) {
             foreach($data['images'] as $index => $image) {
                 if($image->isValid()) {
                     $path = $this->imageService->uploadImage(self::UPLOAD_PATH, $image, $index);
@@ -43,8 +43,9 @@ class CommentController extends ApiController
         return $this->sendResponse($this->commentRepo->showComments($commentable_id, $commentable));
     }
 
-    public function delete($comment_id)
+    public function delete($comment_id, $commentable_id, $commentable)
     {
+        $this->authorize('delete', [Comment::find($comment_id), $commentable_id, $commentable]);
         $this->commentRepo->delete($comment_id);
         return $this->sendResponse('deleted');
     }

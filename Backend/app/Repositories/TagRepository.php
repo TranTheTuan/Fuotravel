@@ -47,7 +47,7 @@ class TagRepository extends AbstractRepository
         return false;
     }
 
-    private function getTaggableType($taggable_id, $taggable)
+    public function getTaggableType($taggable_id, $taggable)
     {
         if ($taggable == Tag::USER) {
             return Auth::user();

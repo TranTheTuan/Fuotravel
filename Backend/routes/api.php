@@ -40,11 +40,15 @@ Route::middleware('auth:api')->group(function() {
 
     Route::prefix('members')->group(function () {
         Route::post('join/{memberable_id}/memberable/{memberable}', 'API\MemberController@join');
-        Route::post('accept/{user_id}/{memberable_id}/memberable/{memberable}', 'API\MemberController@accept');
-        Route::post('ban/{user_id}/{memberable_id}/memberable/{memberable}', 'API\MemberController@ban');
         Route::post('follow/{memberable_id}/memberable/{memberable}', 'API\MemberController@follow');
         Route::post('unfollow/{memberable_id}/memberable/{memberable}', 'API\MemberController@unfollow');
-        Route::post('kick/{user_id}/{memberable_id}/memberable/{memberable}', 'API\MemberController@kick');
+        Route::prefix('admin')->group(function () {
+            Route::post('kick/{user_id}/{memberable_id}/memberable/{memberable}', 'API\MemberController@kick');
+            Route::post('accept/{user_id}/{memberable_id}/memberable/{memberable}', 'API\MemberController@accept');
+            Route::post('ban/{user_id}/{memberable_id}/memberable/{memberable}', 'API\MemberController@ban');
+            Route::post('appoint/{user_id}/{memberable_id}/memberable/{memberable}/{role}', 'API\MemberController@appoint');
+            Route::post('discharge/{user_id}/{memberable_id}/memberable/{memberable}/{role}', 'API\MemberController@discharge');
+        });
     });
 
     Route::prefix('posts')->group(function() {

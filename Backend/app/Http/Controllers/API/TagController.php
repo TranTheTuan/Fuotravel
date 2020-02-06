@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\ApiController;
+use App\Member;
 use App\Repositories\TagRepository;
+use App\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TagController extends ApiController
 {
@@ -17,6 +20,7 @@ class TagController extends ApiController
 
     public function add(Request $request, $taggable_id, $taggable)
     {
+        $this->authorize('update', [Tag::class, $taggable_id, $taggable]);
         $data['tags'] = $request->all();
         $added = $this->tagRepo->addTags($data, $taggable_id, $taggable);
         if ($added) {
@@ -37,6 +41,7 @@ class TagController extends ApiController
 
     public function detach(Request $request, $taggable_id, $taggable)
     {
+        $this->authorize('update', [Tag::class, $taggable_id, $taggable]);
         $data = $request->all();
         $added = $this->tagRepo->detachTags($data, $taggable_id, $taggable);
         if ($added) {

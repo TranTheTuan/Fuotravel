@@ -39,7 +39,7 @@ class PostRepository extends AbstractRepository
         return $postable_type->posts;
     }
 
-    private function checkPostableType($postable_id, $postable)
+    public function checkPostableType($postable_id, $postable)
     {
         if($postable == Post::PLAN) {
             return Plan::find($postable_id);
