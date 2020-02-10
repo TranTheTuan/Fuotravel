@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService, PlanService} from '../../services';
-import {Router} from '@angular/router';
-import {User} from '../../models';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-overview',
@@ -9,28 +8,17 @@ import {User} from '../../models';
   styleUrls: ['./overview.component.css']
 })
 export class OverviewComponent implements OnInit {
-  public isAuth = true;
-  public plans = [];
-  constructor(private authService: AuthService,
-              private planService: PlanService,
-              private router: Router) {
-    if (this.authService.currentUserValue) {
-      this.isAuth = false;
-    }
-  }
-
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/']);
-  }
-  getPlans() {
-    this.planService.getAll().subscribe(res => {
-      console.log(res.data);
-      this.plans = res.data;
-    }, error => localStorage.setItem('error', error));
-  }
+  public plan;
+  constructor(
+    private authService: AuthService,
+    private planService: PlanService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
   ngOnInit(): void {
-    this.getPlans();
+    const id = this.route.snapshot.paramMap.get('plan_id');
+    this.planService.getDetail(id).subscribe(res => {
+      this.plan = res.data;
+    });
   }
-
 }

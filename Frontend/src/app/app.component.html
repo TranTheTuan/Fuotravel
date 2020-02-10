@@ -1,3 +1,7 @@
-<button mat-button [routerLink]="['auth']">auth</button>
-<button mat-raised-button [routerLink]="['plan']">plans</button>
+<div [ngClass]="{'hidden': unAuth == true}">
+  <button mat-button [routerLink]="['auth']">login</button>
+</div>
+<div [ngClass]="{'show': unAuth == false}">
+  <button mat-button (click)="logout()">logout</button>
+</div>
 <router-outlet></router-outlet>

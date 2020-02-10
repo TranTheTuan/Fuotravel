@@ -4,21 +4,17 @@
     <div>
       <mat-form-field appearance="standard">
         <mat-label>email</mat-label>
-        <input matInput type="text" placeholder="email..." name="email" required ngModel>
-<!--        <mat-error *ngIf="ngModel.invalid">user name is required</mat-error>-->
+        <input matInput type="text" placeholder="email..." name="email" required ngModel #un="ngModel">
+        <mat-error *ngIf="un.invalid">user name is required</mat-error>
       </mat-form-field>
     </div>
     <div>
       <mat-form-field appearance="standard">
         <mat-label>Password</mat-label>
-        <input matInput type="password" placeholder="password..." name="password" required ngModel>
-<!--        <mat-error *ngIf="pwd.invalid">user name is required</mat-error>-->
+        <input matInput type="password" placeholder="password..." name="password" required ngModel #pwd="ngModel">
+        <mat-error *ngIf="pwd.invalid">password is required</mat-error>
       </mat-form-field>
     </div>
     <button mat-stroked-button type="submit" [disabled]="!loginForm.form.valid">Login</button>
   </form>
-</div>
-
-<div [hidden]="!submitted">
-  {{ email }} - {{ password }}
 </div>

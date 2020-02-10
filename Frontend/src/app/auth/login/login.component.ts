@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(formValue.value).subscribe(
       data => {
       console.log('Login successfully: ' + JSON.stringify(this.authService.currentUserValue));
-      this.router.navigate(['/plan']);
+      this.router.navigate(['home']);
     },
       error => {
       console.log('Server error: ' + error);

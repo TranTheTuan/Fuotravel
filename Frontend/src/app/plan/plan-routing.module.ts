@@ -6,9 +6,9 @@ import {OverviewComponent} from './overview/overview.component';
 import {RequestComponent} from './request/request.component';
 
 const routes: Routes = [{ path: '', component: PlanComponent, children: [
-    { path: '', redirectTo: 'overview', pathMatch: 'full' },
-    { path: 'overview', component: OverviewComponent },
-    { path: 'request', component: RequestComponent }
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
+    { path: 'overview/:plan_id', component: OverviewComponent },
+    { path: 'request/:plan_id', component: RequestComponent }
   ]
 }];
 

@@ -22,7 +22,6 @@ export class AuthInterceptor implements HttpInterceptor {
         }
       });
     }
-    console.log(currentUser.accessToken);
     return next.handle(request);
   }
 }

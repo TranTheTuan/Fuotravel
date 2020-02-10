@@ -36,6 +36,7 @@ export class AuthService {
   }
   logout() {
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('plans');
     this.currentUserSubject.next(null);
   }
 }

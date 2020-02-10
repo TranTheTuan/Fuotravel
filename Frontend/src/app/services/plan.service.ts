@@ -18,10 +18,16 @@ export class PlanService {
     return this.http.get<ApiResponse>(this.APIS[1])
         .pipe(map(res => {
           if (res.data) {
-            console.log(res.data);
             localStorage.setItem('plans', JSON.stringify(res.data));
           }
           return res;
         }));
+  }
+  getDetail(planId: any): Observable<ApiResponse> {
+    const apiURL = this.APIS[2].replace('{plan_id}', planId);
+    return this.http.get<ApiResponse>(apiURL)
+      .pipe(map(res => {
+        return res;
+      }));
   }
 }

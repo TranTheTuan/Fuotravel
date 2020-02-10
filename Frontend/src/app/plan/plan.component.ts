@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService, PlanService} from '../services';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-plan',
@@ -6,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./plan.component.css']
 })
 export class PlanComponent implements OnInit {
-
-  constructor() { }
-
+  public unAuth = true;
+  constructor(
+    private authService: AuthService,
+    private planService: PlanService,
+    private router: Router
+  ) {}
   ngOnInit(): void {
   }
 

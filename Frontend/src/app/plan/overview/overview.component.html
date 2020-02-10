@@ -1,14 +1,5 @@
 <p>overview works!</p>
-<div [hidden]="isAuth">
-  <button mat-raised-button (click)="logout()">Logout</button>
-
+<div *ngIf="plan">
+  {{ plan.title }}
 </div>
-<button mat-button [routerLink]="['/plan/request']">requests</button>
-
-<ul>
-  <li *ngFor="let plan of plans">
-    {{ plan.title }}
-  </li>
-</ul>
-
 
