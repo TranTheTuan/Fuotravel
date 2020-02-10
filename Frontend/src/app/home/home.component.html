@@ -1,6 +1,6 @@
-<p>home works</p>
 <ul>
   <li *ngFor="let plan of plans">
     <a [routerLink]="['/plan/overview', plan.id]">{{ plan.title }}</a>
   </li>
 </ul>
+<router-outlet></router-outlet>
