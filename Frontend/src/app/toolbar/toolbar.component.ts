@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {AuthService} from '../services';
 import {Router} from '@angular/router';
 
@@ -7,9 +7,8 @@ import {Router} from '@angular/router';
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css']
 })
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent implements OnInit, OnChanges {
   public unAuth = true;
-  public canDisplay;
   constructor(
     private authService: AuthService,
     private router: Router
@@ -24,6 +23,12 @@ export class ToolbarComponent implements OnInit {
     this.unAuth = true;
     this.router.navigate(['auth']);
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.authService.currentUserValue) {
+      this.unAuth = false;
+    }
+  }
+
   ngOnInit(): void {
   }
 

@@ -1,6 +1,0 @@
-<mat-toolbar color="primary">
-  <span><a [routerLink]="['/']">Fuotravel</a></span>
-  <span class="fill-space"></span>
-  <span [ngClass]="{'show': unAuth == true, 'hide': unAuth == false}"><button mat-button [routerLink]="['auth']" color="accent">login</button></span>
-  <span [ngClass]="{'show': unAuth == false, 'hide': unAuth == true}"><button mat-button (click)="logout()" color="accent">logout</button></span>
-</mat-toolbar>

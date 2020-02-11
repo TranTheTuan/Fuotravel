@@ -9,3 +9,9 @@
 .show {
   display: block;
 }
+
+
+.title {
+  text-decoration: none;
+  color: aliceblue;
+}

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService, PlanService} from '../services';
+import {Observable, Observer} from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -8,6 +9,9 @@ import {AuthService, PlanService} from '../services';
 })
 export class HomeComponent implements OnInit {
   public plans;
+  public time = new Observable<string>((observer: Observer<string>) => {
+    setInterval(() => observer.next(new Date().toLocaleTimeString().toString()), 1000);
+  });
   constructor(
     private authService: AuthService,
     private planService: PlanService
