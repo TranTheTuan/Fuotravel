@@ -1,7 +1,6 @@
 import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {AuthService} from './services';
 import {Router} from '@angular/router';
-import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -14,8 +13,7 @@ export class AppComponent implements OnInit, OnChanges {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {
-  }
+  ) {}
   logout() {
     this.authService.logout();
     this.unAuth = true;
@@ -25,7 +23,6 @@ export class AppComponent implements OnInit, OnChanges {
     if (this.authService.currentUserValue) {
       this.unAuth = false;
     }
-    debugger
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (this.authService.currentUserValue) {

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService, PlanService} from '../../services';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Observable, Observer} from 'rxjs';
+import {Plan} from '../../models';
 
 @Component({
   selector: 'app-overview',
@@ -9,7 +9,7 @@ import {Observable, Observer} from 'rxjs';
   styleUrls: ['./overview.component.css']
 })
 export class OverviewComponent implements OnInit {
-  public plan;
+  public plan: Plan;
   constructor(
     private authService: AuthService,
     private planService: PlanService,

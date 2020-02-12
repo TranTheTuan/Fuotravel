@@ -2,20 +2,21 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { AuthRoutingModule } from './auth-routing.module';
-import { AuthComponent } from './auth.component';
-import { LoginComponent } from './login/login.component';
-
 import {
   MatFormFieldModule,
   MatInputModule,
   MatButtonModule,
   MatDividerModule
 } from '@angular/material';
-import {AuthService} from '../services';
+
+import { AuthRoutingModule } from './auth-routing.module';
+import { AuthComponent } from './auth.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+
 
 @NgModule({
-  declarations: [AuthComponent, LoginComponent],
+  declarations: [AuthComponent, LoginComponent, RegisterComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,
@@ -24,7 +25,6 @@ import {AuthService} from '../services';
     MatInputModule,
     MatButtonModule,
     MatDividerModule,
-  ],
-  providers: [AuthService]
+  ]
 })
 export class AuthModule { }
