@@ -29,7 +29,7 @@ class ApiController extends Controller
     public function sendError($error, $httpStatusCode = 400)
     {
         $response = [
-            'error' => ['message' => $error],
+            'message' => $error,
             'status' => $httpStatusCode
         ];
 

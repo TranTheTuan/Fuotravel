@@ -1,3 +1,8 @@
+<mat-toolbar color="primary">
+  <span><a [routerLink]="['/']" class="title">Fuotravel</a></span>
+  <span class="fill-space"></span>
+  <span><button mat-button (click)="logout()" color="accent">logout</button></span>
+</mat-toolbar>
 <div>{{ time | async }}</div>
 <ul>
   <li *ngFor="let plan of plans">

@@ -11,17 +11,17 @@ import { ApiResponse, User } from '../models';
 })
 export class AuthService {
   private APIS = {
-    1: environment.apiURL + '/login'
+    1: environment.apiURL + '/login',
+    2: environment.apiURL + '/register'
   };
   private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
+  readonly currentUser: Observable<User>;
   constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
   public get currentUserValue(): User {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-    this.currentUser = this.currentUserSubject.asObservable();
     return this.currentUserSubject.value;
   }
   public login(params: any): Observable<ApiResponse> {
@@ -33,6 +33,16 @@ export class AuthService {
           }
           return res;
         }));
+  }
+  public register(params: any): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(this.APIS[2], params)
+      .pipe(map(res => {
+        if (res.data) {
+          localStorage.setItem('currentUser', JSON.stringify(res.data));
+          this.currentUserSubject.next(res.data);
+        }
+        return res;
+      }));
   }
   logout() {
     localStorage.removeItem('currentUser');
