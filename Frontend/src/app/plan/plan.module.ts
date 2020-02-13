@@ -6,6 +6,7 @@ import { PlanComponent } from './plan.component';
 import { OverviewComponent } from './overview/overview.component';
 import { MatButtonModule } from '@angular/material/button';
 import { RequestComponent } from './request/request.component';
+import {ToolbarModule} from '../toolbar/toolbar.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { RequestComponent } from './request/request.component';
   imports: [
     CommonModule,
     PlanRoutingModule,
-    MatButtonModule
+    MatButtonModule,
+    ToolbarModule
   ]
 })
 export class PlanModule { }

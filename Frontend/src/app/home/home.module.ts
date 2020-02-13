@@ -7,6 +7,7 @@ import {
   MatButtonModule,
   MatToolbarModule
 } from '@angular/material';
+import {ToolbarModule} from '../toolbar/toolbar.module';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -14,7 +15,8 @@ import {
     CommonModule,
     HomeRoutingModule,
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
+    ToolbarModule
   ]
 })
 export class HomeModule { }

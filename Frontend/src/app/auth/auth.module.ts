@@ -16,7 +16,7 @@ import { RegisterComponent } from './register/register.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatMomentDateModule} from '@angular/material-moment-adapter';
+// import {MatMomentDateModule} from '@angular/material-moment-adapter';
 
 
 @NgModule({
@@ -33,7 +33,7 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
     ReactiveFormsModule,
     MatRadioModule,
     MatDatepickerModule,
-    MatMomentDateModule
+    // MatMomentDateModule
   ]
 })
 export class AuthModule { }
