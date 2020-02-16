@@ -1,22 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {AuthService} from '../../services';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
-// import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
-import { AppDateAdapter, APP_DATE_FORMATS} from '../../helpers';
-// import * as _moment from 'moment';
-// tslint:disable-next-line:no-duplicate-imports
-// import {default as _rollupMoment} from 'moment';
-
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material';
+import {APP_DATE_FORMATS, AppDateAdapter} from '../../helpers';
+import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import * as _moment from 'moment';
+const moment = _moment;
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
   providers: [
-    {provide: DateAdapter, useClass: AppDateAdapter},
-    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
+    { provide: DateAdapter, useClass: MomentDateAdapter},
+    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
   ]
 })
 export class RegisterComponent implements OnInit {
@@ -34,13 +32,16 @@ export class RegisterComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder) {
+  }
 
   onSubmit(formValue: any) {
+    formValue.birthday = this.formatDate(formValue.birthday);
+    console.table(formValue);
     this.authService.register(formValue).subscribe(
       data => {
         console.log('Registered successfully: ' + JSON.stringify(this.authService.currentUserValue));
-        this.router.navigate(['home']);
+        this.router.navigate(['/tag/add']);
       },
       error => {
         this.error.next(error.error.message);
@@ -48,6 +49,9 @@ export class RegisterComponent implements OnInit {
     );
   }
   ngOnInit(): void {
+  }
+  private formatDate(value: any) {
+    return moment(value).format('YYYY/MM/DD');
   }
   firstlastnameErrorMessage(name: string) {
     const namefield = this.registerForm.get(name);
