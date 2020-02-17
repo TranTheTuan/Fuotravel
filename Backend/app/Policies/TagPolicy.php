@@ -26,6 +26,9 @@ class TagPolicy
     public function update(User $user, $taggable_id, $taggable)
     {
         $taggable_type = $this->tagRepo->getTaggableType($taggable_id, $taggable);
+        if($taggable_type instanceof User) {
+            return true;
+        }
         $member = $taggable_type->members->where('user_id', $user->id)->pluck('status');
         return $member->contains(Member::ADMIN) || $member->contains(Member::MODERATOR);
     }

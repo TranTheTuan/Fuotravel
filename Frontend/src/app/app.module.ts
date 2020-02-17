@@ -8,12 +8,11 @@ import { AuthInterceptor } from './helpers';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
-import {ToolbarComponent} from './toolbar/toolbar.component';
 import {MatToolbarModule} from '@angular/material';
 
 @NgModule({
   declarations: [
-    AppComponent, ToolbarComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -21,7 +20,7 @@ import {MatToolbarModule} from '@angular/material';
     HttpClientModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    MatToolbarModule
+    MatToolbarModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

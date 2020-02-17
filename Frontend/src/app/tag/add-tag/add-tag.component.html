@@ -1,0 +1,9 @@
+<div class="form-container">
+  <form [formGroup]="tagForm" (ngSubmit)="onSubmit()" class="common-form">
+    <h1>Choose your interested topics</h1>
+    <section class="group-section" *ngFor="let tag of tags">
+      <mat-checkbox (change)="onChangeEvent(tag.id, $event)">{{ tag.name }}</mat-checkbox>
+    </section>
+    <button mat-raised-button type="submit">Submit</button>
+  </form>
+</div>

@@ -16,7 +16,7 @@
     </tr></table>
     <div>
       <label>Gender:</label>
-      <mat-radio-group aria-label="Select an option" class="radio-group" formControlName="gender" required>
+      <mat-radio-group aria-label="Select an option" class="group-section" formControlName="gender" required>
         <mat-radio-button class="radio-button" value="1">Male</mat-radio-button>
         <mat-radio-button class="radio-button" value="2">Female</mat-radio-button>
         <mat-radio-button class="radio-button" value="3">Others</mat-radio-button>
@@ -54,6 +54,7 @@
       </mat-form-field>
     </div>
     <button mat-stroked-button type="submit" [disabled]="registerForm.invalid">Register</button>
-    {{ registerForm.value | json}}
+    {{ registerForm.value.birthday | json}}
+    <mat-error>{{ registerForm.get('birthday').value }}</mat-error>
   </form>
 </div>
