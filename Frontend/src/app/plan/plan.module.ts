@@ -8,16 +8,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { RequestComponent } from './request/request.component';
 import {ToolbarModule} from '../toolbar/toolbar.module';
 import {PipesModule} from '../pipes/pipes.module';
+import {MatTabsModule} from '@angular/material/tabs';
+import { MemberComponent } from './member/member.component';
+import {PostModule} from '../post/post.module';
 
 
 @NgModule({
-  declarations: [PlanComponent, OverviewComponent, RequestComponent],
+  declarations: [PlanComponent, OverviewComponent, RequestComponent, MemberComponent],
   imports: [
     CommonModule,
     PlanRoutingModule,
-    MatButtonModule,
     ToolbarModule,
-    PipesModule
+    PipesModule,
+    MatButtonModule,
+    MatTabsModule,
+    PostModule
   ],
 })
 export class PlanModule { }

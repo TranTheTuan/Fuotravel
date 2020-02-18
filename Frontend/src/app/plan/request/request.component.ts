@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {PlanService} from '../../services';
-import {Plan} from '../../models/plan';
+import {ActivatedRoute} from '@angular/router';
+import {User} from '../../models';
+import {MemberService} from '../../services/member.service';
+import {PLAN, PENDING} from '../../helpers';
 
 @Component({
   selector: 'app-request',
@@ -9,18 +10,21 @@ import {Plan} from '../../models/plan';
   styleUrls: ['./request.component.css']
 })
 export class RequestComponent implements OnInit {
-  public plan$: Plan;
+  public requesters: User[];
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private planService: PlanService
+    private memberService: MemberService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('plan_id');
-    this.planService.getDetail(id).subscribe(res => {
-      this.plan$ = res.data;
-    });
+    if (localStorage.getItem('planRequesters')) {
+      this.requesters = JSON.parse(localStorage.getItem('planRequesters'));
+    } else {
+      const id = this.route.snapshot.paramMap.get('plan_id');
+      this.memberService.getMembers(id, PLAN, PENDING).subscribe(res => {
+        this.requesters = res.data;
+      }, error => console.log(error.error.message));
+    }
   }
 
 }

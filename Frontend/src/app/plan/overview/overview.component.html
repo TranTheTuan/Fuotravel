@@ -6,3 +6,25 @@
   <p>điểm đến: {{ plan.destination }}, vào hồi: {{ plan.arrival_at }}</p>
   <p>số thành viên dự kiến: {{ plan.member_quantity }}</p>
 </div>
+<mat-tab-group mat-align-tabs="center" animationDuration="1000ms">
+  <mat-tab label="map">
+    <ng-template matTabContent>
+      map
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="requests">
+    <ng-template matTabContent>
+      <app-request></app-request>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="members">
+    <ng-template matTabContent>
+      <app-member></app-member>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="posts">
+    <ng-template matTabContent>
+      <app-post></app-post>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

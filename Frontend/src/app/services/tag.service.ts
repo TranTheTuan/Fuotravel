@@ -20,7 +20,7 @@ export class TagService {
     return this.http.get<ApiResponse>(this.APIS[1])
       .pipe(map(res => {
         if (res.data) {
-          localStorage.setItem('tags', res.data);
+          localStorage.setItem('tags', JSON.stringify(res.data));
         }
         return res;
       }

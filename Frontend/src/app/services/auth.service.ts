@@ -45,8 +45,7 @@ export class AuthService {
       }));
   }
   logout() {
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('plans');
+    localStorage.clear();
     this.currentUserSubject.next(null);
   }
 }

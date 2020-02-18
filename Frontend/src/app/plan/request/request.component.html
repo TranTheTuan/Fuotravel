@@ -1,2 +1,7 @@
-<p *ngIf="plan$">{{ plan$.title }}</p>
+<p>Users wanna join this plan</p>
+<ul>
+  <li *ngFor="let requester of requesters">
+    {{ requester.firstname }}
+  </li>
+</ul>
 
