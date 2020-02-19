@@ -15,9 +15,12 @@ export class PostService {
   constructor(private http: HttpClient) { }
   getAll(postableId: any, postable: any): Observable<ApiResponse> {
     const apiUrl = this.APIS[1].replace('{postable_id}', postableId)
-      .replace('postable', postable);
+      .replace('{postable}', postable);
     return this.http.get<ApiResponse>(apiUrl)
       .pipe(map(res => {
+        if (res.data.length > 0) {
+          localStorage.setItem('posts', JSON.stringify(res.data));
+        }
         return res;
       }));
   }

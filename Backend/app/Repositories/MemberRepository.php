@@ -80,6 +80,24 @@ class MemberRepository extends AbstractRepository
         return true;
     }
 
+    public function getRequesters($memberable_id, $memberable)
+    {
+        $memberable_type = $this->checkMemberableType($memberable_id, $memberable);
+        $requesters = $memberable_type->members->where('status', Member::PENDING)->each(function($requester, $key) {
+            return $requester->user;
+        })->pluck('user');
+        return $requesters;
+    }
+
+    public function getMembers($memberable_id, $memberable)
+    {
+        $memberable_type = $this->checkMemberableType($memberable_id, $memberable);
+        $members = $memberable_type->members->where('status', Member::MEMBER)->each(function($requester, $key) {
+            return $requester->user;
+        })->pluck('user');
+        return $members;
+    }
+
     public function checkMemberableType($memberable_id, $memberable)
     {
         $memberable_type = NULL;

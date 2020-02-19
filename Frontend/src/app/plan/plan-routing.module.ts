@@ -2,13 +2,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { PlanComponent } from './plan.component';
-import {OverviewComponent} from './overview/overview.component';
 import {RequestComponent} from './request/request.component';
+import {MemberComponent} from './member/member.component';
+import {PostComponent} from '../post/post.component';
 
-const routes: Routes = [{ path: '', component: PlanComponent, children: [
-    { path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: 'overview/:plan_id', component: OverviewComponent },
-    { path: 'request/:plan_id', component: RequestComponent }
+const routes: Routes = [{ path: ':plan_id', component: PlanComponent, children: [
+      { path: 'requests', component: RequestComponent },
+      { path: 'members', component: MemberComponent },
+      { path: 'posts', component: PostComponent },
   ]
 }];
 

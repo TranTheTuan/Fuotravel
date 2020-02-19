@@ -72,4 +72,14 @@ class MemberController extends ApiController
 
         return $this->sendResponse($this->memberRepo->discharge($user_id, $memberable_id, $memberable, $role));
     }
+
+    public function getRequesters($memberable_id, $memberable)
+    {
+        return $this->sendResponse($this->memberRepo->getRequesters($memberable_id, $memberable));
+    }
+
+    public function getMembers($memberable_id, $memberable)
+    {
+        return $this->sendResponse($this->memberRepo->getMembers($memberable_id, $memberable));
+    }
 }

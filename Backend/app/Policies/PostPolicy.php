@@ -27,7 +27,7 @@ class PostPolicy
     {
         $postable_type = $this->postRepo->checkPostableType($postable_id, $postable);
         $member = $postable_type->members->where('user_id', $user->id);
-        return $member->pluck('status', Member::MEMBER);
+        return $member->pluck('status')->contains(Member::MEMBER);
     }
 
     public function update(User $user, Post $post)

@@ -10,14 +10,16 @@ import {PLAN} from '../helpers';
   styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit {
+  public planId;
   public posts: Post[];
   constructor(
     private postService: PostService,
-    private router: ActivatedRoute) { }
+    private route: ActivatedRoute) { }
   ngOnInit(): void {
-    const id = this.router.snapshot.paramMap.get('plan_id');
-    this.postService.getAll(id, PLAN).subscribe(res => {
+    this.planId = this.route.parent.snapshot.paramMap.get('plan_id');
+    this.postService.getAll(this.planId, PLAN).subscribe(res => {
       this.posts = res.data;
+      console.log(this.posts);
     }, error => console.log(error.error.message));
   }
 

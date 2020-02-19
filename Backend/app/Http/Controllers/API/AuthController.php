@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Validator;
@@ -47,13 +48,16 @@ class AuthController extends ApiController
 
     public function register(Request $request)
     {
-        $data = $request->all();
+        $data = $request->except('password_confirmation');
         $validator = Validator::make($data, $this->userRepo->registerRules());
 
         if($validator->fails()) {
             return $this->sendError($validator->errors()->first());
         }
         $data['password'] = bcrypt($request->password);
+        if(!Hash::check($request->password_confirmation, $data['password'])) {
+            return $this->sendError('password is not matched');
+        }
         $user = User::create($data);
         $token = $user->createToken('Personal access token');
         return $this->sendResponse($token);

@@ -1,6 +1,24 @@
 <p>Memories</p>
-<ul>
-  <li *ngFor="let post of posts">
-    {{ post.caption }}
-  </li>
-</ul>
+<div *ngFor="let post of posts">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>{{ post.user.username}}</mat-card-title>
+      <mat-card-subtitle>{{ post.created_at | date:'short'}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ post.caption }}</p>
+    </mat-card-content>
+    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+    <mat-card-actions>
+      {{ post.vote }}
+      <button mat-icon-button>
+        <mat-icon>thumb_up</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon>thumb_down</mat-icon>
+      </button>
+      <button mat-button>Report</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

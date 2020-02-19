@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Post;
+use App\Member;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Services\ImageService;
 use App\Repositories\PostRepository;
 use App\Http\Controllers\ApiController;
@@ -19,9 +21,14 @@ class PostController extends ApiController
         $this->imageService = $imageService;
     }
 
+    public function index($postable_id, $postable)
+    {
+        return $this->sendResponse($this->postRepo->getByPostableType($postable_id, $postable));
+    }
+
     public function create(Request $request, $postable_id, $postable)
     {
-        $this->authorize('create', [$postable_id, $postable]);
+        $this->authorize('create', [Post::class, $postable_id, $postable]);
         $data = $request->all();
         $data['postable_id'] = $postable_id;
         $data['postable'] = $postable;

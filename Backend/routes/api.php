@@ -39,6 +39,8 @@ Route::middleware('auth:api')->group(function() {
     });
 
     Route::prefix('members')->group(function () {
+        Route::get('requesters/{memberable_id}/memberable/{memberable}', 'API\MemberController@getRequesters');
+        Route::get('joined/{memberable_id}/memberable/{memberable}', 'API\MemberController@getMembers');
         Route::post('join/{memberable_id}/memberable/{memberable}', 'API\MemberController@join');
         Route::post('follow/{memberable_id}/memberable/{memberable}', 'API\MemberController@follow');
         Route::post('unfollow/{memberable_id}/memberable/{memberable}', 'API\MemberController@unfollow');
@@ -52,6 +54,7 @@ Route::middleware('auth:api')->group(function() {
     });
 
     Route::prefix('posts')->group(function() {
+        Route::get('{postable_id}/postable/{postable}', 'API\PostController@index');
         Route::post('create/{postable_id}/postable/{postable}', 'API\PostController@create');
         Route::delete('{post_id}', 'API\PostController@delete');
     });
@@ -94,6 +97,16 @@ Route::middleware('auth:api')->group(function() {
             Route::get('/', 'API\UserController@getFriends');
         });
     });
+});
+
+Route::post('upload', function(Request $request) {
+    $uploaded = $request->files;
+    $is = new App\Services\ImageService();
+    foreach($uploaded as $file) {
+        $is->uploadImage('uploads/demo', $file);
+    }
+    $message = ['message' => 'yes'];
+    return response()->json($message);
 });
 
 Route::get('/draft', function() {

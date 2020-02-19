@@ -17,14 +17,10 @@ export class MemberComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (localStorage.getItem('planMembers')) {
-      this.members = JSON.parse(localStorage.getItem('planMembers'));
-    } else {
-      const id = this.route.snapshot.paramMap.get('plan_id');
-      this.memberService.getMembers(id, PLAN, MEMBER).subscribe(res => {
-        this.members = res.data;
-      }, error => console.log(error.error.message));
-    }
+    const id = this.route.parent.snapshot.paramMap.get('plan_id');
+    this.memberService.getMembers(id, PLAN, MEMBER).subscribe(res => {
+      this.members = res.data;
+    }, error => console.log(error.error.message));
   }
 
 }

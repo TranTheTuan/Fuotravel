@@ -36,7 +36,9 @@ class PostRepository extends AbstractRepository
     public function getByPostableType($postable_id, $postable)
     {
         $postable_type = $this->checkPostableType($postable_id, $postable);
-        return $postable_type->posts;
+        return $postable_type->posts->each(function($post, $index) {
+            return $post->user;
+        });
     }
 
     public function checkPostableType($postable_id, $postable)

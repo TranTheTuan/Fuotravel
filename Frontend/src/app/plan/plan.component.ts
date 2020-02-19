@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService, PlanService} from '../services';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Plan} from '../models';
 
 @Component({
   selector: 'app-plan',
@@ -8,13 +9,21 @@ import {Router} from '@angular/router';
   styleUrls: ['./plan.component.css']
 })
 export class PlanComponent implements OnInit {
-  public unAuth = true;
+  public links = [];
+  public plan: Plan;
   constructor(
     private authService: AuthService,
     private planService: PlanService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
   ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('plan_id');
+    this.links = [{ path: `requests`, label: 'Requests'},
+      { path: `members`, label: 'Members'},
+      { path: `posts`, label: 'Memories'}];
+    this.planService.getDetail(id).subscribe(res => {
+      this.plan = res.data;
+    });
   }
-
 }
