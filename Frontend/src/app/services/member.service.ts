@@ -14,6 +14,11 @@ export class MemberService {
     1: environment.apiURL + '/members/requesters/{memberable_id}/memberable/{memberable}',
     2: environment.apiURL + '/members/joined/{memberable_id}/memberable/{memberable}',
     3: environment.apiURL + '/members/admin/accept/{user_id}/{memberable_id}/memberable/{memberable}',
+    4: environment.apiURL + '/members/decline/{user_id}/{memberable_id}/memberable/{memberable}',
+    5: environment.apiURL + '/members/admin/ban/{user_id}/{memberable_id}/memberable/{memberable}',
+    6: environment.apiURL + '/members/admin/kick/{user_id}/{memberable_id}/memberable/{memberable}',
+    7: environment.apiURL + '/members/admin/promote/{user_id}/{memberable_id}/memberable/{memberable}/{role}',
+    8: environment.apiURL + '/members/admin/discharge/{user_id}/{memberable_id}/memberable/{memberable}/{role}',
   };
   constructor(private http: HttpClient) { }
   getMembers(memberableId: any, memberable: any, memberType: number): Observable<ApiResponse> {
@@ -34,6 +39,53 @@ export class MemberService {
     const apiUrl = this.APIS[3].replace('{user_id}', userId)
       .replace('{memberable_id}', memberableId)
       .replace('{memberable}', memberable);
+    return this.http.post<ApiResponse>(apiUrl, null)
+      .pipe(map(res => {
+        return res;
+      }));
+  }
+  decline(userId: any, memberableId: any, memberable: any): Observable<ApiResponse> {
+    const apiUrl = this.APIS[4].replace('{user_id}', userId)
+      .replace('{memberable_id}', memberableId)
+      .replace('{memberable}', memberable);
+    return this.http.post<ApiResponse>(apiUrl, null)
+      .pipe(map(res => {
+        return res;
+      }));
+  }
+  ban(userId: any, memberableId: any, memberable: any): Observable<ApiResponse> {
+    const apiUrl = this.APIS[5].replace('{user_id}', userId)
+      .replace('{memberable_id}', memberableId)
+      .replace('{memberable}', memberable);
+    return this.http.post<ApiResponse>(apiUrl, null)
+      .pipe(map(res => {
+        return res;
+      }));
+  }
+  kick(userId: any, memberableId: any, memberable: any): Observable<ApiResponse> {
+    const apiUrl = this.APIS[6].replace('{user_id}', userId)
+      .replace('{memberable_id}', memberableId)
+      .replace('{memberable}', memberable);
+    return this.http.post<ApiResponse>(apiUrl, null)
+      .pipe(map(res => {
+        return res;
+      }));
+  }
+  promote(userId: any, memberableId: any, memberable: any, role: any): Observable<ApiResponse> {
+    const apiUrl = this.APIS[7].replace('{user_id}', userId)
+      .replace('{memberable_id}', memberableId)
+      .replace('{memberable}', memberable)
+      .replace('{role}', role);
+    return this.http.post<ApiResponse>(apiUrl, null)
+      .pipe(map(res => {
+        return res;
+      }));
+  }
+  discharge(userId: any, memberableId: any, memberable: any, role: any): Observable<ApiResponse> {
+    const apiUrl = this.APIS[8].replace('{user_id}', userId)
+      .replace('{memberable_id}', memberableId)
+      .replace('{memberable}', memberable)
+      .replace('{role}', role);
     return this.http.post<ApiResponse>(apiUrl, null)
       .pipe(map(res => {
         return res;

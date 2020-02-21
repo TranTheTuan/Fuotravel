@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\VoteRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Vote;
 
 class VoteController extends ApiController
 {
@@ -19,17 +20,11 @@ class VoteController extends ApiController
 
     public function upvote($voteable_id, $voteable)
     {
-        $data['voteable_id'] = $voteable_id;
-        $data['voteable'] = $voteable;
-
-        return $this->sendResponse($this->voteRepo->upvote($voteable_id, $voteable));
+        return $this->sendResponse($this->voteRepo->vote($voteable_id, $voteable, Vote::UP));
     }
 
     public function downvote($voteable_id, $voteable)
     {
-        $data['voteable_id'] = $voteable_id;
-        $data['voteable'] = $voteable;
-
-        return $this->sendResponse($this->voteRepo->downvote($voteable_id, $voteable));
+        return $this->sendResponse($this->voteRepo->vote($voteable_id, $voteable, Vote::DOWN));
     }
 }

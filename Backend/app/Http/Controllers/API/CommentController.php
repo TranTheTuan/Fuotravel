@@ -26,7 +26,7 @@ class CommentController extends ApiController
         $data['commentable_id'] = $commentable_id;
         $data['commentable'] = $commentable;
         $comment = $this->commentRepo->create($data);
-
+ 
         if($request->hasFile('images')) {
             foreach($data['images'] as $index => $image) {
                 if($image->isValid()) {

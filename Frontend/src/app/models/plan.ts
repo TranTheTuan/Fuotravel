@@ -12,12 +12,9 @@ export class Plan {
   // tslint:disable-next-line:variable-name
   arrival_at: string;
   // tslint:disable-next-line:variable-name
-  member_quantity: number;
+  members_quantity: number;
   // tslint:disable-next-line:variable-name
   user_id: number;
   // tslint:disable-next-line:variable-name
   group_id: number;
-  get coverUrl(): string {
-    return 'a';
-  }
 }

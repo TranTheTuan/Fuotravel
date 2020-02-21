@@ -15,23 +15,12 @@ class VoteRepository extends AbstractRepository
         return 'App\Vote';
     }
 
-    public function upvote($voteable_id, $voteable)
+    public function vote($voteable_id, $voteable, $vote_type)
     {
         $voteable_type = $this->checkVoteableType($voteable_id, $voteable);
         $voteable_type->votes()->updateOrCreate(
             ['user_id' => Auth::id()],
-            ['vote_type' => Vote::UP]);
-        $vote = $this->getVoteCount($voteable_type);
-        $voteable_type->update(['vote' => $vote]);
-        return $vote;
-    }
-
-    public function downvote($voteable_id, $voteable)
-    {
-        $voteable_type = $this->checkVoteableType($voteable_id, $voteable);
-        $voteable_type->votes()->updateOrCreate(
-            ['user_id' => Auth::id()],
-            ['vote_type' => Vote::DOWN]);
+            ['vote_type' => $vote_type]);
         $vote = $this->getVoteCount($voteable_type);
         $voteable_type->update(['vote' => $vote]);
         return $vote;

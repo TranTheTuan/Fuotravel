@@ -19,9 +19,12 @@ export class PlanComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('plan_id');
-    this.links = [{ path: `requests`, label: 'Requests'},
-      { path: `members`, label: 'Members'},
-      { path: `posts`, label: 'Memories'}];
+    this.links = [
+      { path: 'discuss', label: 'Discuss' },
+      { path: 'requests', label: 'Requests' },
+      { path: 'members', label: 'Members' },
+      { path: 'posts', label: 'Memories' }
+      ];
     this.planService.getDetail(id).subscribe(res => {
       this.plan = res.data;
     });

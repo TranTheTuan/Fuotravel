@@ -31,6 +31,14 @@ class MemberRepository extends AbstractRepository
         return $request_member;
     }
 
+    public function decline($user_id, $memberable_id, $memberable)
+    {
+        $memberable_type = $this->checkMemberableType($memberable_id, $memberable);
+        $member_ids = $memberable_type->members->where('user_id', $user_id)->pluck('id');
+        Member::whereIn('id', $member_ids)->delete();
+        return true;
+    }
+
     public function ban($user_id, $memberable_id, $memberable)
     {
         $memberable_type = $this->checkMemberableType($memberable_id, $memberable);
@@ -60,7 +68,7 @@ class MemberRepository extends AbstractRepository
     public function kick($user_id, $memberable_id, $memberable)
     {
         $memberable_type = $this->checkMemberableType($memberable_id, $memberable);
-        $member_ids = $memberable_type->members->where('user_id', $user_id)->pluck('user_id');
+        $member_ids = $memberable_type->members->where('status', Member::MEMBER)->where('user_id', $user_id)->pluck('user_id');
         Member::whereIn('user_id', $member_ids)->delete();
         return true;
     }

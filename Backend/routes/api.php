@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Events\BroadcastDemo;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,11 +45,12 @@ Route::middleware('auth:api')->group(function() {
         Route::post('join/{memberable_id}/memberable/{memberable}', 'API\MemberController@join');
         Route::post('follow/{memberable_id}/memberable/{memberable}', 'API\MemberController@follow');
         Route::post('unfollow/{memberable_id}/memberable/{memberable}', 'API\MemberController@unfollow');
+        Route::post('decline/{user_id}/{memberable_id}/memberable/{memberable}', 'API\MemberController@decline');
         Route::prefix('admin')->group(function () {
             Route::post('kick/{user_id}/{memberable_id}/memberable/{memberable}', 'API\MemberController@kick');
             Route::post('accept/{user_id}/{memberable_id}/memberable/{memberable}', 'API\MemberController@accept');
             Route::post('ban/{user_id}/{memberable_id}/memberable/{memberable}', 'API\MemberController@ban');
-            Route::post('appoint/{user_id}/{memberable_id}/memberable/{memberable}/{role}', 'API\MemberController@appoint');
+            Route::post('promote/{user_id}/{memberable_id}/memberable/{memberable}/{role}', 'API\MemberController@appoint');
             Route::post('discharge/{user_id}/{memberable_id}/memberable/{memberable}/{role}', 'API\MemberController@discharge');
         });
     });
@@ -69,12 +71,12 @@ Route::middleware('auth:api')->group(function() {
     Route::prefix('comments')->group(function () {
         Route::get('{commentable_id}/commentable/{commentable}', 'API\CommentController@show');
         Route::post('create/{commentable_id}/commentable/{commentable}', 'API\CommentController@create');
-        Route::delete('{post_id}', 'API\CommentController@delete');
+        Route::delete('{comment_id}', 'API\CommentController@delete');
     });
 
     Route::prefix('votes')->group(function () {
-        Route::post('upvote/{votable_id}/votable/{votable}', 'API\VoteController@upvote');
-        Route::post('downvote/{votable_id}/votable/{votable}', 'API\VoteController@downvote');
+        Route::post('upvote/{voteable_id}/voteable/{voteable}', 'API\VoteController@upvote');
+        Route::post('downvote/{voteable_id}/voteable/{voteable}', 'API\VoteController@downvote');
     });
 
     Route::prefix('images')->group(function () {
@@ -110,6 +112,5 @@ Route::post('upload', function(Request $request) {
 });
 
 Route::get('/draft', function() {
-    // App::setLocale('en');
-    return config('constant.COMMENT');
+    event(new BroadcastDemo('hi'));
 });

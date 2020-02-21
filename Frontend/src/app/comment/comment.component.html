@@ -1,0 +1,11 @@
+<p>users's comments</p>
+<ul>
+  <li *ngFor="let comment of comments">
+    {{ comment.content }}
+    <ul *ngIf="comment.replies.length > 0">
+      <li *ngFor="let reply of comment.replies">
+        {{ reply.content }}
+      </li>
+    </ul>
+  </li>
+</ul>

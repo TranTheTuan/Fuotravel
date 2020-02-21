@@ -10,6 +10,11 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { MemberComponent } from './member/member.component';
 import {PostModule} from '../post/post.module';
 import {RequestComponent} from './request/request.component';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatDividerModule} from '@angular/material/divider';
+import {CommentModule} from '../comment/comment.module';
 
 @NgModule({
   declarations: [PlanComponent, RequestComponent, MemberComponent],
@@ -20,7 +25,12 @@ import {RequestComponent} from './request/request.component';
     PipesModule,
     MatButtonModule,
     MatTabsModule,
-    PostModule
+    PostModule,
+    MatMenuModule,
+    MatIconModule,
+    MatSnackBarModule,
+    MatDividerModule,
+    CommentModule
   ],
 })
 export class PlanModule { }
