@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vote extends Model
 {
-    const POST = 1;
-    const COMMENT = 2;
+    const COMMENT = 1;
+    const POST = 2;
 
     const UP = 1;
     const DOWN = 2;

@@ -17,7 +17,9 @@ class CommentResource extends JsonResource
         return [
             'id' => $this->id,
             'content' => $this->content,
-            'replies' => $this->when(is_null($this->parent_id), CommentResource::collection($this->comments))
+            'vote' => $this->vote,
+            'replies' => $this->when(is_null($this->parent_id), CommentResource::collection($this->comments)),
+            'parent_id' => $this->when($this->parent_id, $this->parent_id)
         ];
     }
 }

@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 import { ApiResponse, User } from '../models';
+import {toFormData} from "../helpers/toFormData";
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,7 @@ export class AuthService {
         }));
   }
   public register(params: any): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(this.APIS[2], params)
+    return this.http.post<ApiResponse>(this.APIS[2], toFormData(params))
       .pipe(map(res => {
         if (res.data) {
           localStorage.setItem('currentUser', JSON.stringify(res.data));

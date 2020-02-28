@@ -38,6 +38,13 @@ class MemberController extends ApiController
         return $this->sendResponse($this->memberRepo->decline($user_id, $memberable_id, $memberable));
     }
 
+    public function cancel($user_id, $memberable_id, $memberable)
+    {
+        $this->authorize('cancel', [Member::class, $memberable_id, $memberable]);
+
+        return $this->sendResponse($this->memberRepo->cancel($memberable_id, $memberable));
+    }
+
     public function ban($user_id, $memberable_id, $memberable)
     {
         $this->authorize('manage', [Member::class, $memberable_id, $memberable]);

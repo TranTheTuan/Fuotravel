@@ -46,7 +46,7 @@ class PlanController extends ApiController
         }
         $data = $request->only(['title', 'description', 'departure', 'start_at', 'destination', 'arrival_at', 'members_quantity', 'group_id']);
 
-        if($request->file('cover') && $request->file('cover')->isValid()) {
+        if($request->hasFile('cover') && $request->file('cover')->isValid()) {
             $data['cover'] = $this->imageService->uploadImage(self::UPLOAD_PATH, $request->file('cover'));
         }
 

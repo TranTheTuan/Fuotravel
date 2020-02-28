@@ -29,6 +29,13 @@ class MemberPolicy
         return !$members->contains(Member::BANNED) && !$members->contains(Member::MEMBER) && !$members->contains(Member::PENDING);
     }
 
+    public function cancel(User $user, $memberable_id, $memberable)
+    {
+        $memberable_type = $this->memberRepo->checkMemberableType($memberable_id, $memberable);
+        $members = $memberable_type->members->where('user_id', $user->id)->pluck('status');
+        return $members->contains(Member::PENDING);
+    }
+
     public function manage(User $user, $memberable_id, $memberable)
     {
         $memberable_type = $this->memberRepo->checkMemberableType($memberable_id, $memberable);
@@ -47,7 +54,7 @@ class MemberPolicy
     {
         $memberable_type = $this->memberRepo->checkMemberableType($memberable_id, $memberable);
         $members = $memberable_type->members->where('user_id', $user->id)->pluck('status');
-        return !$members->contains(Member::BANNED) && $members->contains(Member::FOLLOWING);
+        return $members->contains(Member::FOLLOWING);
     }
 
     public function appoint(User $user, User $target, $memberable_id, $memberable, $role)

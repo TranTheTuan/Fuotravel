@@ -2,6 +2,9 @@
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm.value)" class="common-form">
     <h1>Register</h1>
     <mat-error style="max-width: fit-content">{{ error | async }}</mat-error>
+    <img *ngIf="preview !== null" [src]="preview" alt="avatar image preview" width="100" height="50">
+    <input type="file" style="display: none" (change)="onFileChange($event)" #avatar>
+    <button mat-button type="button" (click)="avatar.click()" >Upload Avatar</button>
     <table class="full-width"><tr>
       <td><mat-form-field class="full-width" appearance="standard">
         <mat-label>First Name:</mat-label>

@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import {ToolbarComponent} from './toolbar.component';
 import {MatButtonModule, MatToolbarModule} from '@angular/material';
 import {RouterModule} from '@angular/router';
+import {MatDialogModule} from '@angular/material/dialog';
+import {LayoutModule} from '../layouts/layout.module';
+import {MatMomentDateModule} from '@angular/material-moment-adapter';
 
 
 
@@ -12,7 +15,10 @@ import {RouterModule} from '@angular/router';
     CommonModule,
     MatToolbarModule,
     MatButtonModule,
-    RouterModule
+    RouterModule,
+    MatDialogModule,
+    LayoutModule,
+    MatMomentDateModule
   ],
   exports: [ToolbarComponent]
 })

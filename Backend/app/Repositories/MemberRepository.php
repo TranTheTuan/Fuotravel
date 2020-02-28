@@ -39,6 +39,14 @@ class MemberRepository extends AbstractRepository
         return true;
     }
 
+    public function cancel($memberable_id, $memberable)
+    {
+        $memberable_type = $this->checkMemberableType($memberable_id, $memberable);
+        $member_ids = $memberable_type->members->where('user_id', Auth::id())->pluck('id');
+        Member::whereIn('id', $member_ids)->delete();
+        return true;
+    }
+
     public function ban($user_id, $memberable_id, $memberable)
     {
         $memberable_type = $this->checkMemberableType($memberable_id, $memberable);

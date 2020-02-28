@@ -10,14 +10,17 @@ use App\User;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\ApiController;
+use App\Services\ImageService;
 
 class AuthController extends ApiController
 {
-    private $userRepo;
+    const UPLOAD_PATH = 'uploads/avatar';
+    private $userRepo, $imageService;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, ImageService $imageService)
     {
         $this->userRepo = $userRepository;
+        $this->imageService = $imageService;
     }
 
     public function login(Request $request)
@@ -48,7 +51,7 @@ class AuthController extends ApiController
 
     public function register(Request $request)
     {
-        $data = $request->except('password_confirmation');
+        $data = $request->except(['password_confirmation', 'avatar']);
         $validator = Validator::make($data, $this->userRepo->registerRules());
 
         if($validator->fails()) {
@@ -57,6 +60,9 @@ class AuthController extends ApiController
         $data['password'] = bcrypt($request->password);
         if(!Hash::check($request->password_confirmation, $data['password'])) {
             return $this->sendError('password is not matched');
+        }
+        if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+            $data['avatar'] = $this->imageService->uploadImage(self::UPLOAD_PATH, $request->file('avatar'));
         }
         $user = User::create($data);
         $token = $user->createToken('Personal access token');

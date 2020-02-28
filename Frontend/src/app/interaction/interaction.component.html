@@ -1,0 +1,24 @@
+<div [hidden]="sentRequest">
+  <button mat-raised-button (click)="onSendRequest(memberableId, memberable)" color="primary">
+    <mat-icon>add</mat-icon>
+    Send Request
+  </button>
+</div>
+<div [hidden]="!sentRequest || joined">
+  <button mat-button color="primary" [hidden]="!sentRequest" [matMenuTriggerFor]="pendingMenu">
+    Pending
+  </button>
+  <mat-menu #pendingMenu>
+    <button mat-menu-item>Cancel</button>
+  </mat-menu>
+</div>
+<div [hidden]="!joined">
+  <button mat-button color="primary" [matMenuTriggerFor]="joinedMenu">
+    Joined
+  </button>
+  <mat-menu #joinedMenu>
+    <button mat-menu-item>Unfollow</button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item>Leave</button>
+  </mat-menu>
+</div>

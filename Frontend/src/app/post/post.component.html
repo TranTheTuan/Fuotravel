@@ -20,5 +20,9 @@
       </button>
       <button mat-button>Report</button>
     </mat-card-actions>
+    <mat-divider></mat-divider>
+    <mat-card-footer>
+      <app-comment [postId]="post.id"></app-comment>
+    </mat-card-footer>
   </mat-card>
 </div>

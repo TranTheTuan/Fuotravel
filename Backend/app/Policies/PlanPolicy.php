@@ -25,7 +25,7 @@ class PlanPolicy
     public function view(User $user, Plan $plan)
     {
         $member = $plan->members->where('user_id', $user->id)->first();
-        return !$member || $member->status != Member::BANNED;
+        return is_null($member) || $member->status != Member::BANNED;
     }
 
     public function create(User $user, Group $group)

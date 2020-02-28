@@ -1,6 +1,7 @@
 <app-toolbar></app-toolbar>
 <div *ngIf="plan">
   <img src="{{ plan.cover | imageUrl }}" alt="plan cover image"/>
+  <app-interaction [memberableId]="plan.id" [memberable]="_PLAN"></app-interaction>
   <p>{{ plan.title }}</p>
   <p>{{ plan.description }}</p>
   <p>bắt đầu tại: {{ plan.departure }}, vào hồi: {{ plan.start_at }}</p>

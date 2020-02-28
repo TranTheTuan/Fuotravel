@@ -4,6 +4,8 @@ import { PostComponent } from './post.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {CommentModule} from "../comment/comment.module";
+import {MatDividerModule} from "@angular/material/divider";
 
 @NgModule({
   declarations: [PostComponent],
@@ -11,7 +13,9 @@ import {MatIconModule} from '@angular/material/icon';
     CommonModule,
     MatCardModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    CommentModule,
+    MatDividerModule
   ],
   exports: [PostComponent]
 })

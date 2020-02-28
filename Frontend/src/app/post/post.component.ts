@@ -4,7 +4,6 @@ import {Post} from '../models/post';
 import {ActivatedRoute} from '@angular/router';
 import {DOWN, PLAN, POST, UP} from '../helpers';
 import {VoteService} from '../services/vote.service';
-import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-post',

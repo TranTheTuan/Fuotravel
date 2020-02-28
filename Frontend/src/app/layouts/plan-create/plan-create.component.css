@@ -1,0 +1,5 @@
+.dialog-form {
+  /*height: 500px;*/
+  max-height: 600px;
+  overflow: auto;
+}

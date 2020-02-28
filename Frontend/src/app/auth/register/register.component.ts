@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, Validators} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {AuthService} from '../../services';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material';
 import {APP_DATE_FORMATS, AppDateAdapter} from '../../helpers';
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
-import * as _moment from 'moment';
-const moment = _moment;
+import {dateFormat} from '../../helpers/date-format';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -18,13 +18,14 @@ const moment = _moment;
   ]
 })
 export class RegisterComponent implements OnInit {
+  preview = null;
   public error: Subject<any> = new Subject<any>();
   registerForm = this.fb.group({
     firstname: ['', [Validators.required, Validators.minLength(2)]],
     lastname: ['', [Validators.required, Validators.minLength(2)]],
     gender: ['', [Validators.required]],
     birthday: [''],
-    // avatar: [''],
+    avatar: [''],
     phone: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(11)]],
     username: ['', [Validators.required, Validators.minLength(6)]],
     email: ['', [Validators.required, Validators.email]],
@@ -38,7 +39,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(formValue: any) {
-    formValue.birthday = this.formatDate(formValue.birthday);
+    formValue.birthday = dateFormat(formValue.birthday);
     console.table(formValue);
     this.authService.register(formValue).subscribe(
       data => {
@@ -52,8 +53,17 @@ export class RegisterComponent implements OnInit {
   }
   ngOnInit(): void {
   }
-  private formatDate(value: any) {
-    return moment(value).format('YYYY/MM/DD');
+  onFileChange(event) {
+    const file: File = event.target.files[0];
+    this.registerForm.patchValue({
+      avatar: file
+    });
+    // this.createPlanForm.get('cover').updateValueAndValidity();
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.preview = reader.result as string;
+    };
   }
   firstlastnameErrorMessage(name: string) {
     const namefield = this.registerForm.get(name);

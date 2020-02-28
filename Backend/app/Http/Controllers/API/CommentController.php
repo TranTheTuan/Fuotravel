@@ -22,9 +22,14 @@ class CommentController extends ApiController
 
     public function create(Request $request, $commentable_id, $commentable)
     {
-        $data = $request->all();
+        $data = $request->except('parent_id');
         $data['commentable_id'] = $commentable_id;
         $data['commentable'] = $commentable;
+        if($request->has('parent_id')) {
+            $data['parent_id'] = $request->parent_id;
+        } else {
+            $data['parent_id'] = null;
+        }
         $comment = $this->commentRepo->create($data);
  
         if($request->hasFile('images')) {

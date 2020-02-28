@@ -19,6 +19,8 @@ export class MemberService {
     6: environment.apiURL + '/members/admin/kick/{user_id}/{memberable_id}/memberable/{memberable}',
     7: environment.apiURL + '/members/admin/promote/{user_id}/{memberable_id}/memberable/{memberable}/{role}',
     8: environment.apiURL + '/members/admin/discharge/{user_id}/{memberable_id}/memberable/{memberable}/{role}',
+    9: environment.apiURL + '/members/join/{memberable_id}/memberable/{memberable}',
+    10: environment.apiURL + '/members/unfollow/{memberable_id}/memberable/{memberable}',
   };
   constructor(private http: HttpClient) { }
   getMembers(memberableId: any, memberable: any, memberType: number): Observable<ApiResponse> {
@@ -86,6 +88,38 @@ export class MemberService {
       .replace('{memberable_id}', memberableId)
       .replace('{memberable}', memberable)
       .replace('{role}', role);
+    return this.http.post<ApiResponse>(apiUrl, null)
+      .pipe(map(res => {
+        return res;
+      }));
+  }
+  join(memberableId: any, memberable: any): Observable<ApiResponse> {
+    const apiUrl = this.APIS[9].replace('{memberable_id}', memberableId)
+      .replace('{memberable}', memberable);
+    return this.http.post<ApiResponse>(apiUrl, null)
+      .pipe(map(res => {
+        return res;
+      }));
+  }
+  cancel(memberableId: any, memberable: any): Observable<ApiResponse> {
+    const apiUrl = this.APIS[9].replace('{memberable_id}', memberableId)
+      .replace('{memberable}', memberable);
+    return this.http.post<ApiResponse>(apiUrl, null)
+      .pipe(map(res => {
+        return res;
+      }));
+  }
+  unfollow(memberableId: any, memberable: any): Observable<ApiResponse> {
+    const apiUrl = this.APIS[9].replace('{memberable_id}', memberableId)
+      .replace('{memberable}', memberable);
+    return this.http.post<ApiResponse>(apiUrl, null)
+      .pipe(map(res => {
+        return res;
+      }));
+  }
+  leave(memberableId: any, memberable: any): Observable<ApiResponse> {
+    const apiUrl = this.APIS[9].replace('{memberable_id}', memberableId)
+      .replace('{memberable}', memberable);
     return this.http.post<ApiResponse>(apiUrl, null)
       .pipe(map(res => {
         return res;
