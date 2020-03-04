@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class CommentController extends ApiController
 {
-    const UPLOAD_PATH = 'uploads/comments';
+    const UPLOAD_PATH = 'uploads/comments/';
 
     protected $commentRepo, $imageService;
 
