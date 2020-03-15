@@ -20,11 +20,6 @@ class Comment extends Model
         return $this->morphTo();
     }
 
-    public function images()
-    {
-        return $this->morphMany('App\Image', 'imageable');
-    }
-
     public function comments()
     {
         return $this->hasMany('App\Comment', 'parent_id');

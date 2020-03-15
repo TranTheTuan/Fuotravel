@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Post;
 use App\Plan;
 use App\Group;
+use App\Http\Resources\PostResource;
 
 class PostRepository extends AbstractRepository
 {
@@ -22,7 +23,8 @@ class PostRepository extends AbstractRepository
     public function create(array $data)
     {
         $postable_type = $this->checkPostableType($data['postable_id'], $data['postable']);
-        return $postable_type->posts()->create(['caption' => $data['caption'], 'user_id' => Auth::id()]);
+        $post = $postable_type->posts()->create(['caption' => $data['caption'], 'user_id' => Auth::id()]);
+        return $post;
     }
 
     public function delete($post_id)
@@ -36,9 +38,10 @@ class PostRepository extends AbstractRepository
     public function getByPostableType($postable_id, $postable)
     {
         $postable_type = $this->checkPostableType($postable_id, $postable);
-        return $postable_type->posts->each(function($post, $index) {
-            return $post->user;
-        });
+        // return $postable_type->posts->each(function($post, $index) {
+        //     return $post->user;
+        // });
+        return PostResource::collection($postable_type->posts);
     }
 
     public function checkPostableType($postable_id, $postable)

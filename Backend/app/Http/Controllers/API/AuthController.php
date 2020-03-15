@@ -14,7 +14,7 @@ use App\Services\ImageService;
 
 class AuthController extends ApiController
 {
-    const UPLOAD_PATH = 'uploads/avatar';
+    const UPLOAD_PATH = 'uploads/avatar/';
     private $userRepo, $imageService;
 
     public function __construct(UserRepository $userRepository, ImageService $imageService)

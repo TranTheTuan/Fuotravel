@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {ApiResponse} from '../models';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
-import {toFormData} from "../helpers/toFormData";
+import {toFormData} from '../helpers/toFormData';
 
 @Injectable({
   providedIn: 'root'

@@ -1,4 +1,4 @@
-<div class="form-container dialog-form">
+<div class="form-container">
   <form [formGroup]="createPlanForm" (ngSubmit)="onSubmit(createPlanForm.value)" class="common-form">
     <h1>Create New Plan</h1>
     <mat-error style="max-width: fit-content">{{ error | async }}</mat-error>
@@ -49,6 +49,6 @@
       <mat-error *ngIf="createPlanForm.get('title').invalid"></mat-error>
     </mat-form-field>
     <button mat-button type="button" (click)="onCancel()">Cancel</button>
-    <button mat-button type="submit" color="primary">Submit</button>
+    <button mat-button type="submit" [disabled]="createPlanForm.invalid" color="primary">Submit</button>
   </form>
 </div>

@@ -11,8 +11,8 @@ class Image extends Model
     
     protected $guarded = [];
 
-    public function imageable()
+    public function post()
     {
-        return $this->morphTo();
+        return $this->belongsTo('App\Post');
     }
 }

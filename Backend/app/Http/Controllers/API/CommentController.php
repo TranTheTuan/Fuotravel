@@ -7,10 +7,11 @@ use App\Http\Controllers\ApiController;
 use App\Repositories\CommentRepository;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends ApiController
 {
-    const UPLOAD_PATH = 'uploads/comments';
+    const UPLOAD_PATH = 'uploads/comments/';
 
     protected $commentRepo, $imageService;
 
@@ -30,16 +31,12 @@ class CommentController extends ApiController
         } else {
             $data['parent_id'] = null;
         }
-        $comment = $this->commentRepo->create($data);
- 
-        if($request->hasFile('images')) {
-            foreach($data['images'] as $index => $image) {
-                if($image->isValid()) {
-                    $path = $this->imageService->uploadImage(self::UPLOAD_PATH, $image, $index);
-                    $comment->images()->create(['path' => $path]);
-                }
-            }
+        $data['user_id'] = Auth::id();
+        if($request->hasFile('image') && $request->file('image')->isValid()) {
+            $data['image'] = $this->imageService->uploadImage(self::UPLOAD_PATH, $request->image);  
         }
+        $comment = $this->commentRepo->create($data);
+
         return $this->sendResponse($comment);
     }
 

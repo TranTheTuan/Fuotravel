@@ -5,6 +5,7 @@ import {FormBuilder, FormGroupDirective, Validators} from '@angular/forms';
 import {CommentService} from '../../services/comment.service';
 import {VoteService} from '../../services/vote.service';
 import {ActivatedRoute} from '@angular/router';
+import {toFormData} from '../../helpers/toFormData';
 
 @Component({
   selector: 'app-comment-form',

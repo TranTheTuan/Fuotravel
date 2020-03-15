@@ -1,10 +1,12 @@
 import {User} from './user';
+import {Image} from './image';
 
 export class Post {
   id: number;
   caption: string;
   vote: number;
-  user: User;
+  author: User;
+  images?: Image[];
   // tslint:disable-next-line:variable-name
   created_at: string;
 }

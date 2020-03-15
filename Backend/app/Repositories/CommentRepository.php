@@ -20,7 +20,8 @@ class CommentRepository extends AbstractRepository
     public function create(array $data)
     {
         $commentable_type = $this->checkCommentableType($data['commentable_id'], $data['commentable']);
-        $comment = $commentable_type->comments()->create(['content' => $data['content'], 'parent_id' => $data['parent_id'], 'user_id' => Auth::id()]);
+        unset($data['commentable']);
+        $comment = $commentable_type->comments()->create($data);
         return new CommentResource($comment);
     }
 

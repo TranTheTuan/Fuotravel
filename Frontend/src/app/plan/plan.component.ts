@@ -3,6 +3,8 @@ import {AuthService, PlanService} from '../services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Plan} from '../models';
 import {PLAN} from "../helpers";
+import {MatDialog} from '@angular/material';
+import {UpdatePlanComponent} from '../layouts/update-plan/update-plan.component';
 
 @Component({
   selector: 'app-plan',
@@ -17,7 +19,8 @@ export class PlanComponent implements OnInit {
     private authService: AuthService,
     private planService: PlanService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private matDialog: MatDialog
   ) {}
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('plan_id');
@@ -29,6 +32,16 @@ export class PlanComponent implements OnInit {
       ];
     this.planService.getDetail(id).subscribe(res => {
       this.plan = res.data;
+    });
+  }
+  openDialog() {
+    const dialogRef = this.matDialog.open(UpdatePlanComponent, {
+      width: '500', height: '500',
+      data: { plan: this.plan}
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      this.plan = res.plan;
+      console.log(res);
     });
   }
 }

@@ -1,10 +1,16 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiResponse} from '../models';
 import {catchError, map} from 'rxjs/operators';
-import {toFormData} from "../helpers/toFormData";
+import {toFormData} from '../helpers/toFormData';
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json'
+  })
+};
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +19,8 @@ export class PlanService {
   private APIS = {
     1: environment.apiURL + '/plans',
     2: environment.apiURL + '/plans/{plan_id}',
-    3: environment.apiURL + '/plans/create'
+    3: environment.apiURL + '/plans/create',
+    4: environment.apiURL + '/plans/update/{plan_id}'
   };
   constructor(private http: HttpClient) { }
   getAll(): Observable<ApiResponse> {
@@ -34,6 +41,13 @@ export class PlanService {
   }
   createPlan(data: any): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(this.APIS[3], toFormData(data))
+      .pipe(map(res => {
+        return res;
+      }));
+  }
+  updatePlan(data: any, planId): Observable<ApiResponse> {
+    const apiURL = this.APIS[4].replace('{plan_id}', planId);
+    return this.http.put<ApiResponse>(apiURL, toFormData(data))
       .pipe(map(res => {
         return res;
       }));

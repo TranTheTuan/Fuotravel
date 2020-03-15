@@ -2,6 +2,7 @@
 <ul>
   <li *ngFor="let comment of comments">
     <p>{{ comment.content }}</p>
+    <img src="{{ comment.image | imageUrl }}" height="200" width="200" alt="comment-image">
     {{ comment.vote }}
     <button (click)="vote(comment.id, _COMMENT, _UP)" mat-icon-button>
       <mat-icon>thumb_up</mat-icon>

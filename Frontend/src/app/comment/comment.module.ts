@@ -8,6 +8,7 @@ import {MatInputModule} from '@angular/material/input';
 import {ReactiveFormsModule} from '@angular/forms';
 import { CommentFormComponent } from './comment-form/comment-form.component';
 import { ReplyFormComponent } from './reply-form/reply-form.component';
+import {PipesModule} from '../pipes/pipes.module';
 
 
 
@@ -19,7 +20,8 @@ import { ReplyFormComponent } from './reply-form/reply-form.component';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PipesModule
   ],
   exports: [CommentComponent]
 })

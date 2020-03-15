@@ -18,15 +18,16 @@ import {
   MatIconModule,
   MatMenuModule,
   MatTabsModule,
-  MatFormFieldModule,
+  MatFormFieldModule, MatDatepickerModule, MatInputModule,
 } from '@angular/material';
-import {InteractionModule} from "../interaction/interaction.module";
+import {InteractionModule} from '../interaction/interaction.module';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
     PlanComponent,
     RequestComponent,
-    MemberComponent
+    MemberComponent,
   ],
   imports: [
     CommonModule,
@@ -44,7 +45,10 @@ import {InteractionModule} from "../interaction/interaction.module";
     MatCardModule,
     MatProgressBarModule,
     MatFormFieldModule,
-    InteractionModule
+    InteractionModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatInputModule,
   ],
 })
 export class PlanModule { }

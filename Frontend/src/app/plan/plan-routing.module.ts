@@ -6,14 +6,13 @@ import {RequestComponent} from './request/request.component';
 import {MemberComponent} from './member/member.component';
 import {PostComponent} from '../post/post.component';
 import {CommentComponent} from '../comment/comment.component';
-import {PlanCreateComponent} from '../layouts/plan-create/plan-create.component';
 
 const routes: Routes = [{ path: ':plan_id', component: PlanComponent, children: [
     { path: '', redirectTo: 'discuss', pathMatch: 'full'},
     { path: 'discuss', component: CommentComponent},
     { path: 'requests', component: RequestComponent },
     { path: 'members', component: MemberComponent },
-    { path: 'posts', component: PostComponent }
+    { path: 'posts', component: PostComponent },
   ]
 }];
 

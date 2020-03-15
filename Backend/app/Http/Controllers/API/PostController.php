@@ -12,7 +12,7 @@ use App\Http\Controllers\ApiController;
 
 class PostController extends ApiController
 {
-    const UPLOAD_PATH = 'uploads/post';
+    const UPLOAD_PATH = 'uploads/post/';
     protected $postRepo, $imageService;
 
     public function __construct(PostRepository $postRepo, ImageService $imageService)
@@ -28,13 +28,13 @@ class PostController extends ApiController
 
     public function create(Request $request, $postable_id, $postable)
     {
-        $this->authorize('create', [Post::class, $postable_id, $postable]);
+        // $this->authorize('create', [Post::class, $postable_id, $postable]);
         $data = $request->all();
         $data['postable_id'] = $postable_id;
         $data['postable'] = $postable;
         $post = $this->postRepo->create($data);
 
-        if($data['images']) {
+        if($request->hasFile('images')) {
             foreach($data['images'] as $index => $image) {
                 if($image->isValid()) {
                     $path = $this->imageService->uploadImage(self::UPLOAD_PATH, $image, $index);
@@ -42,7 +42,7 @@ class PostController extends ApiController
                 }
             }
         }
-        return $this->sendResponse($post);
+        return $this->sendResponse($post->load('user'));
     }
 
     public function update(Request $request, $post_id)

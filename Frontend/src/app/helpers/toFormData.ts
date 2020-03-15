@@ -1,8 +1,13 @@
 export function toFormData<T>(formValue: T) {
   const formData = new FormData();
   for (const key of Object.keys(formValue)) {
-    const value = formValue[key];
-    formData.append(key, value);
+    if (key === 'images') {
+      for (const i of formValue[key]) {
+        formData.append('images[]', i, i.name);
+      }
+    } else {
+      formData.append(key, formValue[key]);
+    }
   }
   return formData;
 }

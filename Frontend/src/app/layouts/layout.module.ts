@@ -6,9 +6,10 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatButtonModule} from "@angular/material/button";
+import {UpdatePlanComponent} from './update-plan/update-plan.component';
 
 @NgModule({
-  declarations: [PlanCreateComponent],
+  declarations: [PlanCreateComponent, UpdatePlanComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -17,6 +18,6 @@ import {MatButtonModule} from "@angular/material/button";
     MatDatepickerModule,
     MatButtonModule
   ],
-  exports: [PlanCreateComponent]
+  exports: [PlanCreateComponent, UpdatePlanComponent]
 })
 export class LayoutModule { }
