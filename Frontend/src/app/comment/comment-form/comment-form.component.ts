@@ -21,8 +21,9 @@ export class CommentFormComponent implements OnInit {
   comments: Comment[];
   commentForm = this.fb.group({
     content: ['', [Validators.required]],
-    image: [null],
+    images: ['']
   });
+  formData = new FormData();
   commentableId;
   constructor(
     private commentService: CommentService,
@@ -48,15 +49,15 @@ export class CommentFormComponent implements OnInit {
       });
   }
   onFileChange(event) {
-    const file: File = event.target.files[0];
+    const files = event.target.files;
     this.commentForm.patchValue({
-      image: file
+      images: files
     });
-    // this.createPlanForm.get('cover').updateValueAndValidity();
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      this.preview = reader.result as string;
-    };
+    // this.commentForm.get('cover').updateValueAndValidity();
+    // const reader = new FileReader();
+    // reader.readAsDataURL(file);
+    // reader.onload = () => {
+    //   this.preview = reader.result as string;
+    // };
   }
 }

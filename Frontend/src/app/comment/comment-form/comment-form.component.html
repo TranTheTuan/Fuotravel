@@ -1,5 +1,5 @@
 <form [formGroup]="commentForm" (ngSubmit)="onSubmit(commentForm.value)">
-  <input type="file" name="image" (change)="onFileChange($event)" #image>
+  <input type="file" (change)="onFileChange($event)" multiple="multiple">
   <mat-form-field>
     <input matInput type="text" placeholder="what do you think" name="content" formControlName="content">
   </mat-form-field>
