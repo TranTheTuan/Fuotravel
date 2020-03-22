@@ -20,6 +20,7 @@ class PostResource extends JsonResource
             'id' => $this->id,
             'caption' => $this->caption,
             'author' => new UserResource($this->user),
+            'vote' => $this->vote,
             'images' => $this->when($this->images, ImageResource::collection($this->images)),
             'created_at' => $this->created_at
         ];

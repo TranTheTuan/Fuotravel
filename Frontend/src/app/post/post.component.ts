@@ -12,8 +12,7 @@ import {NgImageSliderComponent} from 'ng-image-slider';
   styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit {
-  postableId = null;
-  postable = null;
+  planId = null;
   public readonly _POST = POST;
   public readonly _UP = UP;
   public readonly _DOWN = DOWN;
@@ -23,19 +22,11 @@ export class PostComponent implements OnInit {
     private voteService: VoteService,
     private route: ActivatedRoute) { }
   ngOnInit(): void {
-    this.postableId = this.route.parent.snapshot.paramMap.get('plan_id');
-    if (this.postableId) {
-      this.postable = PLAN;
-    } else {
-      this.postableId = this.route.parent.snapshot.paramMap.get('group_id');
-      this.postable = GROUP;
-    }
-    this.getAll(this.postableId, this.postable);
-  }
-  getAll(postableId: any, postable: any) {
-    this.postService.getAll(postableId, postable).subscribe(res => {
-      this.posts = res.data;
-    }, error => console.log(error.error.message));
+    this.planId = this.route.parent.snapshot.paramMap.get('plan_id');
+    this.postService.getPosts(this.planId);
+    this.postService.getPostsListener().subscribe((posts: Post[]) => {
+      this.posts = posts;
+    });
   }
   vote(voteableId: any, voteable: any, voteType: any) {
     this.voteService.vote(voteableId, voteable, voteType)
@@ -43,8 +34,5 @@ export class PostComponent implements OnInit {
         const post = this.posts.find(apost => apost.id === voteableId);
         post.vote = res.data;
       }, error => console.log(error.error));
-  }
-  addPost(post: Post) {
-    this.posts.unshift(post);
   }
 }

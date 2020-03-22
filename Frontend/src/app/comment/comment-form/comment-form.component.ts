@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Comment} from '../../models/comment';
 import {COMMENT, DOWN, PLAN, UP} from '../../helpers';
 import {FormBuilder, FormGroupDirective, Validators} from '@angular/forms';
@@ -17,11 +17,12 @@ export class CommentFormComponent implements OnInit {
   @Input() postId;
   @Output() newCommentEvent = new EventEmitter<Comment>();
   @ViewChild(FormGroupDirective) commentFormDirective;
+  @ViewChild('imageInput') imageInput: ElementRef;
   preview = null;
   comments: Comment[];
   commentForm = this.fb.group({
     content: ['', [Validators.required]],
-    images: ['']
+    image: ['']
   });
   formData = new FormData();
   commentableId;
@@ -39,19 +40,14 @@ export class CommentFormComponent implements OnInit {
     }
   }
   onSubmit(formValue: any) {
-    this.commentService.createComment(this.commentableId, this.commentable, formValue)
-      .subscribe(res => {
-        const newComment: Comment = res.data;
-        this.newCommentEvent.emit(newComment);
-        if (this.commentFormDirective) {
-          this.commentFormDirective.resetForm();
-        }
-      });
+    this.commentService.addComment(this.commentableId, this.commentable, formValue);
+    this.commentFormDirective.resetForm();
+    this.imageInput.nativeElement.value = '';
   }
   onFileChange(event) {
-    const files = event.target.files;
+    const file = event.target.files[0];
     this.commentForm.patchValue({
-      images: files
+      image: file
     });
     // this.commentForm.get('cover').updateValueAndValidity();
     // const reader = new FileReader();

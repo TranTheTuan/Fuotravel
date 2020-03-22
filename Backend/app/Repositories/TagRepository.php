@@ -53,8 +53,6 @@ class TagRepository extends AbstractRepository
             return Auth::user();
         } elseif ($taggable == Tag::PLAN) {
             return Plan::find($taggable_id);
-        } elseif ($taggable == Tag::GROUP) {
-            return Group::find($taggable_id);
         }
         return Post::find($taggable_id);
     }

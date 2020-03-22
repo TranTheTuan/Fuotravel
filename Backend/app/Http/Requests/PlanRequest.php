@@ -24,9 +24,9 @@ class PlanRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:100',
+            'title' => 'required|string',
             'description' => 'nullable|string|max:1000',
-            'cover' => 'required|image',
+            'cover' => 'nullable|image',
             'departure' => 'required|string',
             'start_at' => 'required|date',
             'destination' => 'required|string',

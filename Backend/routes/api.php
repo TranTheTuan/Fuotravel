@@ -25,39 +25,39 @@ Route::middleware('auth:api')->group(function() {
         Route::get('/', 'API\PlanController@index');
         Route::get('{plan_id}', 'API\PlanController@show');
         Route::post('create', 'API\PlanController@create');
-        Route::put('update/{plan_id}', 'API\PlanController@update');
+        Route::post('update/{plan_id}', 'API\PlanController@update');
         Route::delete('delete/{plan_id}', 'API\PlanController@delete');
         Route::put('update/status/{plan_id}', 'API\PlanController@updateStatus');
         Route::put('cancel/{plan_id}', 'API\PlanController@cancel');
     });
 
-    Route::prefix('groups')->group(function () {
-        Route::get('{group_id}', 'API\GroupController@show');
-        Route::post('create', 'API\GroupController@create');
-        Route::put('update/{group_id}', 'API\GroupController@update');
-        Route::get('{group_id}/plans', 'API\GroupController@getPlans');
-        Route::get('{group_id}/posts', 'API\GroupController@getPosts');
-    });
+    // Route::prefix('groups')->group(function () {
+    //     Route::get('{group_id}', 'API\GroupController@show');
+    //     Route::post('create', 'API\GroupController@create');
+    //     Route::put('update/{group_id}', 'API\GroupController@update');
+    //     Route::get('{group_id}/plans', 'API\GroupController@getPlans');
+    //     Route::get('{group_id}/posts', 'API\GroupController@getPosts');
+    // });
 
     Route::prefix('members')->group(function () {
-        Route::get('requesters/{memberable_id}/memberable/{memberable}', 'API\MemberController@getRequesters');
-        Route::get('joined/{memberable_id}/memberable/{memberable}', 'API\MemberController@getMembers');
-        Route::post('join/{memberable_id}/memberable/{memberable}', 'API\MemberController@join');
-        Route::post('follow/{memberable_id}/memberable/{memberable}', 'API\MemberController@follow');
-        Route::post('unfollow/{memberable_id}/memberable/{memberable}', 'API\MemberController@unfollow');
-        Route::post('decline/{user_id}/{memberable_id}/memberable/{memberable}', 'API\MemberController@decline');
+        Route::get('requesters/{plan_id}', 'API\MemberController@getRequesters');
+        Route::get('joined/{plan_id}', 'API\MemberController@getMembers');
+        Route::post('join/{plan_id}', 'API\MemberController@join');
+        Route::post('follow/{plan_id}', 'API\MemberController@follow');
+        Route::post('unfollow/{plan_id}', 'API\MemberController@unfollow');
+        Route::post('decline/{user_id}/{plan_id}', 'API\MemberController@decline');
         Route::prefix('admin')->group(function () {
-            Route::post('kick/{user_id}/{memberable_id}/memberable/{memberable}', 'API\MemberController@kick');
-            Route::post('accept/{user_id}/{memberable_id}/memberable/{memberable}', 'API\MemberController@accept');
-            Route::post('ban/{user_id}/{memberable_id}/memberable/{memberable}', 'API\MemberController@ban');
-            Route::post('promote/{user_id}/{memberable_id}/memberable/{memberable}/{role}', 'API\MemberController@appoint');
-            Route::post('discharge/{user_id}/{memberable_id}/memberable/{memberable}/{role}', 'API\MemberController@discharge');
+            Route::post('kick/{user_id}/{plan_id}', 'API\MemberController@kick');
+            Route::post('accept/{user_id}/{plan_id}', 'API\MemberController@accept');
+            Route::post('ban/{user_id}/{plan_id}', 'API\MemberController@ban');
+            Route::post('promote/{user_id}/{plan_id}/{role}', 'API\MemberController@appoint');
+            Route::post('discharge/{user_id}/{plan_id}/{role}', 'API\MemberController@discharge');
         });
     });
 
     Route::prefix('posts')->group(function() {
-        Route::get('{postable_id}/postable/{postable}', 'API\PostController@index');
-        Route::post('create/{postable_id}/postable/{postable}', 'API\PostController@create');
+        Route::get('{plan_id}', 'API\PostController@index');
+        Route::post('create/{plan_id}', 'API\PostController@create');
         Route::delete('{post_id}', 'API\PostController@delete');
     });
 
@@ -80,7 +80,7 @@ Route::middleware('auth:api')->group(function() {
     });
 
     Route::prefix('images')->group(function () {
-        Route::get('{imageable_id}/imageable/{imageable}', 'API\ImageController@show');
+        Route::get('{post_id}', 'API\ImageController@show');
     });
 
     Route::prefix('users')->group(function () {

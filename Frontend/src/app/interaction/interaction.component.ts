@@ -7,24 +7,23 @@ import {MemberService} from '../services/member.service';
   styleUrls: ['./interaction.component.css']
 })
 export class InteractionComponent implements OnInit {
-  @Input() memberableId;
-  @Input() memberable;
+  @Input() planId;
   sentRequest = false;
   joined = false;
   constructor(private memberService: MemberService) { }
 
   ngOnInit(): void {
   }
-  onSendRequest(memberableId: any, memberable: any) {
-    this.memberService.join(memberableId, memberable)
+  onSendRequest(planId: any) {
+    this.memberService.join(planId)
       .subscribe(res => {
         if (res.data) {
           this.sentRequest = true;
         }
       });
   }
-  onCancelRequest(memberableId: any, memberable: any) {
-    this.memberService.cancel(memberableId, memberable)
+  onCancelRequest(planId: any) {
+    this.memberService.cancel(planId)
       .subscribe(res => {
         if (res.data) {
           this.sentRequest = false;

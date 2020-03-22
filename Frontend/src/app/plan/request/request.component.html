@@ -7,11 +7,11 @@
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #settingMenu="matMenu">
-      <button (click)="accept(requester.id, planId, _PLAN)" mat-menu-item>accept</button>
+      <button (click)="accept(requester.id, planId)" mat-menu-item>accept</button>
       <mat-divider></mat-divider>
-      <button (click)="decline(requester.id, planId, _PLAN)" mat-menu-item>decline</button>
+      <button (click)="decline(requester.id, planId)" mat-menu-item>decline</button>
       <mat-divider></mat-divider>
-      <button (click)="ban(requester.id, planId, _PLAN)" mat-menu-item>ban</button>
+      <button (click)="ban(requester.id, planId)" mat-menu-item>ban</button>
     </mat-menu>
   </li>
 </ul>

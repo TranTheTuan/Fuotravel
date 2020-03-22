@@ -30,6 +30,10 @@ export class CommentComponent implements OnInit {
       this.planId = this.route.parent.snapshot.paramMap.get('plan_id');
       this.getAll(this.planId, PLAN);
       this.commentableType = PLAN;
+      this.commentService.getComments(this.planId, PLAN);
+      this.commentService.getCommentsListener().subscribe((commentsList: Comment[]) => {
+        this.comments = commentsList;
+      });
     }
     if (this.postId) {
       this.getAll(this.postId, POST);

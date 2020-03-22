@@ -15,7 +15,6 @@ import {openSnackbar} from '../../helpers/snackbar';
   styleUrls: ['./request.component.css']
 })
 export class RequestComponent implements OnInit {
-  public readonly _PLAN = PLAN;
   public planId;
   public requesters: User[];
   constructor(
@@ -24,8 +23,8 @@ export class RequestComponent implements OnInit {
     private snackBar: MatSnackBar,
     private http: HttpClient
   ) {}
-  accept(userId: any, memberableId: any, memberable: any) {
-    this.memberService.accept(userId, memberableId, memberable)
+  accept(userId: any, planId: any) {
+    this.memberService.accept(userId, planId)
       .subscribe(res => {
         const userIndex = this.requesters.indexOf(userId);
         this.requesters.splice(userIndex, 1);
@@ -33,8 +32,8 @@ export class RequestComponent implements OnInit {
           'Close', {duration: 3000});
       });
   }
-  decline(userId: any, memberableId: any, memberable: any) {
-    this.memberService.decline(userId, memberableId, memberable)
+  decline(userId: any, planId: any) {
+    this.memberService.decline(userId, planId)
       .subscribe(res => {
         const userIndex = this.requesters.indexOf(userId);
         this.requesters.splice(userIndex, 1);
@@ -42,8 +41,8 @@ export class RequestComponent implements OnInit {
           'Close', {duration: 3000});
       });
   }
-  ban(userId: any, memberableId: any, memberable: any) {
-    this.memberService.ban(userId, memberableId, memberable)
+  ban(userId: any, planId: any) {
+    this.memberService.ban(userId, planId)
       .subscribe(res => {
         const userIndex = this.requesters.indexOf(userId);
         this.requesters.splice(userIndex, 1);
@@ -53,13 +52,13 @@ export class RequestComponent implements OnInit {
   }
   ngOnInit(): void {
     this.planId = this.route.parent.snapshot.paramMap.get('plan_id');
-    this.memberService.getMembers(this.planId, this._PLAN, PENDING).subscribe(res => {
+    this.memberService.getMembers(this.planId, PENDING).subscribe(res => {
       this.requesters = res.data;
     }, error => console.log(error.error.message));
-    const socket = io(environment.socket);
-    socket.on('fuotravel_database_chat:message', (data) => {
-      this.snackBar.open(data.data, 'Close', {duration: 3000});
-    });
+    // const socket = io(environment.socket);
+    // socket.on('fuotravel_database_chat:message', (data) => {
+    //   this.snackBar.open(data.data, 'Close', {duration: 3000});
+    // });
   }
   saveme() {
     this.http.get(environment.apiURL + '/draft').subscribe();

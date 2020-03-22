@@ -1,7 +1,7 @@
 <app-toolbar></app-toolbar>
 <div *ngIf="plan">
   <img src="{{ plan.cover | imageUrl }}" alt="plan cover image"/>
-  <app-interaction [memberableId]="plan.id" [memberable]="_PLAN"></app-interaction>
+  <app-interaction [planId]="plan.id"></app-interaction>
   <button mat-button (click)="openDialog()">Edit</button>
   <p>{{ plan.title }}</p>
   <p>{{ plan.description }}</p>

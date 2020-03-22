@@ -16,9 +16,9 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('caption');
-            $table->unsignedBigInteger('postable_id');
-            $table->string('postable_type');
+            $table->unsignedBigInteger('plan_id');
             $table->unsignedBigInteger('user_id');
+            $table->integer('vote')->default(0);
             $table->timestamps();
         });
     }

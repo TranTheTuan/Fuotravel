@@ -42,16 +42,21 @@ export class ReplyFormComponent implements OnInit {
     }
   }
   onSubmit(formValue: any) {
-    this.commentService.createComment(this.commentableId, this.commentable, formValue)
-      .subscribe(res => {
-        const newComment: Comment = res.data;
-        // tslint:disable-next-line:radix
-        newComment.parent_id = parseInt(res.data.parent_id);
-        this.newReplyEvent.emit(newComment);
-        this.replyForm.patchValue({
-          content: ''
-        });
-      });
+    // this.commentService.createComment(this.commentableId, this.commentable, formValue)
+    //   .subscribe(res => {
+    //     const newComment: Comment = res.data;
+    //     // tslint:disable-next-line:radix
+    //     newComment.parent_id = parseInt(res.data.parent_id);
+    //     this.newReplyEvent.emit(newComment);
+    //     this.replyForm.patchValue({
+    //       content: ''
+    //     });
+    //   });
+    this.commentService.addComment(this.commentableId, this.commentable, formValue);
+    this.replyFormDirective.resetForm();
+    this.replyForm.patchValue({
+      parent_id: this.parentId
+    });
   }
   onFileChange(event) {
     const file: File = event.target.files[0];

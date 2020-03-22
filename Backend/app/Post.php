@@ -6,9 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    const PLAN = 1;
-    const GROUP = 2;
-
     protected $guarded = [];
 
     public function user()
@@ -21,9 +18,14 @@ class Post extends Model
         return $this->morphToMany('App\Tag', 'taggable');
     }
 
-    public function postable()
+    // public function postable()
+    // {
+    //     return $this->morphTo();
+    // }
+
+    public function plan()
     {
-        return $this->morphTo();
+        return $this->belongsTo('App\Plan');
     }
 
     public function comments()

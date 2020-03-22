@@ -17,13 +17,12 @@ export class PlanCreateComponent implements OnInit {
   createPlanForm = this.fb.group({
     title: ['', [Validators.required]],
     description: ['', [Validators.required]],
-    cover: [null],
+    cover: [''],
     departure: ['', [Validators.required, Validators.maxLength(500)]],
     start_at: ['', [Validators.required]],
     destination: ['', [Validators.required]],
     arrival_at: ['', [Validators.required]],
-    members_quantity: ['', [Validators.required, Validators.min(2)]],
-    group_id: [''],
+    members_quantity: ['', [Validators.required, Validators.min(2)]]
   });
   constructor(
     private planService: PlanService,

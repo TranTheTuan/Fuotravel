@@ -33,7 +33,7 @@ class CommentController extends ApiController
         }
         $data['user_id'] = Auth::id();
         if($request->hasFile('image') && $request->file('image')->isValid()) {
-            $data['image'] = $this->imageService->uploadImage(self::UPLOAD_PATH, $request->image);  
+            $data['image'] = $this->imageService->uploadImage(self::UPLOAD_PATH, $request->image);
         }
         $comment = $this->commentRepo->create($data);
 

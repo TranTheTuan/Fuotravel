@@ -15,6 +15,4 @@ export class Plan {
   members_quantity: number;
   // tslint:disable-next-line:variable-name
   user_id: number;
-  // tslint:disable-next-line:variable-name
-  group_id: number;
 }

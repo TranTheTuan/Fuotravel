@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\ApiController;
 use App\Member;
+use App\Plan;
 use App\Repositories\MemberRepository;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -17,83 +18,85 @@ class MemberController extends ApiController
         $this->memberRepo = $memberRepo;
     }
 
-    public function join($memberable_id, $memberable)
+    public function join($planId)
     {
-        $this->authorize('join', [Member::class, $memberable_id, $memberable]);
-
-        return $this->sendResponse($this->memberRepo->join($memberable_id, $memberable));
+//        $this->authorize('join', [Member::class, $memberable_id, $memberable]);
+        $plan = Plan::findOrFail($planId);
+        return $this->sendResponse($this->memberRepo->join($plan));
     }
 
-    public function accept($user_id, $memberable_id, $memberable)
+    public function accept($user_id, $planId)
     {
-        $this->authorize('manage', [Member::class, $memberable_id, $memberable]);
-
-        return $this->sendResponse($this->memberRepo->accept($user_id, $memberable_id, $memberable));
+//        $this->authorize('manage', [Member::class, $memberable_id, $memberable]);
+        $plan = Plan::findOrFail($planId);
+        return $this->sendResponse($this->memberRepo->accept($user_id, $plan));
     }
 
-    public function decline($user_id, $memberable_id, $memberable)
+    public function decline($user_id, $planId)
     {
-        $this->authorize('manage', [Member::class, $memberable_id, $memberable]);
-
-        return $this->sendResponse($this->memberRepo->decline($user_id, $memberable_id, $memberable));
+//        $this->authorize('manage', [Member::class, $memberable_id, $memberable]);
+        $plan = Plan::findOrFail($planId);
+        return $this->sendResponse($this->memberRepo->decline($user_id, $plan));
     }
 
-    public function cancel($user_id, $memberable_id, $memberable)
+    public function cancel($user_id, $planId)
     {
-        $this->authorize('cancel', [Member::class, $memberable_id, $memberable]);
-
-        return $this->sendResponse($this->memberRepo->cancel($memberable_id, $memberable));
+//        $this->authorize('cancel', [Member::class, $memberable_id, $memberable]);
+        $plan = Plan::findOrFail($planId);
+        return $this->sendResponse($this->memberRepo->cancel($plan));
     }
 
-    public function ban($user_id, $memberable_id, $memberable)
+    public function ban($user_id, $planId)
     {
-        $this->authorize('manage', [Member::class, $memberable_id, $memberable]);
-
-        return $this->sendResponse($this->memberRepo->ban($user_id, $memberable_id, $memberable));
+//        $this->authorize('manage', [Member::class, $memberable_id, $memberable]);
+        $plan = Plan::findOrFail($planId);
+        return $this->sendResponse($this->memberRepo->ban($user_id, $plan));
     }
 
-    public function follow($memberable_id, $memberable)
+    public function follow($planId)
     {
-        $this->authorize('follow', [Member::class, $memberable_id, $memberable]);
-
-        return $this->sendResponse($this->memberRepo->follow($memberable_id, $memberable));
+//        $this->authorize('follow', [Member::class, $memberable_id, $memberable]);
+        $plan = Plan::findOrFail($planId);
+        return $this->sendResponse($this->memberRepo->follow($plan));
     }
 
-    public function unfollow($memberable_id, $memberable)
+    public function unfollow($planId)
     {
-        $this->authorize('unfollow', [Member::class, $memberable_id, $memberable]);
-
-        return $this->sendResponse($this->memberRepo->unfollow($memberable_id, $memberable));
+//        $this->authorize('unfollow', [Member::class, $memberable_id, $memberable]);
+        $plan = Plan::findOrFail($planId);
+        return $this->sendResponse($this->memberRepo->unfollow($plan));
     }
 
-    public function kick($user_id, $memberable_id, $memberable)
+    public function kick($user_id, $planId)
     {
-        $this->authorize('manage', [Member::class, $memberable_id, $memberable]);
-
-        return $this->sendResponse($this->memberRepo->kick($user_id, $memberable_id, $memberable));
+//        $this->authorize('manage', [Member::class, $memberable_id, $memberable]);
+        $plan = Plan::findOrFail($planId);
+        return $this->sendResponse($this->memberRepo->kick($user_id, $plan));
     }
 
-    public function appoint($user_id, $memberable_id, $memberable, $role)
+    public function appoint($user_id, $planId, $role)
     {
-        $this->authorize('appoint', [Member::class, User::find($user_id), $memberable_id, $memberable, $role]);
-
-        return $this->sendResponse($this->memberRepo->appoint($user_id, $memberable_id, $memberable, $role));
+//        $this->authorize('appoint', [Member::class, User::find($user_id), $memberable_id, $memberable, $role]);
+        $plan = Plan::findOrFail($planId);
+        return $this->sendResponse($this->memberRepo->appoint($user_id, $plan, $role));
     }
 
-    public function discharge($user_id, $memberable_id, $memberable, $role)
+    public function discharge($user_id, $planId, $role)
     {
-        $this->authorize('discharge', [Member::class, User::find($user_id), $memberable_id, $memberable, $role]);
-
-        return $this->sendResponse($this->memberRepo->discharge($user_id, $memberable_id, $memberable, $role));
+//        $this->authorize('discharge', [Member::class, User::find($user_id), $memberable_id, $memberable, $role]);
+        $plan = Plan::findOrFail($planId);
+        return $this->sendResponse($this->memberRepo->discharge($user_id, $plan, $role));
     }
 
-    public function getRequesters($memberable_id, $memberable)
+    public function getRequesters($planId)
     {
-        return $this->sendResponse($this->memberRepo->getRequesters($memberable_id, $memberable));
+        $plan = Plan::findOrFail($planId);
+        return $this->sendResponse($this->memberRepo->getRequesters($plan));
     }
 
-    public function getMembers($memberable_id, $memberable)
+    public function getMembers($planId)
     {
-        return $this->sendResponse($this->memberRepo->getMembers($memberable_id, $memberable));
+        $plan = Plan::findOrFail($planId);
+        return $this->sendResponse($this->memberRepo->getMembers($plan));
     }
 }

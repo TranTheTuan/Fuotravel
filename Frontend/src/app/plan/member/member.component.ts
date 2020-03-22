@@ -12,7 +12,6 @@ import {openSnackbar} from '../../helpers/snackbar';
   styleUrls: ['./member.component.css']
 })
 export class MemberComponent implements OnInit {
-  public readonly _PLAN = PLAN;
   public readonly _ADMIN = ADMIN;
   public readonly _MODERATOR = MODERATOR;
   public planId;
@@ -22,22 +21,22 @@ export class MemberComponent implements OnInit {
     private route: ActivatedRoute,
     private snackBar: MatSnackBar
   ) { }
-  promote(userId: any, memberableId: any, memberable: any, role: any) {
-    this.memberService.promote(userId, memberableId, memberable, role)
+  promote(userId: any, planId: any, role: any) {
+    this.memberService.promote(userId, planId, role)
       .subscribe(res => {
         this.snackBar.open('User has been promoted, cheers :D',
           'Close', {duration: 3000});
       });
   }
-  discharge(userId: any, memberableId: any, memberable: any, role: any) {
-    this.memberService.discharge(userId, memberableId, memberable, role)
+  discharge(userId: any, planId: any, role: any) {
+    this.memberService.discharge(userId, planId, role)
       .subscribe(res => {
         this.snackBar.open('User has been discharged, corrupt :(',
           'Close', {duration: 3000});
       });
   }
-  kick(userId: any, memberableId: any, memberable: any) {
-    this.memberService.kick(userId, memberableId, memberable)
+  kick(userId: any, planId: any) {
+    this.memberService.kick(userId, planId)
       .subscribe(res => {
         const userIndex = this.members.indexOf(userId);
         this.members.splice(userIndex, 1);
@@ -45,8 +44,8 @@ export class MemberComponent implements OnInit {
           'Close', {duration: 3000});
       });
   }
-  ban(userId: any, memberableId: any, memberable: any) {
-    this.memberService.ban(userId, memberableId, memberable)
+  ban(userId: any, planId: any) {
+    this.memberService.ban(userId, planId)
       .subscribe(res => {
         const userIndex = this.members.indexOf(userId);
         this.members.splice(userIndex, 1);
@@ -56,7 +55,7 @@ export class MemberComponent implements OnInit {
   }
   ngOnInit(): void {
     this.planId = this.route.parent.snapshot.paramMap.get('plan_id');
-    this.memberService.getMembers(this.planId, PLAN, MEMBER).subscribe(res => {
+    this.memberService.getMembers(this.planId, MEMBER).subscribe(res => {
       this.members = res.data;
     }, error => console.log(error.error.message));
   }

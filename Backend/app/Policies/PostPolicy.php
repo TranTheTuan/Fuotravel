@@ -23,12 +23,12 @@ class PostPolicy
         $this->postRepo = $postRepo;
     }
 
-    public function create(User $user, $postable_id, $postable)
-    {
-        $postable_type = $this->postRepo->checkPostableType($postable_id, $postable);
-        $member = $postable_type->members->where('user_id', $user->id);
-        return $member->pluck('status')->contains(Member::MEMBER);
-    }
+//    public function create(User $user, $postable_id, $postable)
+//    {
+//        $postable_type = $this->postRepo->checkPostableType($postable_id, $postable);
+//        $member = $postable_type->members->where('user_id', $user->id);
+//        return $member->pluck('status')->contains(Member::MEMBER);
+//    }
 
     public function update(User $user, Post $post)
     {

@@ -1,5 +1,5 @@
 <p>Memories</p>
-<app-post-create [postableId]="postableId" [postable]="postable" (newPostEvent)="addPost($event)"></app-post-create>
+<app-post-create [planId]="planId"></app-post-create>
 <div *ngFor="let post of posts">
   <mat-card class="example-card">
     <mat-card-header>
@@ -10,9 +10,12 @@
     <mat-card-content>
       <p>{{ post.caption }}</p>
     </mat-card-content>
-    <ng-image-slider [images]="post.images | imageObject"
-      [imageSize]="{width: '100%', height: '50%', space: 3}"
-      [showArrow]="post.images.length > 1"></ng-image-slider>
+    <div *ngIf="post.images.length > 0">
+      <ng-image-slider [images]="post.images | imageObject"
+                       [imageSize]="{width: '100%', height: '50%', space: 3}"
+                       [showArrow]="post.images.length > 1"></ng-image-slider>
+    </div>
+    <mat-divider></mat-divider>
     <mat-card-actions>
       {{ post.vote }}
       <button (click)="vote(post.id, _POST, _UP)" mat-icon-button>

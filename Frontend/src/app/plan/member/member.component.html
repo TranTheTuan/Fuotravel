@@ -10,19 +10,19 @@
       <mat-divider></mat-divider>
       <button [matMenuTriggerFor]="dischargeMenu" mat-menu-item>discharge</button>
       <mat-divider></mat-divider>
-      <button (click)="kick(member.id, planId, _PLAN)" mat-menu-item>kick</button>
+      <button (click)="kick(member.id, planId)" mat-menu-item>kick</button>
       <mat-divider></mat-divider>
-      <button (click)="ban(member.id, planId, _PLAN)" mat-menu-item>ban</button>
+      <button (click)="ban(member.id, planId)" mat-menu-item>ban</button>
     </mat-menu>
     <mat-menu #promoteMenu="matMenu">
-      <button (click)="promote(member.id, planId, _PLAN, _ADMIN)" mat-menu-item>Admin</button>
+      <button (click)="promote(member.id, planId, _ADMIN)" mat-menu-item>Admin</button>
       <mat-divider></mat-divider>
-      <button (click)="promote(member.id, planId, _PLAN, _MODERATOR)" mat-menu-item>Moderator</button>
+      <button (click)="promote(member.id, planId, _MODERATOR)" mat-menu-item>Moderator</button>
     </mat-menu>
     <mat-menu #dischargeMenu="matMenu">
-      <button (click)="discharge(member.id, planId, _PLAN, _ADMIN)" mat-menu-item>Admin</button>
+      <button (click)="discharge(member.id, planId, _ADMIN)" mat-menu-item>Admin</button>
       <mat-divider></mat-divider>
-      <button (click)="discharge(member.id, planId, _PLAN, _MODERATOR)" mat-menu-item>Moderator</button>
+      <button (click)="discharge(member.id, planId, _MODERATOR)" mat-menu-item>Moderator</button>
     </mat-menu>
   </li>
 </ul>

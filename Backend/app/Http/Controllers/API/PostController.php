@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Resources\PostResource;
+use App\Plan;
 use App\Post;
 use App\Member;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\ImageService;
@@ -21,19 +24,24 @@ class PostController extends ApiController
         $this->imageService = $imageService;
     }
 
-    public function index($postable_id, $postable)
+    public function index($planId)
     {
-        return $this->sendResponse($this->postRepo->getByPostableType($postable_id, $postable));
+        try {
+            $plan = Plan::find($planId);
+            return $this->sendResponse(PostResource::collection($plan->posts));
+        } catch(ModelNotFoundException $exception) {
+            return $this->sendError('plan not found');
+        }
     }
 
-    public function create(Request $request, $postable_id, $postable)
+    public function create(Request $request, $planId)
     {
-        // $this->authorize('create', [Post::class, $postable_id, $postable]);
         $data = $request->all();
-        $data['postable_id'] = $postable_id;
-        $data['postable'] = $postable;
-        $post = $this->postRepo->create($data);
-
+        $plan = Plan::find($planId);
+        $post = $plan->posts()->create([
+            'caption' => $data['caption'],
+            'user_id' => Auth::id()
+        ]);
         if($request->hasFile('images')) {
             foreach($data['images'] as $index => $image) {
                 if($image->isValid()) {
@@ -42,21 +50,32 @@ class PostController extends ApiController
                 }
             }
         }
-        return $this->sendResponse($post->load('user'));
+        return $this->sendResponse(new PostResource($post));
     }
 
-    public function update(Request $request, $post_id)
+    public function update(Request $request, $postId)
     {
-        $this->authorize('update', Post::find($post_id));
-        $data = $request->all();
-        $post = $this->postRepo->update($data, $post_id);
-        return $this->sendResponse($post);
+        try {
+            $post = Post::findOrFail($postId);
+            $this->authorize('update', $post);
+            $data = $request->all();
+            $post->update($data);
+            return $this->sendResponse($post);
+        } catch (ModelNotFoundException $exception) {
+            return $this->sendError('not found');
+        }
     }
 
-    public function delete($post_id)
+    public function delete($postId)
     {
-        $this->authorize('update', Post::find($post_id));
-        $this->postRepo->delete($post_id);
-        return $this->sendResponse('deleted');
+        try {
+            $post = Post::findOrFail($postId);
+            $this->authorize('update', $post);
+            $post->images()->delete();
+            $post->delete();
+            return $this->sendResponse('deleted');
+        } catch (ModelNotFoundException $exception) {
+            return $this->sendError('not found');
+        }
     }
 }

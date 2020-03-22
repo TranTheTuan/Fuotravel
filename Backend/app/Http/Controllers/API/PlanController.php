@@ -40,10 +40,6 @@ class PlanController extends ApiController
 
     public function create(PlanRequest $request)
     {
-        if ($request->filled('group_id')) {
-            $group_id = $request->group_id;
-            $this->authorize('create', Group::find($group_id));
-        }
         $data = $request->only(['title', 'description', 'departure', 'start_at', 'destination', 'arrival_at', 'members_quantity', 'group_id']);
 
         if($request->hasFile('cover') && $request->file('cover')->isValid()) {
@@ -53,16 +49,15 @@ class PlanController extends ApiController
         return $this->sendResponse($this->planRepo->create($data));
     }
 
-    public function update(Request $request, $plan_id)
+    public function update(PlanRequest $request, $plan_id)
     {
-        return $request->all();
         $this->authorize('update', Plan::find($plan_id));
         $data = $request->only(['title', 'description', 'departure', 'start_at', 'destination', 'arrival_at', 'members_quantity']);
 
         if($request->file('cover') && $request->file('cover')->isValid()) {
             $data['cover'] = $this->imageService->uploadImage(self::UPLOAD_PATH, $request->file('cover'));
         }
-        
+
         return $this->sendResponse($this->planRepo->update($data, $plan_id));
     }
 

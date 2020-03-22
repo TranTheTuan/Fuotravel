@@ -1,37 +1,40 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {ApiResponse} from '../models';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
 import {toFormData} from '../helpers/toFormData';
+import {Post} from '../models/post';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
   private APIS = {
-    1: environment.apiURL + '/posts/{postable_id}/postable/{postable}',
-    2: environment.apiURL + '/posts/create/{postable_id}/postable/{postable}'
+    1: environment.apiURL + '/posts/{plan_id}',
+    2: environment.apiURL + '/posts/create/{plan_id}'
   };
+  private posts: Post[] = [];
+  private posts$ = new Subject<Post[]>();
   constructor(private http: HttpClient) { }
-  getAll(postableId: any, postable: any): Observable<ApiResponse> {
-    const apiUrl = this.APIS[1].replace('{postable_id}', postableId)
-      .replace('{postable}', postable);
-    return this.http.get<ApiResponse>(apiUrl)
-      .pipe(map(res => {
-        if (res.data.length > 0) {
-          localStorage.setItem('posts', JSON.stringify(res.data));
-        }
-        return res;
-      }));
+  getPosts(planId: any) {
+    const apiUrl = this.APIS[1].replace('{plan_id}', planId);
+    this.http.get<ApiResponse>(apiUrl).subscribe(res => {
+      this.posts = res.data;
+      this.posts$.next([...this.posts]);
+    });
   }
-  createPost(postableId: any, postable: any, formValue: any): Observable<ApiResponse> {
-    const apiUrl = this.APIS[2].replace('{postable_id}', postableId)
-      .replace('{postable}', postable);
-    return this.http.post<ApiResponse>(apiUrl, toFormData(formValue))
-      .pipe(map(res => {
-        return res;
-      }));
+  getPostsListener() {
+    return this.posts$.asObservable();
+  }
+  addPost(planId: any, formValue: any) {
+    const apiUrl = this.APIS[2].replace('{plan_id}', planId);
+    this.http.post<ApiResponse>(apiUrl, toFormData(formValue)).subscribe(res => {
+      const post: Post = res.data;
+      console.log(post);
+      this.posts.unshift(post);
+      this.posts$.next([...this.posts]);
+    });
   }
 }

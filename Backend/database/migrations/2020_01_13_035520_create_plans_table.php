@@ -17,7 +17,7 @@ class CreatePlansTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('description');
-            $table->string('cover');
+            $table->string('cover')->default('default/cover/cover.jpg');
             $table->string('departure');
             $table->dateTime('start_at');
             $table->string('destination');

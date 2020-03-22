@@ -10,9 +10,7 @@ import {Post} from '../../models/post';
   styleUrls: ['./post-create.component.css']
 })
 export class PostCreateComponent implements OnInit {
-  @Input() postable;
-  @Input() postableId;
-  @Output() newPostEvent = new EventEmitter<Post>();
+  @Input() planId;
   @ViewChild(FormGroupDirective) postFormDirective;
   preview;
   postForm = this.fb.group({
@@ -26,15 +24,7 @@ export class PostCreateComponent implements OnInit {
   ngOnInit(): void {
   }
   onSubmit(formValue: any) {
-    this.postService.createPost(this.postableId, this.postable, formValue)
-      .subscribe(res => {
-        console.log(res.data);
-        const newPost: Post = res.data;
-        this.newPostEvent.emit(newPost);
-        if (this.postFormDirective) {
-          this.postFormDirective.resetForm();
-        }
-      });
+    this.postService.addPost(this.planId, formValue);
   }
   onFileChange(event) {
     const files = event.target.files;

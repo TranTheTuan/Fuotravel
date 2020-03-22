@@ -14,7 +14,6 @@ class Member extends Model
     const MODERATOR = 6;
 
     const PLAN = 1;
-    const GROUP = 2;
 
     protected $guarded = [];
 
@@ -23,8 +22,12 @@ class Member extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function memberable()
+//    public function memberable()
+//    {
+//        return $this->morphTo();
+//    }
+    public function plan()
     {
-        return $this->morphTo();
+        return $this->belongsTo('App\Plan');
     }
 }

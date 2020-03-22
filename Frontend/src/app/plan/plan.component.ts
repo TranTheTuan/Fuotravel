@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AuthService, PlanService} from '../services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Plan} from '../models';
-import {PLAN} from "../helpers";
+import {PLAN} from '../helpers';
 import {MatDialog} from '@angular/material';
 import {UpdatePlanComponent} from '../layouts/update-plan/update-plan.component';
 
@@ -30,8 +30,14 @@ export class PlanComponent implements OnInit {
       { path: 'members', label: 'Members' },
       { path: 'posts', label: 'Memories' }
       ];
-    this.planService.getDetail(id).subscribe(res => {
-      this.plan = res.data;
+    // this.planService.getDetail(id).subscribe(res => {
+    //   if (res.data) {
+    //     this.plan = res.data;
+    //   }
+    // });
+    this.planService.getPlan(id);
+    this.planService.getPlanListener().subscribe(res => {
+      this.plan = res;
     });
   }
   openDialog() {
@@ -40,7 +46,6 @@ export class PlanComponent implements OnInit {
       data: { plan: this.plan}
     });
     dialogRef.afterClosed().subscribe(res => {
-      this.plan = res.plan;
       console.log(res);
     });
   }
