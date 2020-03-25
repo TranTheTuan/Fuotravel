@@ -22,12 +22,15 @@ import {
 } from '@angular/material';
 import {InteractionModule} from '../interaction/interaction.module';
 import {ReactiveFormsModule} from '@angular/forms';
+import {LeafletModule} from '@asymmetrik/ngx-leaflet';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [
     PlanComponent,
     RequestComponent,
     MemberComponent,
+    MapComponent,
   ],
   imports: [
     CommonModule,
@@ -49,6 +52,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatInputModule,
+    LeafletModule.forRoot()
   ],
 })
 export class PlanModule { }
