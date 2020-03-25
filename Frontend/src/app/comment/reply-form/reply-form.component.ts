@@ -13,13 +13,12 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class ReplyFormComponent implements OnInit {
   @Input() parentId;
-  @Input() postId;
-  @Input() commentable;
+  @Input() commentableType;
+  @Input() commentableId;
   @Output() newReplyEvent = new EventEmitter<Comment>();
   @ViewChild(FormGroupDirective) replyFormDirective;
   preview = null;
   comments: Comment[];
-  commentableId;
   replyForm = this.fb.group({
     content: ['', [Validators.required]],
     image: [null],
@@ -35,24 +34,9 @@ export class ReplyFormComponent implements OnInit {
     this.replyForm.patchValue({
       parent_id: this.parentId
     });
-    if (this.commentable === PLAN) {
-      this.commentableId = this.route.parent.snapshot.paramMap.get('plan_id');
-    } else {
-      this.commentableId = this.postId;
-    }
   }
   onSubmit(formValue: any) {
-    // this.commentService.createComment(this.commentableId, this.commentable, formValue)
-    //   .subscribe(res => {
-    //     const newComment: Comment = res.data;
-    //     // tslint:disable-next-line:radix
-    //     newComment.parent_id = parseInt(res.data.parent_id);
-    //     this.newReplyEvent.emit(newComment);
-    //     this.replyForm.patchValue({
-    //       content: ''
-    //     });
-    //   });
-    this.commentService.addComment(this.commentableId, this.commentable, formValue);
+    this.commentService.addComment(this.commentableId, this.commentableType, formValue);
     this.replyFormDirective.resetForm();
     this.replyForm.patchValue({
       parent_id: this.parentId

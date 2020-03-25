@@ -13,8 +13,8 @@ import {toFormData} from '../../helpers/toFormData';
   styleUrls: ['./comment-form.component.css']
 })
 export class CommentFormComponent implements OnInit {
-  @Input() commentable;
-  @Input() postId;
+  @Input() commentableId;
+  @Input() commentableType;
   @Output() newCommentEvent = new EventEmitter<Comment>();
   @ViewChild(FormGroupDirective) commentFormDirective;
   @ViewChild('imageInput') imageInput: ElementRef;
@@ -24,8 +24,6 @@ export class CommentFormComponent implements OnInit {
     content: ['', [Validators.required]],
     image: ['']
   });
-  formData = new FormData();
-  commentableId;
   constructor(
     private commentService: CommentService,
     private voteService: VoteService,
@@ -33,14 +31,9 @@ export class CommentFormComponent implements OnInit {
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    if (this.commentable === PLAN) {
-      this.commentableId = this.route.parent.snapshot.paramMap.get('plan_id');
-    } else {
-      this.commentableId = this.postId;
-    }
   }
   onSubmit(formValue: any) {
-    this.commentService.addComment(this.commentableId, this.commentable, formValue);
+    this.commentService.addComment(this.commentableId, this.commentableType, formValue);
     this.commentFormDirective.resetForm();
     this.imageInput.nativeElement.value = '';
   }

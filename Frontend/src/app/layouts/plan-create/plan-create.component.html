@@ -2,7 +2,7 @@
   <form [formGroup]="createPlanForm" (ngSubmit)="onSubmit(createPlanForm.value)" class="common-form">
     <h1>Create New Plan</h1>
     <mat-error style="max-width: fit-content">{{ error | async }}</mat-error>
-    <img *ngIf="preview !== null" [src]="preview" alt="cover image preview" width="100" height="50">
+    <img *ngIf="preview" [src]="preview" alt="cover image preview" width="100" height="50">
     <input type="file" style="display: none" (change)="onFileChange($event)" #cover>
     <button mat-button type="button" (click)="cover.click()" >Upload Cover</button>
     <mat-form-field class="full-width" appearance="standard">

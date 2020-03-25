@@ -37,7 +37,6 @@ export class UpdatePlanComponent implements OnInit {
 
   ngOnInit(): void {
     this.planId = this.data.plan.id;
-    console.log(this.data.plan);
     this.updatePlanForm.patchValue({
       title: this.data.plan.title,
       description: this.data.plan.description,
@@ -54,8 +53,8 @@ export class UpdatePlanComponent implements OnInit {
   onSubmit(formData: any) {
     formData.start_at = dateFormat(formData.start_at);
     formData.arrival_at = dateFormat(formData.arrival_at);
-    this.planService.updatePlan(formData, this.planId);
-    this.dialogRef.close('closed');
+    this.planService.updatePlan(formData, this.planId).subscribe();
+    this.dialogRef.close(formData);
   }
   onFileChange(event) {
     const file: File = event.target.files[0];

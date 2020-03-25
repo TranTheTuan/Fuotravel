@@ -1,4 +1,4 @@
-<app-comment-form [commentable]="commentableType" [postId]="postId" (newCommentEvent)="addComment($event)"></app-comment-form>
+<app-comment-form [commentableType]="commentableType" [commentableId]="commentableId" (newCommentEvent)="addComment($event)"></app-comment-form>
 <ul>
   <li *ngFor="let comment of comments">
     <p>{{ comment.content }}</p>
@@ -24,6 +24,6 @@
         </button>
       </li>
     </ul>
-    <app-reply-form [parentId]="comment.id" [commentable]="commentableType" [postId]="postId" (newReplyEvent)="addReply($event)"></app-reply-form>
+    <app-reply-form [parentId]="comment.id" [commentableType]="commentableType" [commentableId]="commentableId" (newReplyEvent)="addReply($event)"></app-reply-form>
   </li>
 </ul>

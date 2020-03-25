@@ -12,13 +12,12 @@ import {FormBuilder, Validators} from '@angular/forms';
   styleUrls: ['./comment.component.css']
 })
 export class CommentComponent implements OnInit {
-  @Input() postId;
+  @Input() commentableId;
+  @Input() commentableType;
   _COMMENT = COMMENT;
   _UP = UP;
   _DOWN = DOWN;
-  planId;
   comments: Comment[];
-  commentableType;
   constructor(
     private commentService: CommentService,
     private voteService: VoteService,
@@ -27,18 +26,20 @@ export class CommentComponent implements OnInit {
   ngOnInit(): void {
     const currentPath = this.route.snapshot.url[0].path;
     if (currentPath === 'discuss') {
-      this.planId = this.route.parent.snapshot.paramMap.get('plan_id');
-      this.getAll(this.planId, PLAN);
+      this.commentableId = this.route.parent.snapshot.paramMap.get('plan_id');
+      // this.getAll(this.planId, PLAN);
       this.commentableType = PLAN;
-      this.commentService.getComments(this.planId, PLAN);
-      this.commentService.getCommentsListener().subscribe((commentsList: Comment[]) => {
-        this.comments = commentsList;
-      });
+      // this.commentService.getComments(this.planId, PLAN);
     }
-    if (this.postId) {
-      this.getAll(this.postId, POST);
-      this.commentableType = POST;
-    }
+    // if (this.postId) {
+    //   this.getAll(this.postId, POST);
+    //   this.commentableType = POST;
+    //   this.commentService.getComments(this.planId, POST);
+    // }
+    this.commentService.getComments(this.commentableId, this.commentableType);
+    this.commentService.getCommentsListener().subscribe((commentsList: Comment[]) => {
+      this.comments = commentsList;
+    });
   }
   getAll(commentableId: any, commentable: any) {
     this.commentService.getAll(commentableId, commentable)
