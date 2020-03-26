@@ -6,6 +6,7 @@ import {RequestComponent} from './request/request.component';
 import {MemberComponent} from './member/member.component';
 import {PostComponent} from '../post/post.component';
 import {CommentComponent} from '../comment/comment.component';
+import {MapComponent} from "./map/map.component";
 
 const routes: Routes = [{ path: ':plan_id', component: PlanComponent, children: [
     { path: '', redirectTo: 'discuss', pathMatch: 'full'},
@@ -13,6 +14,7 @@ const routes: Routes = [{ path: ':plan_id', component: PlanComponent, children: 
     { path: 'requests', component: RequestComponent },
     { path: 'members', component: MemberComponent },
     { path: 'posts', component: PostComponent },
+    { path: 'map', component: MapComponent}
   ]
 }];
 

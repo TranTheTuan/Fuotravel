@@ -1,1 +1,8 @@
-<p>map works!</p>
+<button (click)="getCurrentLocation()">Get your location</button>
+<div style="height: 450px; width: 60%; margin: auto; border: aqua solid 1px"
+     leaflet
+     [leafletOptions]="options"
+     [leafletLayers]="layers"
+     [(leafletCenter)]="center"
+     (leafletClick)="onMapClick($event)">
+</div>
