@@ -8,6 +8,7 @@ use App\Plan;
 use App\Repositories\MemberRepository;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class MemberController extends ApiController
 {
@@ -16,6 +17,11 @@ class MemberController extends ApiController
     public function __construct(MemberRepository $memberRepo)
     {
         $this->memberRepo = $memberRepo;
+    }
+
+    public function getMembership($planId) {
+        $membership = Member::where('plan_id', $planId)->where('user_id', Auth::id())->get()->pluck('status');
+        return $this->sendResponse($membership);
     }
 
     public function join($planId)
@@ -37,6 +43,13 @@ class MemberController extends ApiController
 //        $this->authorize('manage', [Member::class, $memberable_id, $memberable]);
         $plan = Plan::findOrFail($planId);
         return $this->sendResponse($this->memberRepo->decline($user_id, $plan));
+    }
+
+    public function leave($planId)
+    {
+//        $this->authorize('manage', [Member::class, $memberable_id, $memberable]);
+        $plan = Plan::findOrFail($planId);
+        return $this->sendResponse($this->memberRepo->leave($plan));
     }
 
     public function cancel($user_id, $planId)

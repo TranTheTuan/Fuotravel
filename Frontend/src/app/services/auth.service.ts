@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 import { ApiResponse, User } from '../models';
-import {toFormData} from "../helpers/toFormData";
+import {toFormData} from '../helpers/toFormData';
 
 @Injectable({
   providedIn: 'root'
@@ -15,14 +15,14 @@ export class AuthService {
     1: environment.apiURL + '/login',
     2: environment.apiURL + '/register'
   };
-  private currentUserSubject: BehaviorSubject<User>;
+  private currentUserSubject: BehaviorSubject<any>;
   readonly currentUser: Observable<User>;
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
-  public get currentUserValue(): User {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+  public get currentUserValue() {
+    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
     return this.currentUserSubject.value;
   }
   public login(params: any): Observable<ApiResponse> {

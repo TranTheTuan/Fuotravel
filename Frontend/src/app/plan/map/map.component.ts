@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {tileLayer, latLng, marker} from 'leaflet';
 import {environment} from '../../../environments/environment';
+import {mark} from '@angular/compiler-cli/src/ngtsc/perf/src/clock';
 
 @Component({
   selector: 'app-map',
@@ -22,6 +23,9 @@ export class MapComponent implements OnInit {
     title: 'You are here',
     draggable: true,
     autoPan: true
+  };
+  popupConfigs: {
+
   };
   options;
   center;
@@ -56,7 +60,7 @@ export class MapComponent implements OnInit {
     }
   }
   onMapClick(event) {
-    this.layers = [];
+    // this.layers = [];
     this.layers.push(marker([event.latlng.lat, event.latlng.lng]));
   }
 

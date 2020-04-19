@@ -1,8 +1,20 @@
 <app-toolbar></app-toolbar>
-<div>{{ time | async }}</div>
-<ul>
-  <li *ngFor="let plan of plans">
-    <a [routerLink]="['/plans', plan.id]">{{ plan.title }}</a>
-  </li>
-</ul>
-<router-outlet></router-outlet>
+<div class="container-sm">
+  <ul style="list-style: none">
+    <li *ngFor="let plan of plans">
+      <div class="card w-50 my-3 p-1">
+        <div class="row">
+          <div class="col-4">
+            <img [src]="plan.cover | imageUrl" [alt]="plan.title" class="img-fluid rounded" height="100%" width="100%">
+          </div>
+          <div class="col-8">
+            <a [routerLink]="['/plans', plan.id]">{{ plan.title }}</a><br>
+            <span class="text-secondary">{{ plan.departure }} - {{ plan.start_at }}</span><br>
+            <span class="text-secondary">{{ plan.destination }} - {{ plan.arrival_at }}</span>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <router-outlet></router-outlet>
+</div>

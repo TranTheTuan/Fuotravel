@@ -1,0 +1,8 @@
+<button (click)="getCurrentLocation()">Get your location</button>
+<mat-form-field>
+  <mat-label>search locations</mat-label>
+  <input matInput [formControl]="searchControl">
+</mat-form-field>
+<button mat-raised-button (click)="search()">search</button>
+<button mat-raised-button (click)="getRoute()">route</button>
+<div #hereMap style="height: 450px; width: 60%; margin: auto; border: aqua solid 1px"></div>

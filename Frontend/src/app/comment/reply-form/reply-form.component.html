@@ -1,8 +1,8 @@
 <form [formGroup]="replyForm" (ngSubmit)="onSubmit(replyForm.value)">
   <input type="file" name="image" (change)="onFileChange($event)" #image>
   <mat-form-field>
-    <input matInput type="text" placeholder="what do you think" name="content" formControlName="content">
+    <input matInput type="text" #replyInput placeholder="what do you think" name="content" formControlName="content">
   </mat-form-field>
-    <input type="number" name="parent_id" [value]="parentId" formControlName="parent_id">
+  <input type="hidden" name="parent_id" [value]="parentId" formControlName="parent_id">
   <button mat-button type="submit" [disabled]="replyForm.invalid">Comment</button>
 </form>

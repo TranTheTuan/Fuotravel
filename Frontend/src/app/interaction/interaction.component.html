@@ -1,24 +1,47 @@
-<div [hidden]="sentRequest">
-  <button mat-raised-button (click)="onSendRequest(planId)" color="primary">
+<div fxLayout="row" fxLayoutGap="5px">
+  <button mat-raised-button
+          [style.display]="!membership.includes(_PENDING) && !membership.includes(_MEMBER) ? '' : 'none'"
+          (click)="onSendRequest()" color="primary">
     <mat-icon>add</mat-icon>
     Send Request
   </button>
-</div>
-<div [hidden]="!sentRequest || joined">
-  <button mat-button color="primary" [hidden]="!sentRequest" [matMenuTriggerFor]="pendingMenu">
+
+  <button mat-raised-button color="primary"
+          [style.display]="membership.includes(_PENDING) ? '' : 'none'"
+          [matMenuTriggerFor]="pendingMenu">
     Pending
+    <mat-icon>more_vert</mat-icon>
   </button>
   <mat-menu #pendingMenu>
-    <button mat-menu-item>Cancel</button>
+    <button mat-menu-item (click)="onLeave()">Cancel</button>
   </mat-menu>
-</div>
-<div [hidden]="!joined">
-  <button mat-button color="primary" [matMenuTriggerFor]="joinedMenu">
+
+  <button mat-raised-button color="primary"
+          [style.display]="membership.includes(_MEMBER) ? '' : 'none'"
+          [matMenuTriggerFor]="joinedMenu">
     Joined
+    <mat-icon>more_vert</mat-icon>
   </button>
   <mat-menu #joinedMenu>
-    <button mat-menu-item>Unfollow</button>
-    <mat-divider></mat-divider>
-    <button mat-menu-item>Leave</button>
+    <button mat-menu-item (click)="onLeave()">Leave</button>
+  </mat-menu>
+
+  <button mat-raised-button
+          [style.display]="!membership.includes(_FOLLOWING) ? '' : 'none'"
+          (click)="onFollow()">
+    Follow
+  </button>
+
+  <button mat-raised-button color="primary"
+          [style.display]="membership.includes(_FOLLOWING) ? '' : 'none'"
+          [matMenuTriggerFor]="followMenu">
+    Following
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #followMenu>
+    <button mat-menu-item (click)="onUnfollow()">
+      Unfollow
+    </button>
   </mat-menu>
 </div>
+

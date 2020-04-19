@@ -1,7 +1,7 @@
 <form [formGroup]="commentForm" (ngSubmit)="onSubmit(commentForm.value)">
   <input type="file" (change)="onFileChange($event)" multiple="multiple">
-  <mat-form-field>
+  <mat-form-field class="w-100 p-3">
     <input matInput #imageInput type="text" placeholder="what do you think" name="content" formControlName="content">
   </mat-form-field>
-  <button mat-button type="submit" [disabled]="commentForm.invalid">Comment</button>
+  <button mat-raised-button type="submit" [disabled]="commentForm.invalid" color="primary">Comment</button>
 </form>

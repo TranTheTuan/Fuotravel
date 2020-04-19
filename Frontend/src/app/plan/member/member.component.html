@@ -2,27 +2,35 @@
 <ul>
   <li *ngFor="let member of members">
     {{ member.firstname }}
-    <button mat-icon-button [matMenuTriggerFor]="settingMenu">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-    <mat-menu #settingMenu="matMenu">
-      <button [matMenuTriggerFor]="promoteMenu" mat-menu-item>promote</button>
-      <mat-divider></mat-divider>
-      <button [matMenuTriggerFor]="dischargeMenu" mat-menu-item>discharge</button>
-      <mat-divider></mat-divider>
-      <button (click)="kick(member.id, planId)" mat-menu-item>kick</button>
-      <mat-divider></mat-divider>
-      <button (click)="ban(member.id, planId)" mat-menu-item>ban</button>
-    </mat-menu>
-    <mat-menu #promoteMenu="matMenu">
-      <button (click)="promote(member.id, planId, _ADMIN)" mat-menu-item>Admin</button>
-      <mat-divider></mat-divider>
-      <button (click)="promote(member.id, planId, _MODERATOR)" mat-menu-item>Moderator</button>
-    </mat-menu>
-    <mat-menu #dischargeMenu="matMenu">
-      <button (click)="discharge(member.id, planId, _ADMIN)" mat-menu-item>Admin</button>
-      <mat-divider></mat-divider>
-      <button (click)="discharge(member.id, planId, _MODERATOR)" mat-menu-item>Moderator</button>
-    </mat-menu>
+    <span [style.display]="membership.includes(_ADMIN) || membership.includes(_MODERATOR) ? '' : 'none'">
+      <button mat-icon-button [matMenuTriggerFor]="settingMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #settingMenu="matMenu">
+        <button [matMenuTriggerFor]="promoteMenu"
+                [style.display]="membership.includes(_ADMIN) ? '' : 'none'"
+                mat-menu-item>promote</button>
+        <mat-divider></mat-divider>
+        <button [matMenuTriggerFor]="dischargeMenu"
+                [style.display]="membership.includes(_ADMIN) ? '' : 'none'"
+                mat-menu-item>discharge</button>
+        <mat-divider></mat-divider>
+        <button (click)="onKick(member.id, planId)"
+                mat-menu-item>kick</button>
+        <mat-divider></mat-divider>
+        <button (click)="onBan(member.id, planId)"
+                mat-menu-item>ban</button>
+      </mat-menu>
+      <mat-menu #promoteMenu="matMenu">
+        <button (click)="onPromote(member.id, planId, _ADMIN)" mat-menu-item>Admin</button>
+        <mat-divider></mat-divider>
+        <button (click)="onPromote(member.id, planId, _MODERATOR)" mat-menu-item>Moderator</button>
+      </mat-menu>
+      <mat-menu #dischargeMenu="matMenu">
+        <button (click)="onDischarge(member.id, planId, _ADMIN)" mat-menu-item>Admin</button>
+        <mat-divider></mat-divider>
+        <button (click)="onDischarge(member.id, planId, _MODERATOR)" mat-menu-item>Moderator</button>
+      </mat-menu>
+    </span>
   </li>
 </ul>

@@ -1,9 +1,10 @@
 export const PLAN = 1;
 export const GROUP = 2;
 
+export const PENDING = 1;
+export const FOLLOWING = 2;
 export const MEMBER = 3;
-export const PENDING = 4;
-
+export const BANNED = 4;
 export const ADMIN = 5;
 export const MODERATOR = 6;
 

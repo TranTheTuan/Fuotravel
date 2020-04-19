@@ -5,7 +5,8 @@ import {Plan} from '../models';
 import {PLAN} from '../helpers';
 import {MatDialog} from '@angular/material';
 import {UpdatePlanComponent} from '../layouts/update-plan/update-plan.component';
-import {switchMap} from 'rxjs/operators';
+import {map, mergeMap, switchMap} from 'rxjs/operators';
+import {MemberService} from '../services/member.service';
 
 @Component({
   selector: 'app-plan',
@@ -13,30 +14,45 @@ import {switchMap} from 'rxjs/operators';
   styleUrls: ['./plan.component.css']
 })
 export class PlanComponent implements OnInit {
-  _PLAN = PLAN;
-  public links = [];
-  public plan: Plan;
+  tmpCover;
+  links = [
+    { path: 'discuss', label: 'Discuss' },
+    { path: 'requests', label: 'Requests' },
+    { path: 'members', label: 'Members' },
+    { path: 'posts', label: 'Memories' }
+  ];
+  plan: Plan;
+  currentUserId;
+  membership;
   constructor(
     private authService: AuthService,
     private planService: PlanService,
+    private memberService: MemberService,
     private router: Router,
     private route: ActivatedRoute,
     private matDialog: MatDialog
   ) {}
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('plan_id');
-    this.links = [
-      { path: 'discuss', label: 'Discuss' },
-      { path: 'requests', label: 'Requests' },
-      { path: 'members', label: 'Members' },
-      { path: 'posts', label: 'Memories' }
-      ];
+    this.currentUserId = this.authService.currentUserValue.token.user_id;
     const plan$ = this.route.paramMap.pipe(
       switchMap((paramMap: ParamMap) =>
         this.planService.getDetail(paramMap.get('plan_id'))
       )
     );
-    plan$.subscribe(res => this.plan = res.data);
+    plan$.subscribe(res => {
+      this.plan = res.data;
+      this.memberService.getMembership(this.plan.id);
+    });
+    this.memberService.getMembershipListener().subscribe(res => {
+      this.membership = res;
+    });
+    // plan$.pipe(
+    //   map(plan => this.plan = plan.data),
+    //   mergeMap(plan => this.memberService.getMembership(plan.id))
+    // ).subscribe(res => {
+    //   console.log(res);
+    //   this.membership = res.data;
+    // });
   }
   openDialog() {
     const dialogRef = this.matDialog.open(UpdatePlanComponent, {
@@ -46,8 +62,12 @@ export class PlanComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         for (const key of Object.keys(data)) {
-          if (data[key]) {
+          this.plan.cover = data.cover;
+          if (key !== 'cover' && data[key]) {
             this.plan[key] = data[key];
+          }
+          if (key === 'cover') {
+            this.tmpCover = data[key];
           }
         }
       }

@@ -3,16 +3,18 @@
 <ul>
   <li *ngFor="let requester of requesters">
     {{ requester.firstname }}
-    <button mat-icon-button [matMenuTriggerFor]="settingMenu">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-    <mat-menu #settingMenu="matMenu">
-      <button (click)="accept(requester.id, planId)" mat-menu-item>accept</button>
-      <mat-divider></mat-divider>
-      <button (click)="decline(requester.id, planId)" mat-menu-item>decline</button>
-      <mat-divider></mat-divider>
-      <button (click)="ban(requester.id, planId)" mat-menu-item>ban</button>
-    </mat-menu>
+    <span [style.display]="membership.includes(_ADMIN) || membership.includes(_MODERATOR) ? '' : 'none'">
+      <button mat-icon-button [matMenuTriggerFor]="settingMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #settingMenu="matMenu">
+        <button (click)="onAccept(requester.id, planId)" mat-menu-item>accept</button>
+        <mat-divider></mat-divider>
+        <button (click)="onDecline(requester.id, planId)" mat-menu-item>decline</button>
+        <mat-divider></mat-divider>
+        <button (click)="onBan(requester.id, planId)" mat-menu-item>ban</button>
+      </mat-menu>
+    </span>
   </li>
 </ul>
 

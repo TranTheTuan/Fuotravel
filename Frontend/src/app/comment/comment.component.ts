@@ -36,10 +36,11 @@ export class CommentComponent implements OnInit {
     //   this.commentableType = POST;
     //   this.commentService.getComments(this.planId, POST);
     // }
-    this.commentService.getComments(this.commentableId, this.commentableType);
-    this.commentService.getCommentsListener().subscribe((commentsList: Comment[]) => {
-      this.comments = commentsList;
-    });
+    this.getAll(this.commentableId, this.commentableType);
+    // this.commentService.getComments(this.commentableId, this.commentableType);
+    // this.commentService.getCommentsListener().subscribe((commentsList: Comment[]) => {
+    //   this.comments = commentsList;
+    // });
   }
   getAll(commentableId: any, commentable: any) {
     this.commentService.getAll(commentableId, commentable)

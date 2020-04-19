@@ -33,9 +33,18 @@ export class CommentFormComponent implements OnInit {
   ngOnInit(): void {
   }
   onSubmit(formValue: any) {
-    this.commentService.addComment(this.commentableId, this.commentableType, formValue);
-    this.commentFormDirective.resetForm();
-    this.imageInput.nativeElement.value = '';
+    this.commentService.createComment(this.commentableId, this.commentableType, formValue)
+      .subscribe(res => {
+        const newComment: Comment = res.data;
+        this.newCommentEvent.emit(newComment);
+        if (this.commentFormDirective) {
+          this.commentFormDirective.resetForm();
+          this.imageInput.nativeElement.value = '';
+        }
+      });
+    // this.commentService.addComment(this.commentableId, this.commentableType, formValue);
+    // this.commentFormDirective.resetForm();
+    // this.imageInput.nativeElement.value = '';
   }
   onFileChange(event) {
     const file = event.target.files[0];

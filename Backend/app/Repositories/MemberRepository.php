@@ -21,7 +21,10 @@ class MemberRepository extends AbstractRepository
 //        $memberable_type->members()->create(['user_id' => Auth::id()]);
 //        $memberable_type->members()->create(['user_id' => Auth::id(), 'status' => Member::FOLLOWING]);
         $plan->members()->create(['user_id' => Auth::id()]);
-        $plan->members()->create(['user_id' => Auth::id(), 'status' => Member::FOLLOWING]);
+        $is_following = $plan->members()->where('user_id', Auth::id())->where('status', Member::FOLLOWING)->first();
+        if (!$is_following) {
+            $plan->members()->create(['user_id' => Auth::id(), 'status' => Member::FOLLOWING]);
+        }
         return true;
     }
 
@@ -39,6 +42,15 @@ class MemberRepository extends AbstractRepository
 //        $memberable_type = $this->checkMemberableType($memberable_id, $memberable);
 //        $member_ids = $memberable_type->members->where('user_id', $user_id)->pluck('id');
         $member_ids = $plan->members->where('user_id', $user_id)->pluck('id');
+        Member::whereIn('id', $member_ids)->delete();
+        return true;
+    }
+
+    public function leave(Plan $plan)
+    {
+//        $memberable_type = $this->checkMemberableType($memberable_id, $memberable);
+//        $member_ids = $memberable_type->members->where('user_id', $user_id)->pluck('id');
+        $member_ids = $plan->members->where('user_id', Auth::id())->pluck('id');
         Member::whereIn('id', $member_ids)->delete();
         return true;
     }

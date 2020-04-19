@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import {Comment} from '../../models/comment';
 import {FormBuilder, FormGroupDirective, Validators} from '@angular/forms';
 import {PLAN} from '../../helpers';
@@ -17,11 +17,12 @@ export class ReplyFormComponent implements OnInit {
   @Input() commentableId;
   @Output() newReplyEvent = new EventEmitter<Comment>();
   @ViewChild(FormGroupDirective) replyFormDirective;
+  @ViewChild('replyInput') replyInput: ElementRef;
   preview = null;
   comments: Comment[];
   replyForm = this.fb.group({
     content: ['', [Validators.required]],
-    image: [null],
+    image: [''],
     parent_id: ['']
   });
   constructor(
@@ -36,11 +37,24 @@ export class ReplyFormComponent implements OnInit {
     });
   }
   onSubmit(formValue: any) {
-    this.commentService.addComment(this.commentableId, this.commentableType, formValue);
-    this.replyFormDirective.resetForm();
-    this.replyForm.patchValue({
-      parent_id: this.parentId
-    });
+    this.commentService.createComment(this.commentableId, this.commentableType, formValue)
+      .subscribe(res => {
+        const newComment: Comment = res.data;
+        newComment.parent_id = +res.data.parent_id;
+        this.newReplyEvent.emit(newComment);
+        if (this.replyFormDirective) {
+          this.replyFormDirective.resetForm();
+          this.replyForm.patchValue({
+            parent_id: this.parentId
+          });
+          this.replyInput.nativeElement.value = '';
+        }
+      });
+    // this.commentService.addComment(this.commentableId, this.commentableType, formValue);
+    // this.replyFormDirective.resetForm();
+    // this.replyForm.patchValue({
+    //   parent_id: this.parentId
+    // });
   }
   onFileChange(event) {
     const file: File = event.target.files[0];

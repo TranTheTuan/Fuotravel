@@ -1,5 +1,7 @@
-<app-comment-form [commentableType]="commentableType" [commentableId]="commentableId" (newCommentEvent)="addComment($event)"></app-comment-form>
-<ul>
+<div class="border-bottom p-2">
+  <app-comment-form [commentableType]="commentableType" [commentableId]="commentableId" (newCommentEvent)="addComment($event)"></app-comment-form>
+</div>
+<ul style="list-style: none">
   <li *ngFor="let comment of comments">
     <p>{{ comment.content }}</p>
     <div *ngIf="comment.image">
@@ -12,7 +14,7 @@
     <button (click)="vote(comment.id, _COMMENT, _DOWN)" mat-icon-button>
       <mat-icon>thumb_down</mat-icon>
     </button>
-    <ul *ngIf="comment.replies.length > 0">
+    <ul *ngIf="comment.replies.length > 0" style="list-style: none">
       <li *ngFor="let reply of comment.replies">
         <p>{{ reply.content }}</p>
         {{ reply.vote }}

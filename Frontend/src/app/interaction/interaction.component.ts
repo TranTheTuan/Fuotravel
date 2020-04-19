@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MemberService} from '../services/member.service';
+import {AuthService} from '../services';
+import {ADMIN, BANNED, FOLLOWING, MEMBER, MODERATOR, PENDING} from '../helpers';
 
 @Component({
   selector: 'app-interaction',
@@ -8,27 +10,30 @@ import {MemberService} from '../services/member.service';
 })
 export class InteractionComponent implements OnInit {
   @Input() planId;
-  sentRequest = false;
-  joined = false;
-  constructor(private memberService: MemberService) { }
+  @Input() membership: Array<number>;
+  readonly _PENDING = PENDING;
+  readonly _MEMBER = MEMBER;
+  readonly _FOLLOWING = FOLLOWING;
+  readonly _BANNED = BANNED;
+  readonly _ADMIN = ADMIN;
+  readonly _MODERATOR = MODERATOR;
+  constructor(
+    private authService: AuthService,
+    private memberService: MemberService
+  ) { }
 
   ngOnInit(): void {
   }
-  onSendRequest(planId: any) {
-    this.memberService.join(planId)
-      .subscribe(res => {
-        if (res.data) {
-          this.sentRequest = true;
-        }
-      });
+  onSendRequest() {
+    this.memberService.join(this.planId);
   }
-  onCancelRequest(planId: any) {
-    this.memberService.cancel(planId)
-      .subscribe(res => {
-        if (res.data) {
-          this.sentRequest = false;
-        }
-      });
+  onUnfollow() {
+    this.memberService.unfollow(this.planId);
   }
-
+  onFollow() {
+    this.memberService.follow(this.planId);
+  }
+  onLeave() {
+    this.memberService.leave(this.planId);
+  }
 }

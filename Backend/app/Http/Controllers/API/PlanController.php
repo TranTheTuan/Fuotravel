@@ -7,6 +7,7 @@ use App\Http\Controllers\ApiController;
 use App\Repositories\MemberRepository;
 use Illuminate\Http\Request;
 use App\Plan;
+use App\Member;
 use App\Repositories\PlanRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -46,7 +47,10 @@ class PlanController extends ApiController
             $data['cover'] = $this->imageService->uploadImage(self::UPLOAD_PATH, $request->file('cover'));
         }
 
-        return $this->sendResponse($this->planRepo->create($data));
+        $newPlan = $this->planRepo->create($data);
+        $newPlan->members()->create(['user_id' => Auth::id(), 'status' => Member::ADMIN]);
+
+        return $this->sendResponse($newPlan);
     }
 
     public function update(PlanRequest $request, $plan_id)

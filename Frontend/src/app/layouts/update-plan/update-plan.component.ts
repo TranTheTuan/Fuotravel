@@ -54,6 +54,9 @@ export class UpdatePlanComponent implements OnInit {
     formData.start_at = dateFormat(formData.start_at);
     formData.arrival_at = dateFormat(formData.arrival_at);
     this.planService.updatePlan(formData, this.planId).subscribe();
+    if (this.preview && this.preview !== '') {
+      formData.cover = this.preview;
+    }
     this.dialogRef.close(formData);
   }
   onFileChange(event) {

@@ -40,15 +40,17 @@ Route::middleware('auth:api')->group(function() {
     // });
 
     Route::prefix('members')->group(function () {
+        Route::get('membership/{plan_id}', 'API\MemberController@getMembership');
         Route::get('requesters/{plan_id}', 'API\MemberController@getRequesters');
         Route::get('joined/{plan_id}', 'API\MemberController@getMembers');
         Route::post('join/{plan_id}', 'API\MemberController@join');
         Route::post('follow/{plan_id}', 'API\MemberController@follow');
         Route::post('unfollow/{plan_id}', 'API\MemberController@unfollow');
-        Route::post('decline/{user_id}/{plan_id}', 'API\MemberController@decline');
+        Route::post('leave/{plan_id}', 'API\MemberController@leave');
         Route::prefix('admin')->group(function () {
             Route::post('kick/{user_id}/{plan_id}', 'API\MemberController@kick');
             Route::post('accept/{user_id}/{plan_id}', 'API\MemberController@accept');
+            Route::post('decline/{user_id}/{plan_id}', 'API\MemberController@decline');
             Route::post('ban/{user_id}/{plan_id}', 'API\MemberController@ban');
             Route::post('promote/{user_id}/{plan_id}/{role}', 'API\MemberController@appoint');
             Route::post('discharge/{user_id}/{plan_id}/{role}', 'API\MemberController@discharge');

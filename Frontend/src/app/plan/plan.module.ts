@@ -24,6 +24,9 @@ import {InteractionModule} from '../interaction/interaction.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import { MapComponent } from './map/map.component';
+import { HereMapComponent } from './here-map/here-map.component';
+import {FlexModule} from '@angular/flex-layout';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -31,28 +34,31 @@ import { MapComponent } from './map/map.component';
     RequestComponent,
     MemberComponent,
     MapComponent,
+    HereMapComponent,
   ],
-  imports: [
-    CommonModule,
-    PlanRoutingModule,
-    ToolbarModule,
-    PipesModule,
-    MatButtonModule,
-    MatTabsModule,
-    PostModule,
-    MatMenuModule,
-    MatIconModule,
-    MatSnackBarModule,
-    MatDividerModule,
-    CommentModule,
-    MatCardModule,
-    MatProgressBarModule,
-    MatFormFieldModule,
-    InteractionModule,
-    ReactiveFormsModule,
-    MatDatepickerModule,
-    MatInputModule,
-    LeafletModule.forRoot()
-  ],
+    imports: [
+        CommonModule,
+        PlanRoutingModule,
+        ToolbarModule,
+        PipesModule,
+        MatButtonModule,
+        MatTabsModule,
+        PostModule,
+        MatMenuModule,
+        MatIconModule,
+        MatSnackBarModule,
+        MatDividerModule,
+        CommentModule,
+        MatCardModule,
+        MatProgressBarModule,
+        MatFormFieldModule,
+        InteractionModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        MatInputModule,
+        LeafletModule.forRoot(),
+        FlexModule,
+        NgbModule
+    ],
 })
 export class PlanModule { }

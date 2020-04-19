@@ -9,20 +9,22 @@ import {ReactiveFormsModule} from '@angular/forms';
 import { CommentFormComponent } from './comment-form/comment-form.component';
 import { ReplyFormComponent } from './reply-form/reply-form.component';
 import {PipesModule} from '../pipes/pipes.module';
+import {MatListModule} from '@angular/material';
 
 
 
 @NgModule({
   declarations: [CommentComponent, CommentFormComponent, ReplyFormComponent],
-  imports: [
-    CommonModule,
-    MatIconModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    PipesModule
-  ],
+    imports: [
+        CommonModule,
+        MatIconModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        PipesModule,
+        MatListModule
+    ],
   exports: [CommentComponent]
 })
 export class CommentModule { }
