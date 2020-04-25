@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService, PlanService} from '../services';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {Plan} from '../models';
+import {Plan, User} from '../models';
 import {PLAN} from '../helpers';
 import {MatDialog} from '@angular/material';
 import {UpdatePlanComponent} from '../layouts/update-plan/update-plan.component';
@@ -22,7 +22,7 @@ export class PlanComponent implements OnInit {
     { path: 'posts', label: 'Memories' }
   ];
   plan: Plan;
-  currentUserId;
+  currentUser: User;
   membership;
   constructor(
     private authService: AuthService,
@@ -33,7 +33,7 @@ export class PlanComponent implements OnInit {
     private matDialog: MatDialog
   ) {}
   ngOnInit(): void {
-    this.currentUserId = this.authService.currentUserValue.token.user_id;
+    this.currentUser = this.authService.currentUserValue;
     const plan$ = this.route.paramMap.pipe(
       switchMap((paramMap: ParamMap) =>
         this.planService.getDetail(paramMap.get('plan_id'))
@@ -46,13 +46,6 @@ export class PlanComponent implements OnInit {
     this.memberService.getMembershipListener().subscribe(res => {
       this.membership = res;
     });
-    // plan$.pipe(
-    //   map(plan => this.plan = plan.data),
-    //   mergeMap(plan => this.memberService.getMembership(plan.id))
-    // ).subscribe(res => {
-    //   console.log(res);
-    //   this.membership = res.data;
-    // });
   }
   openDialog() {
     const dialogRef = this.matDialog.open(UpdatePlanComponent, {

@@ -5,6 +5,8 @@ import {PLAN} from '../../helpers';
 import {CommentService} from '../../services/comment.service';
 import {VoteService} from '../../services/vote.service';
 import {ActivatedRoute} from '@angular/router';
+import {User} from '../../models';
+import {AuthService} from '../../services';
 
 @Component({
   selector: 'app-reply-form',
@@ -20,6 +22,7 @@ export class ReplyFormComponent implements OnInit {
   @ViewChild('replyInput') replyInput: ElementRef;
   preview = null;
   comments: Comment[];
+  currentUser: User;
   replyForm = this.fb.group({
     content: ['', [Validators.required]],
     image: [''],
@@ -27,11 +30,13 @@ export class ReplyFormComponent implements OnInit {
   });
   constructor(
     private commentService: CommentService,
+    private authService: AuthService,
     private voteService: VoteService,
     private route: ActivatedRoute,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.currentUser = this.authService.currentUserValue;
     this.replyForm.patchValue({
       parent_id: this.parentId
     });

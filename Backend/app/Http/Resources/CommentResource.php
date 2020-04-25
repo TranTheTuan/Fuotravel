@@ -20,7 +20,8 @@ class CommentResource extends JsonResource
             'vote' => $this->vote,
             'replies' => $this->when(is_null($this->parent_id), CommentResource::collection($this->comments)),
             'parent_id' => $this->when($this->parent_id, $this->parent_id),
-            'image' => $this->image
+            'image' => $this->image,
+            'author' => new UserResource($this->user)
         ];
     }
 }

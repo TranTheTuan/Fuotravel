@@ -1,7 +1,32 @@
-<form [formGroup]="postForm" (ngSubmit)="onSubmit(postForm.value)">
-  <input type="file" name="images" (change)="onFileChange($event)" #image multiple>
-  <mat-form-field>
-    <input matInput type="text" placeholder="what do you think" name="content" formControlName="caption">
-  </mat-form-field>
-  <button mat-button type="submit" [disabled]="postForm.invalid">Comment</button>
+<form [formGroup]="postForm" (ngSubmit)="onSubmit(postForm.value)" class="d-flex flex-row bg-white p-2 rounded">
+<!--  <input type="file" name="images" (change)="onFileChange($event)" #image multiple>-->
+<!--  <mat-form-field>-->
+<!--    <input matInput type="text" placeholder="what do you think" name="content" formControlName="caption">-->
+<!--  </mat-form-field>-->
+<!--  <button mat-button type="submit" [disabled]="postForm.invalid">Comment</button>-->
+
+  <div class="d-flex flex-column mr-3">
+    <img [src]="currentUser.avatar | imageUrl" [alt]="currentUser.username" height="40px" width="40px">
+  </div>
+  <div class="d-flex flex-column flex-grow-1">
+    <div class="d-flex flex-row">
+      <div class="d-flex flex-column flex-grow-1 mr-3">
+        <input type="file" style="display: none" (change)="onFileChange($event)" multiple="multiple" #postImages>
+        <mat-form-field class="w-100 flex-fill">
+          <input matInput #imageInput type="text" placeholder="share your memory" name="content" formControlName="caption">
+          <button mat-button type="button" matSuffix mat-icon-button (click)="postImages.click()">
+            <mat-icon>add_photo_alternate</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="d-flex flex-column justify-content-center ml-auto">
+        <button mat-raised-button type="submit" [disabled]="postForm.invalid" color="primary">Post</button>
+      </div>
+    </div>
+    <div class="d-flex flex-row" *ngIf="previews">
+      <span *ngFor="let preview of previews" class="mr-1">
+        <img [src]="preview" alt="comment image preview" class="img-thumbnail" width="200" height="200">
+      </span>
+    </div>
+  </div>
 </form>

@@ -6,6 +6,8 @@ import {CommentService} from '../../services/comment.service';
 import {VoteService} from '../../services/vote.service';
 import {ActivatedRoute} from '@angular/router';
 import {toFormData} from '../../helpers/toFormData';
+import {AuthService} from '../../services';
+import {User} from '../../models';
 
 @Component({
   selector: 'app-comment-form',
@@ -20,17 +22,20 @@ export class CommentFormComponent implements OnInit {
   @ViewChild('imageInput') imageInput: ElementRef;
   preview = null;
   comments: Comment[];
+  currentUser: User;
   commentForm = this.fb.group({
     content: ['', [Validators.required]],
     image: ['']
   });
   constructor(
     private commentService: CommentService,
+    private authService: AuthService,
     private voteService: VoteService,
     private route: ActivatedRoute,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.currentUser = this.authService.currentUserValue;
   }
   onSubmit(formValue: any) {
     this.commentService.createComment(this.commentableId, this.commentableType, formValue)
@@ -52,10 +57,10 @@ export class CommentFormComponent implements OnInit {
       image: file
     });
     // this.commentForm.get('cover').updateValueAndValidity();
-    // const reader = new FileReader();
-    // reader.readAsDataURL(file);
-    // reader.onload = () => {
-    //   this.preview = reader.result as string;
-    // };
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.preview = reader.result as string;
+    };
   }
 }

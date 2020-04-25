@@ -27,20 +27,9 @@ export class CommentComponent implements OnInit {
     const currentPath = this.route.snapshot.url[0].path;
     if (currentPath === 'discuss') {
       this.commentableId = this.route.parent.snapshot.paramMap.get('plan_id');
-      // this.getAll(this.planId, PLAN);
       this.commentableType = PLAN;
-      // this.commentService.getComments(this.planId, PLAN);
     }
-    // if (this.postId) {
-    //   this.getAll(this.postId, POST);
-    //   this.commentableType = POST;
-    //   this.commentService.getComments(this.planId, POST);
-    // }
     this.getAll(this.commentableId, this.commentableType);
-    // this.commentService.getComments(this.commentableId, this.commentableType);
-    // this.commentService.getCommentsListener().subscribe((commentsList: Comment[]) => {
-    //   this.comments = commentsList;
-    // });
   }
   getAll(commentableId: any, commentable: any) {
     this.commentService.getAll(commentableId, commentable)

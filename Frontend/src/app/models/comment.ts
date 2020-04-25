@@ -1,3 +1,5 @@
+import {User} from './user';
+
 export class Comment {
   id: number;
   content: string;
@@ -6,4 +8,5 @@ export class Comment {
   image: string;
   // tslint:disable-next-line:variable-name
   parent_id?: number;
+  author: User;
 }

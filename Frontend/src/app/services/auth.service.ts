@@ -21,11 +21,11 @@ export class AuthService {
     this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
-  public get currentUserValue() {
+  get currentUserValue() {
     this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
     return this.currentUserSubject.value;
   }
-  public login(params: any): Observable<ApiResponse> {
+  login(params: any): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(this.APIS[1], params)
       .pipe(map(res => {
           if (res.data) {
@@ -35,7 +35,7 @@ export class AuthService {
           return res;
         }));
   }
-  public register(params: any): Observable<ApiResponse> {
+  register(params: any): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(this.APIS[2], toFormData(params))
       .pipe(map(res => {
         if (res.data) {

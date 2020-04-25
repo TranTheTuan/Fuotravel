@@ -1,8 +1,24 @@
-<form [formGroup]="replyForm" (ngSubmit)="onSubmit(replyForm.value)">
-  <input type="file" name="image" (change)="onFileChange($event)" #image>
-  <mat-form-field>
-    <input matInput type="text" #replyInput placeholder="what do you think" name="content" formControlName="content">
-  </mat-form-field>
-  <input type="hidden" name="parent_id" [value]="parentId" formControlName="parent_id">
-  <button mat-button type="submit" [disabled]="replyForm.invalid">Comment</button>
+<form [formGroup]="replyForm" (ngSubmit)="onSubmit(replyForm.value)" class="d-flex flex-row bg-white p-2 rounded">
+  <div class="d-flex flex-column mr-3">
+    <img [src]="currentUser.avatar | imageUrl" [alt]="currentUser.username" height="40px" width="40px">
+  </div>
+  <div class="d-flex flex-column flex-grow-1">
+    <div class="d-flex flex-row">
+      <div class="d-flex flex-column flex-grow-1 mr-3">
+        <input type="file" style="display: none" (change)="onFileChange($event)" multiple="multiple" #commentImage>
+        <mat-form-field class="w-100 flex-fill">
+          <input matInput #replyInput type="text" placeholder="what do you think" name="content" formControlName="content">
+          <button mat-button type="button" matSuffix mat-icon-button (click)="commentImage.click()">
+            <mat-icon>add_photo_alternate</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="d-flex flex-column justify-content-center ml-auto">
+        <button mat-raised-button type="submit" [disabled]="replyForm.invalid">Reply</button>
+      </div>
+    </div>
+    <div class="d-flex flex-row">
+      <img *ngIf="preview !== null" [src]="preview" alt="comment image preview" class="img-thumbnail" width="200" height="200">
+    </div>
+  </div>
 </form>

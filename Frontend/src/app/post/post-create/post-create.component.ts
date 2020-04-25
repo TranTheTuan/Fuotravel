@@ -3,6 +3,8 @@ import {FormBuilder, FormGroupDirective, Validators} from '@angular/forms';
 import {PostService} from '../../services/post.service';
 import {Comment} from '../../models/comment';
 import {Post} from '../../models/post';
+import {User} from '../../models';
+import {AuthService} from '../../services';
 
 @Component({
   selector: 'app-post-create',
@@ -12,16 +14,19 @@ import {Post} from '../../models/post';
 export class PostCreateComponent implements OnInit {
   @Input() planId;
   @ViewChild(FormGroupDirective) postFormDirective;
-  preview;
+  previews = [];
+  currentUser: User;
   postForm = this.fb.group({
     caption: ['', [Validators.required]],
     images: ['']
   });
   constructor(private fb: FormBuilder,
+              private authService: AuthService,
               private postService: PostService
   ) { }
 
   ngOnInit(): void {
+    this.currentUser = this.authService.currentUserValue;
   }
   onSubmit(formValue: any) {
     this.postService.addPost(this.planId, formValue);
@@ -31,7 +36,15 @@ export class PostCreateComponent implements OnInit {
     this.postForm.patchValue({
       images: files
     });
+    this.previews.splice(0, this.previews.length);
     // this.createPlanForm.get('cover').updateValueAndValidity();
+    for (const file of files) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.previews.push(reader.result as string);
+      };
+    }
   }
 
 }

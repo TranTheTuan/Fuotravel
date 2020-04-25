@@ -1,31 +1,65 @@
-<div class="border-bottom p-2">
-  <app-comment-form [commentableType]="commentableType" [commentableId]="commentableId" (newCommentEvent)="addComment($event)"></app-comment-form>
+<div class="border mb-3">
+  <app-comment-form [commentableType]="commentableType"
+                    [commentableId]="commentableId"
+                    (newCommentEvent)="addComment($event)">
+  </app-comment-form>
 </div>
-<ul style="list-style: none">
-  <li *ngFor="let comment of comments">
-    <p>{{ comment.content }}</p>
-    <div *ngIf="comment.image">
-      <img src="{{ comment.image | imageUrl }}" height="200" width="200" alt="comment-image">
+<ul>
+  <li *ngFor="let comment of comments" class="mt-3">
+    <div class="d-flex flex-row">
+      <div class="d-flex flex-column mr-2">
+        <img [src]="comment.author.avatar | imageUrl" [alt]="comment.author.username" height="40px" width="40px">
+      </div>
+      <div class="d-flex flex-column w-100">
+        <a href="#">{{ comment.author.username }}</a>
+        <p>{{ comment.content }}</p>
+        <div *ngIf="comment.image">
+          <img src="{{ comment.image | imageUrl }}" class="rounded" height="auto" width="50%" alt="comment-image">
+        </div>
+        <span>
+          {{ comment.vote }}
+          <button (click)="vote(comment.id, _COMMENT, _UP)" mat-icon-button>
+            <mat-icon>thumb_up</mat-icon>
+          </button>
+          <button (click)="vote(comment.id, _COMMENT, _DOWN)" mat-icon-button>
+            <mat-icon>thumb_down</mat-icon>
+          </button>
+          <button mat-button>Reply</button>
+        </span>
+        <ul *ngIf="comment.replies.length > 0" class="mt-2">
+          <li *ngFor="let reply of comment.replies">
+            <div class="d-flex flex-row">
+              <div class="d-flex flex-column mr-2">
+                <img [src]="reply.author.avatar | imageUrl" [alt]="comment.author.username" height="40px" width="40px">
+              </div>
+              <div class="d-flex flex-column w-100">
+                <a href="#">{{ reply.author.username }}</a>
+                <p>{{ reply.content }}</p>
+                <span *ngIf="reply.image">
+                  <img src="{{ reply.image | imageUrl }}" class="rounded" height="auto" width="50%" alt="comment-image">
+                </span>
+                <span>
+                  {{ reply.vote }}
+                  <button (click)="vote(reply.id, _COMMENT, _UP)" mat-icon-button>
+                    <mat-icon>thumb_up</mat-icon>
+                  </button>
+                  <button (click)="vote(reply.id, _COMMENT, _DOWN)" mat-icon-button>
+                    <mat-icon>thumb_down</mat-icon>
+                  </button>
+                  <button mat-button>Reply</button>
+                </span>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div class="border">
+          <app-reply-form [parentId]="comment.id"
+                          [commentableType]="commentableType"
+                          [commentableId]="commentableId"
+                          (newReplyEvent)="addReply($event)">
+          </app-reply-form>
+        </div>
+      </div>
     </div>
-    {{ comment.vote }}
-    <button (click)="vote(comment.id, _COMMENT, _UP)" mat-icon-button>
-      <mat-icon>thumb_up</mat-icon>
-    </button>
-    <button (click)="vote(comment.id, _COMMENT, _DOWN)" mat-icon-button>
-      <mat-icon>thumb_down</mat-icon>
-    </button>
-    <ul *ngIf="comment.replies.length > 0" style="list-style: none">
-      <li *ngFor="let reply of comment.replies">
-        <p>{{ reply.content }}</p>
-        {{ reply.vote }}
-        <button (click)="vote(reply.id, _COMMENT, _UP)" mat-icon-button>
-          <mat-icon>thumb_up</mat-icon>
-        </button>
-        <button (click)="vote(reply.id, _COMMENT, _DOWN)" mat-icon-button>
-          <mat-icon>thumb_down</mat-icon>
-        </button>
-      </li>
-    </ul>
-    <app-reply-form [parentId]="comment.id" [commentableType]="commentableType" [commentableId]="commentableId" (newReplyEvent)="addReply($event)"></app-reply-form>
   </li>
 </ul>

@@ -10,6 +10,7 @@ import { CommentFormComponent } from './comment-form/comment-form.component';
 import { ReplyFormComponent } from './reply-form/reply-form.component';
 import {PipesModule} from '../pipes/pipes.module';
 import {MatListModule} from '@angular/material';
+import {NgImageSliderModule} from 'ng-image-slider';
 
 
 
@@ -23,7 +24,8 @@ import {MatListModule} from '@angular/material';
         MatInputModule,
         ReactiveFormsModule,
         PipesModule,
-        MatListModule
+        MatListModule,
+        NgImageSliderModule
     ],
   exports: [CommentComponent]
 })

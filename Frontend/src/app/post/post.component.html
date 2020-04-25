@@ -1,5 +1,6 @@
-<p>Memories</p>
-<app-post-create [planId]="planId"></app-post-create>
+<div class="border mb-3">
+  <app-post-create [planId]="planId"></app-post-create>
+</div>
 <div *ngFor="let post of posts">
   <mat-card class="example-card">
     <mat-card-header>
@@ -12,7 +13,6 @@
     </mat-card-content>
     <div *ngIf="post.images.length > 0">
       <ng-image-slider [images]="post.images | imageObject"
-                       [imageSize]="{width: '100%', height: '50%', space: 3}"
                        [showArrow]="post.images.length > 1"></ng-image-slider>
     </div>
     <mat-divider></mat-divider>

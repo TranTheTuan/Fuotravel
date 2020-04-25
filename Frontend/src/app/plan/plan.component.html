@@ -10,8 +10,8 @@
     </ng-template>
   </div>
   <div fxLayout="row" fxLayoutAlign="space-between" class="mt-3">
-    <app-interaction *ngIf="currentUserId !== plan.user_id" [planId]="plan.id" [membership]="membership"></app-interaction>
-    <button mat-raised-button *ngIf="currentUserId === plan.user_id" (click)="openDialog()">Edit</button>
+    <app-interaction *ngIf="currentUser.id !== plan.user_id" [planId]="plan.id" [membership]="membership"></app-interaction>
+    <button mat-raised-button *ngIf="currentUser.id === plan.user_id" (click)="openDialog()">Edit</button>
   </div>
   <div class="container-sm mt-3">
     <h3>{{ plan.title }}</h3>
