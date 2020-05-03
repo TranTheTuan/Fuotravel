@@ -18,47 +18,45 @@ import {
   MatIconModule,
   MatMenuModule,
   MatTabsModule,
-  MatFormFieldModule, MatDatepickerModule, MatInputModule,
+  MatFormFieldModule, MatDatepickerModule, MatInputModule, MatAutocompleteModule, MatProgressSpinnerModule,
 } from '@angular/material';
 import {InteractionModule} from '../interaction/interaction.module';
 import {ReactiveFormsModule} from '@angular/forms';
-import {LeafletModule} from '@asymmetrik/ngx-leaflet';
-import { MapComponent } from './map/map.component';
 import { HereMapComponent } from './here-map/here-map.component';
 import {FlexModule} from '@angular/flex-layout';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { WaypointComponent } from './waypoint/waypoint.component';
 
 @NgModule({
   declarations: [
     PlanComponent,
     RequestComponent,
     MemberComponent,
-    MapComponent,
     HereMapComponent,
+    WaypointComponent,
   ],
-    imports: [
-        CommonModule,
-        PlanRoutingModule,
-        ToolbarModule,
-        PipesModule,
-        MatButtonModule,
-        MatTabsModule,
-        PostModule,
-        MatMenuModule,
-        MatIconModule,
-        MatSnackBarModule,
-        MatDividerModule,
-        CommentModule,
-        MatCardModule,
-        MatProgressBarModule,
-        MatFormFieldModule,
-        InteractionModule,
-        ReactiveFormsModule,
-        MatDatepickerModule,
-        MatInputModule,
-        LeafletModule.forRoot(),
-        FlexModule,
-        NgbModule
-    ],
+  imports: [
+    CommonModule,
+    PlanRoutingModule,
+    ToolbarModule,
+    PipesModule,
+    MatButtonModule,
+    MatTabsModule,
+    PostModule,
+    MatMenuModule,
+    MatIconModule,
+    MatSnackBarModule,
+    MatDividerModule,
+    CommentModule,
+    MatCardModule,
+    MatProgressBarModule,
+    MatFormFieldModule,
+    InteractionModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatInputModule,
+    FlexModule,
+    MatAutocompleteModule,
+    MatProgressSpinnerModule,
+  ],
 })
 export class PlanModule { }

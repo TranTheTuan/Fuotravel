@@ -1,20 +1,36 @@
-<p>Users wanna join this plan</p>
-<button mat-button (click)="saveme()">save me</button>
-<ul>
-  <li *ngFor="let requester of requesters">
-    {{ requester.firstname }}
-    <span [style.display]="membership.includes(_ADMIN) || membership.includes(_MODERATOR) ? '' : 'none'">
-      <button mat-icon-button [matMenuTriggerFor]="settingMenu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #settingMenu="matMenu">
-        <button (click)="onAccept(requester.id, planId)" mat-menu-item>accept</button>
-        <mat-divider></mat-divider>
-        <button (click)="onDecline(requester.id, planId)" mat-menu-item>decline</button>
-        <mat-divider></mat-divider>
-        <button (click)="onBan(requester.id, planId)" mat-menu-item>ban</button>
-      </mat-menu>
-    </span>
-  </li>
-</ul>
+<h3>Join Requests</h3>
+<mat-divider class="my-3"></mat-divider>
+<!--<button mat-button (click)="saveme()">save me</button>-->
+<div *ngIf="requesters; then requestsList else emptyList"></div>
+<ng-template #requestsList>
+  <ul class="list-unstyled card-columns">
+    <li *ngFor="let requester of requesters" class="border rounded bg-white p-1">
+      <div class="d-flex flex-row">
+        <div class="d-flex flex-column mr-4">
+          <img [src]="requester.avatar | imageUrl" [alt]="requester.username" height="100px" width="100px">
+        </div>
+        <div class="d-flex flex-column">
+          {{ requester.firstname }} {{ requester.lastname }}
+        </div>
+        <div class="d-flex flex-column ml-auto">
+        <span [style.display]="membership.includes(_ADMIN) || membership.includes(_MODERATOR) ? '' : 'none'">
+          <button mat-icon-button [matMenuTriggerFor]="settingMenu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #settingMenu="matMenu">
+            <button (click)="onAccept(requester.id, planId)" mat-menu-item>accept</button>
+            <mat-divider></mat-divider>
+            <button (click)="onDecline(requester.id, planId)" mat-menu-item>decline</button>
+            <mat-divider></mat-divider>
+            <button (click)="onBan(requester.id, planId)" mat-menu-item>ban</button>
+          </mat-menu>
+        </span>
+        </div>
+      </div>
+    </li>
+  </ul>
+</ng-template>
+<ng-template #emptyList>
+  <p>This plan has no join requests</p>
+</ng-template>
 

@@ -3,6 +3,14 @@
   <mat-label>search locations</mat-label>
   <input matInput [formControl]="searchControl">
 </mat-form-field>
+<button mat-raised-button (click)="find()">find</button>
 <button mat-raised-button (click)="search()">search</button>
 <button mat-raised-button (click)="getRoute()">route</button>
-<div #hereMap style="height: 450px; width: 60%; margin: auto; border: aqua solid 1px"></div>
+<div class="row">
+  <div class="col-md-4">
+    <app-waypoint></app-waypoint>
+  </div>
+  <div class="col-md-8" style="height: 500px;">
+    <div #hereMap class="border border-primary h-100"></div>
+  </div>
+</div>

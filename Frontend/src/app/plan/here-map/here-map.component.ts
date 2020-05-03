@@ -2,7 +2,9 @@ import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/
 import {environment} from '../../../environments/environment';
 import {FormControl} from '@angular/forms';
 import {HereMapFunction} from '../../helpers/map-functions';
-import {mark} from '@angular/compiler-cli/src/ngtsc/perf/src/clock';
+import {HereMapService} from '../../services/here-map.service';
+import {debounceTime} from 'rxjs/operators';
+import {Coordinate} from '../../models/coordinate';
 
 declare let H: any;
 @Component({
@@ -28,11 +30,13 @@ export class HereMapComponent implements OnInit, AfterViewInit {
     waypoint1: 'geo!20.53333,105.96667',
     representation: 'display'
   };
-  constructor() { }
+  constructor(
+    private hereMapService: HereMapService
+  ) { }
 
   ngOnInit(): void {
     this.platform = new H.service.Platform({
-      apikey: environment.apiMap
+      apikey: environment.apiMapJS
     });
     this.searchService = this.platform.getSearchService();
     this.routingService = this.platform.getRoutingService();
@@ -52,6 +56,16 @@ export class HereMapComponent implements OnInit, AfterViewInit {
     const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
     this.ui = new H.ui.UI.createDefault(this.map, defaultLayers);
     this.hereMapFunction = new HereMapFunction(this.map, behavior, this.ui);
+  }
+  find() {
+    const query = this.searchControl.value;
+    const coordinates: Coordinate = {
+      latitude: '21.028511',
+      longitude: '105.804817'
+    };
+    this.hereMapService.getDiscover(query, coordinates).subscribe(res => {
+      console.log(res);
+    });
   }
   getRoute() {
     this.routingService.calculateRoute(this.routingParams, this.onResult, error => {

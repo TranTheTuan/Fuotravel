@@ -20,7 +20,8 @@ export class PlanService {
     1: environment.apiURL + '/plans',
     2: environment.apiURL + '/plans/{plan_id}',
     3: environment.apiURL + '/plans/create',
-    4: environment.apiURL + '/plans/update/{plan_id}'
+    4: environment.apiURL + '/plans/update/{plan_id}',
+    5: environment.apiURL + '/plans/{plan_id}/waypoints'
   };
   constructor(private http: HttpClient) { }
   getAll(): Observable<ApiResponse> {
@@ -51,5 +52,9 @@ export class PlanService {
       .pipe(map(res => {
         return res;
       }));
+  }
+  updateWaypoints(data: any, planId: any): Observable<ApiResponse> {
+    const apiUrl = this.APIS[5].replace('{plan_id}', planId);
+    return this.http.post<ApiResponse>(apiUrl, data);
   }
 }

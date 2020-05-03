@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStagesTable extends Migration
+class CreateWaypointsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,16 @@ class CreateStagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('stages', function (Blueprint $table) {
+        Schema::create('waypoints', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('start_point');
-            $table->double('start_lng');
-            $table->double('start_lat');
-            $table->dateTime('start_time');
-            $table->string('arrival_point');
-            $table->double('arrival_lng');
-            $table->double('arrival_lat');
-            $table->dateTime('arrival_time');
+            $table->string('name');
+            $table->string('latitude');
+            $table->string('longitude');
             $table->string('vehicle')->nullable();
             $table->string('activity')->nullable();
             $table->integer('order');
+            $table->date('arrival_at')->nullable();
+            $table->date('leave_at')->nullable();
             $table->unsignedBigInteger('plan_id');
             $table->timestamps();
         });
@@ -38,6 +35,6 @@ class CreateStagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('routes');
+        Schema::dropIfExists('waypoints');
     }
 }

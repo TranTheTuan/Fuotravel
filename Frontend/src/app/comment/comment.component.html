@@ -1,4 +1,4 @@
-<div class="border mb-3">
+<div class="border mb-3 bg-white p-2 rounded">
   <app-comment-form [commentableType]="commentableType"
                     [commentableId]="commentableId"
                     (newCommentEvent)="addComment($event)">
@@ -52,7 +52,7 @@
             </div>
           </li>
         </ul>
-        <div class="border">
+        <div class="border bg-white p-2 rounded">
           <app-reply-form [parentId]="comment.id"
                           [commentableType]="commentableType"
                           [commentableId]="commentableId"

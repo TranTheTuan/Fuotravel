@@ -29,6 +29,16 @@ Route::middleware('auth:api')->group(function() {
         Route::delete('delete/{plan_id}', 'API\PlanController@delete');
         Route::put('update/status/{plan_id}', 'API\PlanController@updateStatus');
         Route::put('cancel/{plan_id}', 'API\PlanController@cancel');
+        Route::post('{plan_id}/waypoints', 'Api\WaypointController');
+    });
+
+    Route::prefix('here-map')->group(function() {
+        Route::prefix('search')->group(function() {
+            Route::get('discover/{lat}/{lng}/{query}/{limit}', 'API\HereMapController@discover');
+            Route::get('geocode/{query}', 'API\HereMapController@geocode');
+            Route::get('revgeocode/{lat}/{lng}', 'API\HereMapController@revgeocode');
+            Route::get('auto-suggest/{lat}/{lng}/{query}/{limit}', 'API\HereMapController@autosuggest');
+        });
     });
 
     // Route::prefix('groups')->group(function () {
@@ -101,18 +111,4 @@ Route::middleware('auth:api')->group(function() {
             Route::get('/', 'API\UserController@getFriends');
         });
     });
-});
-
-Route::post('upload', function(Request $request) {
-    $uploaded = $request->files;
-    $is = new App\Services\ImageService();
-    foreach($uploaded as $file) {
-        $is->uploadImage('uploads/demo', $file);
-    }
-    $message = ['message' => 'yes'];
-    return response()->json($message);
-});
-
-Route::get('/draft', function() {
-    event(new BroadcastDemo('hi'));
 });
