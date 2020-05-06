@@ -5,6 +5,7 @@ import {HereMapFunction} from '../../helpers/map-functions';
 import {HereMapService} from '../../services/here-map.service';
 import {debounceTime} from 'rxjs/operators';
 import {Coordinate} from '../../models/coordinate';
+import {Waypoint} from '../../helpers/waypoint';
 
 declare let H: any;
 @Component({
@@ -21,15 +22,9 @@ export class HereMapComponent implements OnInit, AfterViewInit {
   private ui;
   private searchService;
   private routingService;
-  currentLat = 37.532600;
-  currentLng = 127.024612;
+  currentLat = 21.028511;
+  currentLng = 105.804817;
   searchControl = new FormControl();
-  routingParams = {
-    mode: 'fastest;car',
-    waypoint0: 'geo!21.028511,105.804817',
-    waypoint1: 'geo!20.53333,105.96667',
-    representation: 'display'
-  };
   constructor(
     private hereMapService: HereMapService
   ) { }
@@ -40,7 +35,7 @@ export class HereMapComponent implements OnInit, AfterViewInit {
     });
     this.searchService = this.platform.getSearchService();
     this.routingService = this.platform.getRoutingService();
-    this.getRoute();
+    // this.getRoute();
   }
   ngAfterViewInit() {
     const defaultLayers = this.platform.createDefaultLayers();
@@ -48,7 +43,7 @@ export class HereMapComponent implements OnInit, AfterViewInit {
       this.hereRef.nativeElement,
       defaultLayers.vector.normal.map,
       {
-        zoom: 10,
+        zoom: 14,
         center: {lat: this.currentLat, lng: this.currentLng}
       }
     );
@@ -67,10 +62,24 @@ export class HereMapComponent implements OnInit, AfterViewInit {
       console.log(res);
     });
   }
-  getRoute() {
-    this.routingService.calculateRoute(this.routingParams, this.onResult, error => {
-      alert(error.message);
-    });
+  onChoseWaypoint(chosenWaypoints: Array<Waypoint>) {
+    this.map.removeObjects(this.map.getObjects());
+    console.log(chosenWaypoints);
+    chosenWaypoints.sort((a, b) => a.order > b.order ? 1 : -1);
+    if (chosenWaypoints.length > 1) {
+      for (let i = 0; i < chosenWaypoints.length - 1; i++) {
+        // console.log(chosenWaypoints[i].position);
+        const routingParams = {
+          mode: 'fastest;car',
+          waypoint0: 'geo!' + chosenWaypoints[i].lat + ',' + chosenWaypoints[i].lng,
+          waypoint1: 'geo!' + chosenWaypoints[i + 1].lat + ',' + chosenWaypoints[i + 1].lng,
+          representation: 'display'
+        };
+        this.routingService.calculateRoute(routingParams, this.onResult, error => {
+          alert(error.message);
+        });
+      }
+    }
   }
   getCurrentLocation() {
     if (navigator.geolocation) {

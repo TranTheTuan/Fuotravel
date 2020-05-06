@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormArray, FormBuilder, Validators} from '@angular/forms';
 import {PlanService} from '../../services';
 import {ActivatedRoute} from '@angular/router';
-import {debounceTime, distinctUntilChanged, filter, finalize, switchMap, tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, finalize, map, switchMap, tap} from 'rxjs/operators';
 import {HereMapService} from '../../services/here-map.service';
+import {Coordinate} from '../../models/coordinate';
+import {Waypoint} from '../../helpers/waypoint';
 
 @Component({
   selector: 'app-waypoint',
@@ -15,8 +17,9 @@ export class WaypointComponent implements OnInit {
     waypoints: this.formBuilder.array([this.createWaypoint()])
   });
   planId;
-  currentLat = 21.028511;
-  currentLng = 105.804817;
+  chosenWaypoints: Array<Waypoint> = [];
+  @Output() choseWaypoint = new EventEmitter<Array<any>>();
+  currentCoordinate = new Coordinate('21.028511', '105.804817');
   suggestLocations;
   isSearching = false;
   constructor(
@@ -33,8 +36,10 @@ export class WaypointComponent implements OnInit {
   getCurrentLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
-        this.currentLat = position.coords.latitude;
-        this.currentLng = position.coords.longitude;
+        this.currentCoordinate.latitude = position.coords.latitude.toString();
+        this.currentCoordinate.longitude = position.coords.longitude.toString();
+        // this.currentLat = position.coords.latitude;
+        // this.currentLng = position.coords.longitude;
       });
     }
   }
@@ -56,31 +61,45 @@ export class WaypointComponent implements OnInit {
         filter(val => val.length > 2),
         debounceTime(500),
         distinctUntilChanged(),
-        tap(dat => {
-          console.log(dat);
-        }),
-        switchMap(data => this.hereMapService.getGeocode(data))
+        tap(() => this.isSearching = true),
+        switchMap(input => this.hereMapService.getAutoSuggest(input, this.currentCoordinate)
+          .pipe(
+            finalize(() => this.isSearching = false)
+          ))
       ).subscribe(res => {
-        console.log(res);
+        // @ts-ignore
         this.suggestLocations = res.items;
-        // formGroup.patchValue({
-        //   // @ts-ignore
-        //   name: res.items[0].title
-        // });
+        console.log(this.suggestLocations);
       });
     return formGroup;
   }
-  onChooseLocation(i: any, location: any) {
+  onChooseWaypoint(i: number, waypoint: any) {
     this.waypoints.at(i).patchValue({
-      latitude: location.position.lat,
-      longitude: location.position.lng,
+      latitude: waypoint.position.lat,
+      longitude: waypoint.position.lng,
       order: i
     });
+    const newWaypoint = new Waypoint(
+      waypoint.address.label, i,
+      waypoint.position.lat,
+      waypoint.position.lng);
+    const existingIndex = this.chosenWaypoints.findIndex(item => item.order === i);
+    if (existingIndex !== -1) {
+      this.chosenWaypoints[existingIndex] = newWaypoint;
+    } else {
+      this.chosenWaypoints.push(newWaypoint);
+    }
+    this.choseWaypoint.emit(this.chosenWaypoints);
   }
   addWaypoint() {
     this.waypoints.push(this.createWaypoint());
   }
-  removeWaypoint(i: any) {
+  removeWaypoint(i: number) {
+    if (this.waypoints.at(i).get('name').value) {
+      const wpIndex = this.chosenWaypoints.findIndex(item => item.order === i);
+      this.chosenWaypoints.splice(wpIndex, 1);
+      this.choseWaypoint.emit(this.chosenWaypoints);
+    }
     this.waypoints.removeAt(i);
   }
   onSubmit() {

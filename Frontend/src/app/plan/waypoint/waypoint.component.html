@@ -7,10 +7,14 @@
             <mat-label>Name</mat-label>
             <input matInput formControlName="name" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let item of suggestLocations" [value]="item.title" (click)="onChooseLocation(i, item)">
-                <mat-spinner *ngIf="isSearching" diameter="24"></mat-spinner>
-                {{ item.title }}
+              <mat-option *ngIf="isSearching">
+                <mat-spinner diameter="24"></mat-spinner>
               </mat-option>
+              <ng-container *ngIf="!isSearching">
+                <mat-option *ngFor="let item of suggestLocations" [value]="item.address.label" (click)="onChooseWaypoint(i, item)">
+                  <small>{{ item.address.label }}</small>
+                </mat-option>
+              </ng-container>
             </mat-autocomplete>
           </mat-form-field>
         </div>

@@ -5,10 +5,9 @@
 </mat-form-field>
 <button mat-raised-button (click)="find()">find</button>
 <button mat-raised-button (click)="search()">search</button>
-<button mat-raised-button (click)="getRoute()">route</button>
 <div class="row">
   <div class="col-md-4">
-    <app-waypoint></app-waypoint>
+    <app-waypoint (choseWaypoint)="onChoseWaypoint($event)"></app-waypoint>
   </div>
   <div class="col-md-8" style="height: 500px;">
     <div #hereMap class="border border-primary h-100"></div>
