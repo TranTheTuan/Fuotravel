@@ -27,9 +27,9 @@ class PlanController extends ApiController
         $this->imageService = $imageService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return $this->sendResponse($this->planRepo->all());
+        return $this->sendResponse($this->planRepo->filter($request->all()));
     }
 
     public function show($plan_id)

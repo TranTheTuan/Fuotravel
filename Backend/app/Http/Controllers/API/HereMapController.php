@@ -21,24 +21,24 @@ class HereMapController extends ApiController
         ]]);
     }
 
-    public function geocode($query)
+    public function geocode(Request $request)
     {
+        $data = $request->all();
         $client = new Client(['base_uri' => 'https://geocode.search.hereapi.com/v1/']);
-        $data = $client->get('geocode', ['query' => [
-            'q' => $query,
+        return $client->get('geocode', ['query' => [
+            'q' => $data['query'],
             'apiKey' => config('services.here.key')
         ]]);
-        return $data;
     }
 
-    public function revgeocode($lat, $lng)
+    public function revgeocode(Request $request)
     {
+        $data = $request->all();
         $client = new Client(['base_uri' => 'https://revgeocode.search.hereapi.com/v1/']);
-        $data = $client->get('revgeocode', ['query' => [
-            'at' => "$lat,$lng",
+        return $client->get('revgeocode', ['query' => [
+            'at' => $data['lat'].','.$data['lng'],
             'apiKey' => config('services.here.key')
         ]]);
-        return $data;
     }
 
     public function autosuggest(Request $request)
@@ -49,7 +49,6 @@ class HereMapController extends ApiController
             'at' => $data['lat'].','.$data['lng'],
             'q' => $data['query'],
             'limit' => $data['limit'],
-            'resultTypes' => $data['type'],
             'apiKey' => config('services.here.key')
         ]]);
     }

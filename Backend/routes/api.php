@@ -35,8 +35,8 @@ Route::middleware('auth:api')->group(function() {
     Route::prefix('here-map')->group(function() {
         Route::prefix('search')->group(function() {
             Route::get('discover', 'API\HereMapController@discover');
-            Route::get('geocode/{query}', 'API\HereMapController@geocode');
-            Route::get('revgeocode/{lat}/{lng}', 'API\HereMapController@revgeocode');
+            Route::get('geocode', 'API\HereMapController@geocode');
+            Route::get('revgeocode', 'API\HereMapController@revgeocode');
             Route::get('auto-suggest', 'API\HereMapController@autosuggest');
         });
     });
