@@ -1,6 +1,24 @@
 <mat-toolbar color="primary">
   <span><a [routerLink]="['/']" class="title">Fuotravel</a></span>
   <span class="fill-space"></span>
+  <mat-form-field appearance="standard" class="w-25 form-field">
+    <mat-label>Search for a plan</mat-label>
+    <input matInput
+           placeholder="search"
+           [formControl]="searchControl"
+           [matAutocomplete]="auto">
+    <mat-icon matSuffix>search</mat-icon>
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="onDisplayValue.bind(this)">
+      <mat-option *ngIf="isSearching">
+        <mat-spinner diameter="24"></mat-spinner>
+      </mat-option>
+      <ng-container *ngIf="!isSearching">
+        <mat-option *ngFor="let plan of suggestPlans" [value]="plan.id" (click)="onSuggestionClick(plan.id)">
+          {{ plan.title }}
+        </mat-option>
+      </ng-container>
+    </mat-autocomplete>
+  </mat-form-field>
   <span><button mat-button (click)="openDialog()">New Plan</button></span>
   <span><button mat-button (click)="logout()" color="accent">logout</button></span>
 </mat-toolbar>
