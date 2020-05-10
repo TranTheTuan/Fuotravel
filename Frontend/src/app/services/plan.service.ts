@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable, Subject} from 'rxjs';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {ApiResponse, Plan} from '../models';
 import {catchError, map} from 'rxjs/operators';
 import {toFormData} from '../helpers/toFormData';
+import {Waypoint} from '../helpers/waypoint';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -23,9 +24,16 @@ export class PlanService {
     4: environment.apiURL + '/plans/update/{plan_id}',
     5: environment.apiURL + '/plans/{plan_id}/waypoints'
   };
+  private waypoints: Waypoint[] = [];
+  private waypointsBehavior = new BehaviorSubject<Waypoint[]>(this.waypoints);
+  waypointsListener = this.waypointsBehavior.asObservable();
   constructor(private http: HttpClient) { }
-  getAll(): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(this.APIS[1])
+  getAll(query: string = '', tags: string = ''): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(this.APIS[1], {
+      params: new HttpParams()
+        .set('query', query)
+        .set('tags', tags)
+    })
         .pipe(map(res => {
           if (res.data) {
             localStorage.setItem('plans', JSON.stringify(res.data));
@@ -56,5 +64,16 @@ export class PlanService {
   updateWaypoints(data: any, planId: any): Observable<ApiResponse> {
     const apiUrl = this.APIS[5].replace('{plan_id}', planId);
     return this.http.post<ApiResponse>(apiUrl, data);
+  }
+  getWaypoints(planId: any) {
+    const apiUrl = this.APIS[5].replace('{plan_id}', planId);
+    return this.http.get<ApiResponse>(apiUrl).subscribe(res => {
+      this.waypoints = res.data;
+      this.waypointsBehavior.next([...this.waypoints]);
+    });
+  }
+  setWaypoints(updatedWaypoints: Waypoint[]) {
+    this.waypoints = updatedWaypoints;
+    this.waypointsBehavior.next([...this.waypoints]);
   }
 }

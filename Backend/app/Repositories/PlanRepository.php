@@ -22,7 +22,7 @@ class PlanRepository extends AbstractRepository
                 $join->on('plans.id', '=', 'taggables.taggable_id')
                     ->where('taggables.taggable_type', 'LIKE', '%Plan%');
             })
-            ->join('tags', 'taggables.tag_id', '=', 'tags.id')
+            ->leftJoin('tags', 'taggables.tag_id', '=', 'tags.id')
             ->select('plans.*')->distinct();
         if (isset($data['query'])) {
             $plans = $plans->where('title', 'LIKE', '%'.$data['query'].'%');

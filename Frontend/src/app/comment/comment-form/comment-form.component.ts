@@ -45,6 +45,7 @@ export class CommentFormComponent implements OnInit {
         if (this.commentFormDirective) {
           this.commentFormDirective.resetForm();
           this.imageInput.nativeElement.value = '';
+          this.preview = null;
         }
       });
     // this.commentService.addComment(this.commentableId, this.commentableType, formValue);

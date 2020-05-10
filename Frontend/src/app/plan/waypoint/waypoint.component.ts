@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, Validators} from '@angular/forms';
 import {PlanService} from '../../services';
 import {ActivatedRoute} from '@angular/router';
@@ -6,6 +6,8 @@ import {debounceTime, distinctUntilChanged, filter, finalize, map, switchMap, ta
 import {HereMapService} from '../../services/here-map.service';
 import {Coordinate} from '../../models/coordinate';
 import {Waypoint} from '../../helpers/waypoint';
+import {dateFormat} from '../../helpers/date-format';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-waypoint',
@@ -14,11 +16,10 @@ import {Waypoint} from '../../helpers/waypoint';
 })
 export class WaypointComponent implements OnInit {
   waypointForm = this.formBuilder.group({
-    waypoints: this.formBuilder.array([this.createWaypoint()])
+    waypoints: this.formBuilder.array([])
   });
   planId;
   chosenWaypoints: Array<Waypoint> = [];
-  @Output() choseWaypoint = new EventEmitter<Array<any>>();
   currentCoordinate = new Coordinate('21.028511', '105.804817');
   suggestLocations;
   isSearching = false;
@@ -26,27 +27,34 @@ export class WaypointComponent implements OnInit {
     private formBuilder: FormBuilder,
     private planService: PlanService,
     private hereMapService: HereMapService,
+    private snackBar: MatSnackBar,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     this.planId = this.route.parent.snapshot.paramMap.get('plan_id');
     this.getCurrentLocation();
+    this.planService.waypointsListener.subscribe(res => {
+      this.waypoints.clear();
+      this.chosenWaypoints = res;
+      this.chosenWaypoints.sort((a, b) => a.order > b.order ? 1 : -1);
+      for (const waypoint of this.chosenWaypoints) {
+        this.addWaypoint(waypoint);
+      }
+    });
   }
   getCurrentLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         this.currentCoordinate.latitude = position.coords.latitude.toString();
         this.currentCoordinate.longitude = position.coords.longitude.toString();
-        // this.currentLat = position.coords.latitude;
-        // this.currentLng = position.coords.longitude;
       });
     }
   }
   get waypoints() {
     return this.waypointForm.get('waypoints') as FormArray;
   }
-  createWaypoint() {
+  createWaypoint(waypoint?: Waypoint) {
     const formGroup = this.formBuilder.group({
       name: ['', [Validators.required]],
       activity: ['', [Validators.required]],
@@ -56,6 +64,17 @@ export class WaypointComponent implements OnInit {
       leave_at: [''],
       order: ['', [Validators.required]]
     });
+    if (waypoint) {
+      formGroup.patchValue({
+        name: waypoint.name,
+        activity: waypoint.activity,
+        latitude: waypoint.latitude,
+        longitude: waypoint.longitude,
+        arrival_at: waypoint.arrival_at,
+        leave_at: waypoint.leave_at,
+        order: waypoint.order
+      });
+    }
     formGroup.get('name').valueChanges
       .pipe(
         filter(val => val.length > 2),
@@ -64,12 +83,13 @@ export class WaypointComponent implements OnInit {
         tap(() => this.isSearching = true),
         switchMap(input => this.hereMapService.getAutoSuggest(input, this.currentCoordinate)
           .pipe(
+            // @ts-ignore
+            filter(item => item.resultType !== 'categoryQuery'),
             finalize(() => this.isSearching = false)
           ))
       ).subscribe(res => {
         // @ts-ignore
         this.suggestLocations = res.items;
-        console.log(this.suggestLocations);
       });
     return formGroup;
   }
@@ -89,23 +109,33 @@ export class WaypointComponent implements OnInit {
     } else {
       this.chosenWaypoints.push(newWaypoint);
     }
-    this.choseWaypoint.emit(this.chosenWaypoints);
+    this.planService.setWaypoints(this.chosenWaypoints);
   }
-  addWaypoint() {
-    this.waypoints.push(this.createWaypoint());
+  addWaypoint(waypoint: Waypoint = null) {
+    this.waypoints.push(this.createWaypoint(waypoint));
   }
-  removeWaypoint(i: number) {
-    if (this.waypoints.at(i).get('name').value) {
-      const wpIndex = this.chosenWaypoints.findIndex(item => item.order === i);
-      this.chosenWaypoints.splice(wpIndex, 1);
-      this.choseWaypoint.emit(this.chosenWaypoints);
+  removeWaypoint(index: number) {
+    if (this.waypoints.at(index).get('name').value) {
+      for (const [i, item] of this.chosenWaypoints.entries()) {
+        if (item.order > index) {
+          item.order--;
+          this.waypoints.at(i).patchValue({
+            order: item.order
+          });
+        }
+      }
+      this.chosenWaypoints.splice(index, 1);
+      this.planService.setWaypoints(this.chosenWaypoints);
     }
-    this.waypoints.removeAt(i);
+    this.waypoints.removeAt(index);
   }
   onSubmit() {
-    // console.log(this.waypointForm.value);
+    for (const waypoint of this.waypointForm.value.waypoints) {
+      waypoint.leave_at = dateFormat(waypoint.leave_at);
+      waypoint.arrival_at = dateFormat(waypoint.arrival_at);
+    }
     this.planService.updateWaypoints(this.waypointForm.value, this.planId).subscribe(res => {
-      console.log(res);
+      this.snackBar.open('Route is updated :)', 'Close', { duration: 3000});
     });
   }
 

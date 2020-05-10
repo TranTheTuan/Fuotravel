@@ -30,6 +30,7 @@ export class PostCreateComponent implements OnInit {
   }
   onSubmit(formValue: any) {
     this.postService.addPost(this.planId, formValue);
+    this.previews = null;
   }
   onFileChange(event) {
     const files = event.target.files;

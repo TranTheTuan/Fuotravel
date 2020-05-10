@@ -83,4 +83,10 @@ class PlanController extends ApiController
         $this->authorize('update', Plan::find($plan_id));
         return $this->sendResponse($this->planRepo->cancel($plan_id));
     }
+
+    public function getWaypoints($plan_id)
+    {
+        $plan = Plan::find($plan_id);
+        return $this->sendResponse($plan->waypoints);
+    }
 }

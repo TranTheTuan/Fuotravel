@@ -1,3 +1,5 @@
+import {Injectable} from '@angular/core';
+
 declare let H: any;
 export class HereMapFunction {
   private map;

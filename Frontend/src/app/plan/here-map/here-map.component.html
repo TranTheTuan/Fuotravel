@@ -1,13 +1,6 @@
-<button (click)="getCurrentLocation()">Get your location</button>
-<mat-form-field>
-  <mat-label>search locations</mat-label>
-  <input matInput [formControl]="searchControl">
-</mat-form-field>
-<button mat-raised-button (click)="find()">find</button>
-<button mat-raised-button (click)="search()">search</button>
 <div class="row">
   <div class="col-md-4">
-    <app-waypoint (choseWaypoint)="onChoseWaypoint($event)"></app-waypoint>
+    <app-waypoint></app-waypoint>
   </div>
   <div class="col-md-8" style="height: 500px;">
     <div #hereMap class="border border-primary h-100"></div>

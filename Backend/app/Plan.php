@@ -38,8 +38,8 @@ class Plan extends Model
         return $this->hasMany('App\Member');
     }
 
-     public function waypoints()
-     {
-         return $this->hasMany('App\Waypoint');
-     }
+    public function waypoints()
+    {
+        return $this->hasMany('App\Waypoint');
+    }
 }

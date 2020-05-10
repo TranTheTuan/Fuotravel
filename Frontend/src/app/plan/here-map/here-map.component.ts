@@ -1,11 +1,10 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {environment} from '../../../environments/environment';
-import {FormControl} from '@angular/forms';
 import {HereMapFunction} from '../../helpers/map-functions';
 import {HereMapService} from '../../services/here-map.service';
-import {debounceTime} from 'rxjs/operators';
-import {Coordinate} from '../../models/coordinate';
 import {Waypoint} from '../../helpers/waypoint';
+import {PlanService} from '../../services';
+import {ActivatedRoute} from '@angular/router';
 
 declare let H: any;
 @Component({
@@ -24,9 +23,12 @@ export class HereMapComponent implements OnInit, AfterViewInit {
   private routingService;
   currentLat = 21.028511;
   currentLng = 105.804817;
-  searchControl = new FormControl();
+  waypoints: Waypoint[] = [];
+  planId;
   constructor(
-    private hereMapService: HereMapService
+    private planService: PlanService,
+    private hereMapService: HereMapService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -36,6 +38,8 @@ export class HereMapComponent implements OnInit, AfterViewInit {
     this.searchService = this.platform.getSearchService();
     this.routingService = this.platform.getRoutingService();
     // this.getRoute();
+    this.planId = this.route.parent.snapshot.paramMap.get('plan_id');
+    this.planService.getWaypoints(this.planId);
   }
   ngAfterViewInit() {
     const defaultLayers = this.platform.createDefaultLayers();
@@ -51,64 +55,42 @@ export class HereMapComponent implements OnInit, AfterViewInit {
     const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
     this.ui = new H.ui.UI.createDefault(this.map, defaultLayers);
     this.hereMapFunction = new HereMapFunction(this.map, behavior, this.ui);
-  }
-  find() {
-    const query = this.searchControl.value;
-    const coordinates: Coordinate = {
-      latitude: '21.028511',
-      longitude: '105.804817'
-    };
-    this.hereMapService.getDiscover(query, coordinates).subscribe(res => {
-      console.log(res);
+    this.planService.waypointsListener.subscribe(res => {
+      this.waypoints = res;
+      this.onChoseWaypoint(this.waypoints);
     });
   }
   onChoseWaypoint(chosenWaypoints: Array<Waypoint>) {
     this.map.removeObjects(this.map.getObjects());
-    console.log(chosenWaypoints);
     chosenWaypoints.sort((a, b) => a.order > b.order ? 1 : -1);
-    if (chosenWaypoints.length > 1) {
-      for (let i = 0; i < chosenWaypoints.length - 1; i++) {
-        // console.log(chosenWaypoints[i].position);
-        const routingParams = {
-          mode: 'fastest;car',
-          waypoint0: 'geo!' + chosenWaypoints[i].lat + ',' + chosenWaypoints[i].lng,
-          waypoint1: 'geo!' + chosenWaypoints[i + 1].lat + ',' + chosenWaypoints[i + 1].lng,
-          representation: 'display'
-        };
+    const waypointsLength = chosenWaypoints.length;
+    if (waypointsLength > 1) {
+      for (let i = 0; i < waypointsLength - 1; i++) {
+        const routingParams = this.createRoutingParams(chosenWaypoints[i], chosenWaypoints[i + 1]);
         this.routingService.calculateRoute(routingParams, this.onResult, error => {
-          alert(error.message);
         });
       }
+      const backRoutingParams = this.createRoutingParams(chosenWaypoints[waypointsLength - 1], chosenWaypoints[0]);
+      this.routingService.calculateRoute(backRoutingParams, this.onResult, error => {
+        console.log(error.message);
+      });
+    } else if (waypointsLength === 1) {
+      const lat = chosenWaypoints[0].latitude;
+      const lng = chosenWaypoints[0].longitude;
+      const label = chosenWaypoints[0].name;
+      const marker = this.hereMapFunction.createMarker(lat, lng, label);
+      this.map.setCenter({lat, lng});
+      this.map.setZoom(14);
+      this.map.addObject(marker);
     }
   }
-  getCurrentLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        const label = 'your location';
-        this.currentLat = position.coords.latitude;
-        this.currentLng = position.coords.longitude;
-        this.map.setCenter({lat: this.currentLat, lng: this.currentLng});
-        this.map.setZoom(14);
-        const marker = this.hereMapFunction.createMarker(this.currentLat, this.currentLng, label);
-        this.map.addObject(marker);
-      });
-    }
-  }
-  search() {
-    const searchValue = this.searchControl.value;
-    console.log(searchValue);
-    this.searchService.geocode({
-      q: searchValue
-    }, (result) => {
-      console.log(result);
-      result.items.forEach(item => {
-        const marker = this.hereMapFunction.createMarker(item.position.lat, item.position.lng, item.address.label);
-        this.map.setCenter(item.position);
-        this.map.setZoom(14);
-        this.map.removeObjects(this.map.getObjects());
-        this.map.addObject(marker);
-      });
-    }, alert);
+  createRoutingParams(waypoint0: Waypoint, waypoint1: Waypoint, represent = 'display', modeType = 'fastest', modeVehicle = 'car') {
+    return {
+      mode: modeType + ';' + modeVehicle,
+      waypoint0: 'geo!' + waypoint0.latitude + ',' + waypoint0.longitude,
+      waypoint1: 'geo!' + waypoint1.latitude + ',' + waypoint1.longitude,
+      representation: represent
+    };
   }
   private onResult = (result) => {
     let route;
@@ -116,7 +98,6 @@ export class HereMapComponent implements OnInit, AfterViewInit {
     let startpoint;
     let endpoint;
     let lineString;
-    console.log(result);
     if (result.response.route) {
       route = result.response.route[0];
       routeShape = route.shape;

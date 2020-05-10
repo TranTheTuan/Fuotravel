@@ -53,6 +53,7 @@ export class ReplyFormComponent implements OnInit {
             parent_id: this.parentId
           });
           this.replyInput.nativeElement.value = '';
+          this.preview = null;
         }
       });
     // this.commentService.addComment(this.commentableId, this.commentableType, formValue);
