@@ -27,7 +27,7 @@ export class ToolbarComponent implements OnInit {
   }
   onSearch() {
     this.searchControl.valueChanges.pipe(
-      filter(val => val.length > 2),
+      filter(val => val.length >= 2),
       debounceTime(500),
       distinctUntilChanged(),
       tap(() => this.isSearching = true),
@@ -44,6 +44,7 @@ export class ToolbarComponent implements OnInit {
     return (index !== -1) ? this.suggestPlans[index].title : '';
   }
   onSuggestionClick(planId: any) {
+    this.searchControl.setValue('');
     this.router.navigate(['/plans/' + planId + '/discuss']);
   }
   logout() {

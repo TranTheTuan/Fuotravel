@@ -5,6 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {COMMENT, DOWN, PLAN, POST, UP} from '../helpers';
 import {VoteService} from '../services/vote.service';
 import {FormBuilder, Validators} from '@angular/forms';
+import {switchMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-comment',
@@ -26,16 +27,17 @@ export class CommentComponent implements OnInit {
   ngOnInit(): void {
     const currentPath = this.route.snapshot.url[0].path;
     if (currentPath === 'discuss') {
-      this.commentableId = this.route.parent.snapshot.paramMap.get('plan_id');
       this.commentableType = PLAN;
     }
-    this.getAll(this.commentableId, this.commentableType);
+    this.getAll();
   }
-  getAll(commentableId: any, commentable: any) {
-    this.commentService.getAll(commentableId, commentable)
-      .subscribe(res => {
-        this.comments = res.data;
-      });
+  getAll() {
+    this.route.parent.paramMap.pipe(
+      tap((params) => this.commentableId = params.get('plan_id')),
+      switchMap(() => this.commentService.getAll(this.commentableId, this.commentableType))
+    ).subscribe(res => {
+      this.comments = res.data;
+    });
   }
   vote(voteableId: any, voteable: any, voteType: any) {
     this.voteService.vote(voteableId, voteable, voteType)
