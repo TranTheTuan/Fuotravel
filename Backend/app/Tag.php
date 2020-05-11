@@ -8,8 +8,7 @@ class Tag extends Model
 {
     const USER = 1;
     const PLAN = 2;
-    const GROUP = 3;
-    const POST = 4;
+    const POST = 3;
 
     protected $guarded = [];
 

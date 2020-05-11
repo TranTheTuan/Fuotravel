@@ -47,6 +47,19 @@ class TagRepository extends AbstractRepository
         return false;
     }
 
+    public function updateTags(array $data, $taggable_id, $taggable)
+    {
+        $taggable_type = $this->getTaggableType($taggable_id, $taggable);
+        if ($taggable_type) {
+            $taggable_type->tags()->detach();
+            foreach ($data['tags'] as $tag) {
+                $taggable_type->tags()->attach($tag);
+            }
+            return true;
+        }
+        return false;
+    }
+
     public function getTaggableType($taggable_id, $taggable)
     {
         if ($taggable == Tag::USER) {

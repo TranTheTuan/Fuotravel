@@ -19,6 +19,9 @@
     <p>bắt đầu tại: {{ plan.departure }}, vào hồi: {{ plan.start_at }}</p>
     <p>điểm đến: {{ plan.destination }}, vào hồi: {{ plan.arrival_at }}</p>
     <p>số thành viên dự kiến: {{ plan.members_quantity }}</p>
+    <mat-chip-list>
+      <mat-chip *ngFor="let tag of plan.tags">{{ tag.name }}</mat-chip>
+    </mat-chip-list>
   </div>
 </div>
 <nav mat-tab-nav-bar mat-stretch-tabs>

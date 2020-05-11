@@ -13,7 +13,8 @@ export class TagService {
     1: environment.apiURL + '/tags',
     2: environment.apiURL + '/tags/add/{taggable_id}/taggable/{taggable}',
     3: environment.apiURL + '/tags/{taggable_id}/taggable/{taggable}',
-    4: environment.apiURL + '/detach/{taggable_id}/taggable/{taggble}'
+    4: environment.apiURL + '/tags/detach/{taggable_id}/taggable/{taggable}',
+    5: environment.apiURL + '/tags/update/{taggable_id}/taggable/{taggable}',
   };
   constructor(private http: HttpClient) { }
   public getAll(): Observable<ApiResponse> {
@@ -27,11 +28,16 @@ export class TagService {
       ));
   }
   public addTags(taggableId: any, taggable: any, params): Observable<ApiResponse> {
-    let apiURL = this.APIS[2].replace('{taggable_id}', taggableId);
-    apiURL = apiURL.replace('{taggable}', taggable);
+    const apiURL = this.APIS[2].replace('{taggable_id}', taggableId)
+      .replace('{taggable}', taggable);
     return this.http.post<ApiResponse>(apiURL, params)
       .pipe(map(res => {
         return res;
       }));
+  }
+  public updateTags(taggableId: any, taggable: any, formValue: any): Observable<ApiResponse> {
+    const apiURL = this.APIS[5].replace('{taggable_id}', taggableId)
+      .replace('{taggable}', taggable);
+    return this.http.post<ApiResponse>(apiURL, formValue);
   }
 }

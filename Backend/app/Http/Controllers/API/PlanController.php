@@ -5,9 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Group;
 use App\Http\Controllers\ApiController;
 use App\Repositories\MemberRepository;
+use App\Repositories\TagRepository;
 use Illuminate\Http\Request;
 use App\Plan;
 use App\Member;
+use App\Tag;
 use App\Repositories\PlanRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -18,12 +20,17 @@ class PlanController extends ApiController
 {
     const UPLOAD_PATH = 'uploads/plan/';
 
-    protected $planRepo, $memberRepo, $imageService;
+    protected $planRepo, $memberRepo, $tagRepo, $imageService;
 
-    public function __construct(PlanRepository $planRepo, MemberRepository $memberRepo, ImageService $imageService)
+    public function __construct(
+        PlanRepository $planRepo,
+        MemberRepository $memberRepo,
+        TagRepository $tagRepo,
+        ImageService $imageService)
     {
         $this->planRepo = $planRepo;
         $this->memberRepo = $memberRepo;
+        $this->tagRepo = $tagRepo;
         $this->imageService = $imageService;
     }
 
@@ -35,8 +42,9 @@ class PlanController extends ApiController
     public function show($plan_id)
     {
         $this->authorize('view', Plan::find($plan_id));
-
-        return $this->sendResponse($this->planRepo->find($plan_id));
+        $plan = $this->planRepo->find($plan_id);
+        $plan->tags = $this->tagRepo->showTags($plan_id, Tag::PLAN);
+        return $this->sendResponse($plan);
     }
 
     public function create(PlanRequest $request)

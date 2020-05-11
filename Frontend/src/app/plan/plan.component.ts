@@ -14,7 +14,7 @@ import {MemberService} from '../services/member.service';
   styleUrls: ['./plan.component.css']
 })
 export class PlanComponent implements OnInit {
-  tmpCover;
+  tmpCover = '';
   links = [
     { path: 'discuss', label: 'Discuss' },
     { path: 'requests', label: 'Requests' },
@@ -55,11 +55,10 @@ export class PlanComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         for (const key of Object.keys(data)) {
-          this.plan.cover = data.cover;
           if (key !== 'cover' && data[key]) {
             this.plan[key] = data[key];
           }
-          if (key === 'cover') {
+          if (key === 'cover' && data[key]) {
             this.tmpCover = data[key];
           }
         }

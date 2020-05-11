@@ -18,6 +18,17 @@ class TagController extends ApiController
         $this->tagRepo = $tagRepo;
     }
 
+    public function update(Request $request, $taggable_id, $taggable)
+    {
+        $this->authorize('update', [Tag::class, $taggable_id, $taggable]);
+        $data['tags'] = $request->all();
+        $updated = $this->tagRepo->updateTags($data, $taggable_id, $taggable);
+        if ($updated) {
+            return $this->sendResponse(__('api/api.added_tags'));
+        }
+        return $this->sendError(__('api/api.add_tags_error'));
+    }
+
     public function add(Request $request, $taggable_id, $taggable)
     {
         $this->authorize('update', [Tag::class, $taggable_id, $taggable]);

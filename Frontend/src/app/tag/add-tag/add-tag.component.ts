@@ -3,6 +3,7 @@ import {TagService} from '../../services/tag.service';
 import {Tag} from '../../models';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
+import {TAG_USER} from "../../helpers";
 
 const USER = 1;
 const PLAN = 2;
@@ -37,7 +38,7 @@ export class AddTagComponent implements OnInit {
   }
   onSubmit() {
     const userId = JSON.parse(localStorage.getItem('currentUser')).token.user_id;
-    this.tagService.addTags(userId, USER, this.tagForm.value).subscribe(
+    this.tagService.addTags(userId, TAG_USER, this.tagForm.value).subscribe(
       res => {
         console.log(res.data);
         this.router.navigate(['home']);

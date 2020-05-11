@@ -13,3 +13,6 @@ export const DOWN = 8;
 
 export const POST = 2;
 export const COMMENT = 1;
+
+export const TAG_USER = 1;
+export const TAG_PLAN = 2;

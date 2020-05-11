@@ -7,6 +7,10 @@ import {MatInputModule} from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatButtonModule} from "@angular/material/button";
 import {UpdatePlanComponent} from './update-plan/update-plan.component';
+import {MatStepperModule} from "@angular/material/stepper";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatListModule} from "@angular/material/list";
 
 @NgModule({
   declarations: [PlanCreateComponent, UpdatePlanComponent],
@@ -16,7 +20,11 @@ import {UpdatePlanComponent} from './update-plan/update-plan.component';
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    MatButtonModule
+    MatButtonModule,
+    MatStepperModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatListModule
   ],
   exports: [PlanCreateComponent, UpdatePlanComponent]
 })

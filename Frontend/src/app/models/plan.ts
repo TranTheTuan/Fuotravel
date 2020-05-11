@@ -1,4 +1,5 @@
 import {environment} from '../../environments/environment';
+import {Tag} from './tag';
 
 export class Plan {
   id: number;
@@ -15,4 +16,5 @@ export class Plan {
   members_quantity: number;
   // tslint:disable-next-line:variable-name
   user_id: number;
+  tags: Tag[];
 }
