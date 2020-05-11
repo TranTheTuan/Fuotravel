@@ -11,21 +11,23 @@ import {MatStepperModule} from "@angular/material/stepper";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatListModule} from "@angular/material/list";
+import {RouterModule} from '@angular/router';
 
 @NgModule({
   declarations: [PlanCreateComponent, UpdatePlanComponent],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatButtonModule,
-    MatStepperModule,
-    MatCheckboxModule,
-    MatDialogModule,
-    MatListModule
-  ],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
+        MatButtonModule,
+        MatStepperModule,
+        MatCheckboxModule,
+        MatDialogModule,
+        MatListModule,
+        RouterModule
+    ],
   exports: [PlanCreateComponent, UpdatePlanComponent]
 })
 export class LayoutModule { }

@@ -117,13 +117,4 @@ export class UpdatePlanComponent implements OnInit {
     });
     return this.fb.array(tagsArr);
   }
-  onChooseTags(id: number, event) {
-    const tagIds = (this.tagForm.controls.tags as FormArray);
-    if (event.checked) {
-      tagIds.push(new FormControl(id));
-    } else {
-      const index = tagIds.controls.findIndex(x => x.value === id);
-      tagIds.removeAt(index);
-    }
-  }
 }
