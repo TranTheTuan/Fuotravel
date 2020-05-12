@@ -7,8 +7,7 @@ export const environment = {
   assertURL: 'http://localhost:8000/',
   apiURL: 'http://localhost:8000/api',
   socket: 'http://localhost:3000/',
-  apiMapJS: 'NmLbT9I9bkb9MDPO_I-x8bgVTxKzGxjMlz9seEDruJQ',
-  apiMapRest: '81hBUb9HvwHCPKRBRyG4ciE-QbkEcAoEsuV8rFa3Zoc'
+  apiMapJS: 'NmLbT9I9bkb9MDPO_I-x8bgVTxKzGxjMlz9seEDruJQ'
 };
 
 /*
