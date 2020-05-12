@@ -1,10 +1,11 @@
-import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {AuthService, PlanService} from '../services';
 import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {PlanCreateComponent} from '../layouts/plan-create/plan-create.component';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, filter, finalize, switchMap, tap} from 'rxjs/operators';
+import {Tag} from '../models';
 
 @Component({
   selector: 'app-toolbar',
@@ -15,6 +16,15 @@ export class ToolbarComponent implements OnInit {
   isSearching = false;
   searchControl = new FormControl();
   suggestPlans = [];
+  authTags: Tag[];
+  selectedTags: Tag[] = [];
+  demo: Tag[] = [
+    { id: 1, name: '2', isSelected: false},
+    { id: 2, name: '3', isSelected: false},
+    { id: 3, name: '4', isSelected: false},
+    { id: 4, name: '5', isSelected: false},
+  ]
+  @Output() tagsSelected = new EventEmitter();
   constructor(
     private authService: AuthService,
     private planService: PlanService,
@@ -24,6 +34,8 @@ export class ToolbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.onSearch();
+    this.authTags = this.authService.currentUserValue.tags;
+    console.log(this.authTags);
   }
   onSearch() {
     this.searchControl.valueChanges.pipe(
@@ -58,5 +70,16 @@ export class ToolbarComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       console.log(res);
     });
+  }
+  onSelectTag(tag: Tag) {
+    tag.isSelected = !tag.isSelected
+    if (tag.isSelected) {
+      this.selectedTags.push(tag);
+    } else {
+      const unSelectIndex = this.selectedTags.findIndex(i => i.id === tag.id);
+      this.selectedTags.splice(unSelectIndex, 1);
+    }
+    this.tagsSelected.emit(this.selectedTags.map(item => item.id).toString());
+    // this.router.navigate(['/']);
   }
 }

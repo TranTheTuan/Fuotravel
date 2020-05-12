@@ -14,26 +14,28 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {LayoutModule} from '../layouts/layout.module';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import {ReactiveFormsModule} from '@angular/forms';
+import {MatChipsModule} from "@angular/material/chips";
 
 
 
 @NgModule({
   declarations: [ToolbarComponent],
-  imports: [
-    CommonModule,
-    MatToolbarModule,
-    MatButtonModule,
-    RouterModule,
-    MatDialogModule,
-    LayoutModule,
-    MatMomentDateModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,
-    MatProgressSpinnerModule,
-    MatIconModule
-  ],
+    imports: [
+        CommonModule,
+        MatToolbarModule,
+        MatButtonModule,
+        RouterModule,
+        MatDialogModule,
+        LayoutModule,
+        MatMomentDateModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        MatProgressSpinnerModule,
+        MatIconModule,
+        MatChipsModule
+    ],
   exports: [ToolbarComponent]
 })
 export class ToolbarModule { }

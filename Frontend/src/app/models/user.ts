@@ -1,3 +1,5 @@
+import {Tag} from './tag';
+
 export class User {
   id: number;
   firstname: string;
@@ -9,4 +11,5 @@ export class User {
   email: string;
   avatar?: string;
   accessToken?: string;
+  tags: Tag;
 }

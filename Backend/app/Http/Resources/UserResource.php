@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\TagResouce;
 
 class UserResource extends JsonResource
 {
@@ -23,7 +24,8 @@ class UserResource extends JsonResource
             'avatar' => $this->avatar,
             'username' => $this->username,
             'phone' => $this->phone,
-            'email' => $this->email
+            'email' => $this->email,
+            'tags' => $this->when($this->tags, TagResource::collection($this->tags))
         ];
     }
 }

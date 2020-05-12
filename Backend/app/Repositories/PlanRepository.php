@@ -28,7 +28,7 @@ class PlanRepository extends AbstractRepository
             $plans = $plans->where('title', 'LIKE', '%'.$data['query'].'%');
         }
         if (isset($data['tags'])) {
-            $tagsArr = \explode('.', $data['tags']);
+            $tagsArr = \explode(',', $data['tags']);
             $plans = $plans->whereIn('tag_id', $tagsArr);
         }
         return $plans->get();

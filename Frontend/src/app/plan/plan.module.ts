@@ -25,7 +25,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import { HereMapComponent } from './here-map/here-map.component';
 import {FlexModule} from '@angular/flex-layout';
 import { WaypointComponent } from './waypoint/waypoint.component';
-import {MatChipsModule} from "@angular/material/chips";
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   declarations: [

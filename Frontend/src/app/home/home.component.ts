@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AuthService, PlanService} from '../services';
 import {Observable, Observer} from 'rxjs';
 import {Router} from '@angular/router';
-import {Plan} from '../models';
+import {Plan, Tag} from '../models';
 
 @Component({
   selector: 'app-home',
@@ -14,27 +14,34 @@ export class HomeComponent implements OnInit {
   public time = new Observable<string>((observer: Observer<string>) => {
     setInterval(() => observer.next(new Date().toLocaleTimeString().toString()), 1000);
   });
+  authTags: Tag[];
+  selectedTags: Tag[] = [];
   constructor(
     private authService: AuthService,
     private planService: PlanService,
     private router: Router
   ) { }
-
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['auth']);
-  }
-  getPlans() {
-    this.planService.getAll().subscribe(res => {
-      this.plans = res.data;
-    }, error => console.log(error));
-  }
   ngOnInit(): void {
     if (localStorage.getItem('plans')) {
       this.plans = JSON.parse(localStorage.getItem('plans'));
     } else {
       this.getPlans();
     }
+    this.authTags = this.authService.currentUserValue.tags;
   }
-
+  getPlans(tagIds: string = '') {
+    this.planService.getAll('', tagIds).subscribe(res => {
+      this.plans = res.data;
+    }, error => console.log(error));
+  }
+  onSelectTag(tag: Tag) {
+    tag.isSelected = !tag.isSelected;
+    if (tag.isSelected) {
+      this.selectedTags.push(tag);
+    } else {
+      const unSelectIndex = this.selectedTags.findIndex(i => i.id === tag.id);
+      this.selectedTags.splice(unSelectIndex, 1);
+    }
+    this.getPlans(this.selectedTags.map(item => item.id).toString());
+  }
 }

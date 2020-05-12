@@ -47,6 +47,7 @@ class AuthController extends ApiController
         $user = $request->user();
         $token = $user->createToken('Personal access token');
         $user->accessToken = $token->accessToken;
+        $user->tags;
         return $this->sendResponse($user);
     }
 
