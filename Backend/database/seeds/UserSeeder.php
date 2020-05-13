@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
                 'gender' => 1,
                 'birthday' => '1998/01/20',
                 'avatar' => 'default/avatar/avatar.png',
-                'username' => 'tuantt',
+                'name' => 'tuantt',
                 'email' => 'tuantt@gmail.com',
                 'password' => bcrypt('secret'),
                 'active' => 1
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
                 'gender' => 2,
                 'birthday' => '1998/01/20',
                 'avatar' => 'default/avatar/avatar.png',
-                'username' => 'lanll',
+                'name' => 'lanll',
                 'email' => 'lanll@gmail.com',
                 'password' => bcrypt('secret'),
                 'active' => 1
@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
                 'gender' => 3,
                 'birthday' => '1998/01/20',
                 'avatar' => 'default/avatar/avatar.png',
-                'username' => 'phupp',
+                'name' => 'phupp',
                 'email' => 'phupp@gmail.com',
                 'password' => bcrypt('secret'),
                 'active' => 1
@@ -52,7 +52,7 @@ class UserSeeder extends Seeder
                 'gender' => 3,
                 'birthday' => '1998/01/20',
                 'avatar' => 'default/avatar/avatar.png',
-                'username' => 'hunghh',
+                'name' => 'hunghh',
                 'email' => 'hunghh@gmail.com',
                 'password' => bcrypt('secret'),
                 'active' => 1
@@ -63,7 +63,7 @@ class UserSeeder extends Seeder
                 'gender' => 1,
                 'birthday' => '1998/01/20',
                 'avatar' => 'default/avatar/avatar.png',
-                'username' => 'cuongcc',
+                'name' => 'cuongcc',
                 'email' => 'cuongcc@gmail.com',
                 'password' => bcrypt('secret'),
                 'active' => 1
@@ -74,7 +74,7 @@ class UserSeeder extends Seeder
                 'gender' => 1,
                 'birthday' => '1998/01/20',
                 'avatar' => 'default/avatar/avatar.png',
-                'username' => 'thaott',
+                'name' => 'thaott',
                 'email' => 'thaott@gmail.com',
                 'password' => bcrypt('secret'),
                 'active' => 1

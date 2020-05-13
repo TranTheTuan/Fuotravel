@@ -22,7 +22,7 @@ class UserResource extends JsonResource
             'gender' => $this->gender,
             'birthday' => $this->birthday,
             'avatar' => $this->avatar,
-            'username' => $this->username,
+            'name' => $this->name,
             'phone' => $this->phone,
             'email' => $this->email,
             'tags' => $this->when($this->tags, TagResource::collection($this->tags))

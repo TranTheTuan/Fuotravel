@@ -6,7 +6,7 @@ export class User {
   lastname: string;
   gender: number;
   birthday: string;
-  username: string;
+  name: string;
   phone: string;
   email: string;
   avatar?: string;

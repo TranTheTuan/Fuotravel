@@ -29,7 +29,7 @@ class UserRepository extends AbstractRepository
             'gender' => 'nullable',
             'birthday'  => 'nullable|date',
             'avatar' => 'nullable|string',
-            'username' => 'required|alpha_dash|min:4|max:12',
+            'name' => 'required|alpha_dash|min:4|max:12',
             'phone' => 'nullable|string',
             'password' => 'required|min:3'
         ];
