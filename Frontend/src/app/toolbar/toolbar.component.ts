@@ -35,7 +35,6 @@ export class ToolbarComponent implements OnInit {
   ngOnInit(): void {
     this.onSearch();
     this.authTags = this.authService.currentUserValue.tags;
-    console.log(this.authTags);
   }
   onSearch() {
     this.searchControl.valueChanges.pipe(
