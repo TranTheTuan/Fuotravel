@@ -1,7 +1,7 @@
 <h3>Members</h3>
 <mat-divider class="my-3"></mat-divider>
-<ul class="list-unstyled card-columns">
-  <li *ngFor="let member of members" class="border rounded bg-white p-1">
+<ul class="list-unstyled row justify-content-between mx-5">
+  <li *ngFor="let member of members" class="border rounded bg-white list-column mb-3 p-1">
     <div class="d-flex flex-row">
       <div class="d-flex flex-column mr-4">
         <img [src]="member.avatar | imageUrl" [alt]="member.name" height="100px" width="100px">

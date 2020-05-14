@@ -6,7 +6,7 @@ import {CommentService} from '../../services/comment.service';
 import {VoteService} from '../../services/vote.service';
 import {ActivatedRoute} from '@angular/router';
 import {User} from '../../models';
-import {AuthService} from '../../services';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-reply-form',

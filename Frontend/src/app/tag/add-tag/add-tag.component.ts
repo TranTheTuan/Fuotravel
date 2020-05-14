@@ -3,7 +3,7 @@ import {TagService} from '../../services/tag.service';
 import {Tag} from '../../models';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
-import {TAG_USER} from "../../helpers";
+import {TAG_USER} from '../../helpers';
 
 const USER = 1;
 const PLAN = 2;

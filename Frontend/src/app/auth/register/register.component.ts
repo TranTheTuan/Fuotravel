@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
-import {AuthService} from '../../services';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material';
 import {APP_DATE_FORMATS, AppDateAdapter} from '../../helpers';
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import {dateFormat} from '../../helpers/date-format';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',

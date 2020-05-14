@@ -1,10 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroupDirective, Validators} from '@angular/forms';
 import {PostService} from '../../services/post.service';
-import {Comment} from '../../models/comment';
-import {Post} from '../../models/post';
 import {User} from '../../models';
-import {AuthService} from '../../services';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-post-create',

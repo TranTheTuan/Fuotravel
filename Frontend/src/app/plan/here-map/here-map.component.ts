@@ -3,8 +3,8 @@ import {environment} from '../../../environments/environment';
 import {HereMapFunction} from '../../helpers/map-functions';
 import {HereMapService} from '../../services/here-map.service';
 import {Waypoint} from '../../helpers/waypoint';
-import {PlanService} from '../../services';
 import {ActivatedRoute} from '@angular/router';
+import {PlanService} from '../../services/plan.service';
 
 declare let H: any;
 @Component({

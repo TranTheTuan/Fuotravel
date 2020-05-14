@@ -7,7 +7,6 @@ import io from 'socket.io-client';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {openSnackbar} from '../../helpers/snackbar';
 
 @Component({
   selector: 'app-request',

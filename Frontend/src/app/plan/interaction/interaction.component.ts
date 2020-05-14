@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {MemberService} from '../services/member.service';
-import {AuthService} from '../services';
-import {ADMIN, BANNED, FOLLOWING, MEMBER, MODERATOR, PENDING} from '../helpers';
+import {AuthService} from '../../services/auth.service';
+import {ADMIN, BANNED, FOLLOWING, MEMBER, MODERATOR, PENDING} from '../../helpers';
+import {MemberService} from '../../services/member.service';
 
 @Component({
   selector: 'app-interaction',

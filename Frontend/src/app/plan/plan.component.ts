@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService, PlanService} from '../services';
+import {AuthService} from '../services/auth.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {Plan, User} from '../models';
-import {PLAN} from '../helpers';
 import {MatDialog} from '@angular/material';
 import {UpdatePlanComponent} from '../layouts/update-plan/update-plan.component';
-import {map, mergeMap, switchMap} from 'rxjs/operators';
+import {switchMap} from 'rxjs/operators';
+import {PlanService} from '../services/plan.service';
 import {MemberService} from '../services/member.service';
 
 @Component({

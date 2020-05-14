@@ -20,12 +20,13 @@ import {
   MatTabsModule,
   MatFormFieldModule, MatDatepickerModule, MatInputModule, MatAutocompleteModule, MatProgressSpinnerModule,
 } from '@angular/material';
-import {InteractionModule} from '../interaction/interaction.module';
+// import {InteractionModule} from '../interaction/interaction.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import { HereMapComponent } from './here-map/here-map.component';
 import {FlexModule} from '@angular/flex-layout';
 import { WaypointComponent } from './waypoint/waypoint.component';
 import {MatChipsModule} from '@angular/material/chips';
+import { InteractionComponent } from './interaction/interaction.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {MatChipsModule} from '@angular/material/chips';
     MemberComponent,
     HereMapComponent,
     WaypointComponent,
+    InteractionComponent,
   ],
     imports: [
         CommonModule,
@@ -51,7 +53,7 @@ import {MatChipsModule} from '@angular/material/chips';
         MatCardModule,
         MatProgressBarModule,
         MatFormFieldModule,
-        InteractionModule,
+        // InteractionModule,
         ReactiveFormsModule,
         MatDatepickerModule,
         MatInputModule,

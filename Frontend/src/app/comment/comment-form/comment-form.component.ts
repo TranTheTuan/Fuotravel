@@ -6,8 +6,8 @@ import {CommentService} from '../../services/comment.service';
 import {VoteService} from '../../services/vote.service';
 import {ActivatedRoute} from '@angular/router';
 import {toFormData} from '../../helpers/toFormData';
-import {AuthService} from '../../services';
 import {User} from '../../models';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-comment-form',

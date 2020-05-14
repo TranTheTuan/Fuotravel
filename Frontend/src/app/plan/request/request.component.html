@@ -3,8 +3,8 @@
 <!--<button mat-button (click)="saveme()">save me</button>-->
 <div *ngIf="requesters; then requestsList else emptyList"></div>
 <ng-template #requestsList>
-  <ul class="list-unstyled card-columns">
-    <li *ngFor="let requester of requesters" class="border rounded bg-white p-1">
+  <ul class="list-unstyled row justify-content-between mx-sm-5">
+    <li *ngFor="let requester of requesters" class="border rounded bg-white list-column mb-3 p-1">
       <div class="d-flex flex-row">
         <div class="d-flex flex-column mr-4">
           <img [src]="requester.avatar | imageUrl" [alt]="requester.name" height="100px" width="100px">

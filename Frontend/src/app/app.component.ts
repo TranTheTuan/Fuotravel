@@ -1,6 +1,4 @@
 import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {AuthService} from './services';
-import {Router} from '@angular/router';
 import io from 'socket.io-client';
 
 @Component({
@@ -11,14 +9,7 @@ import io from 'socket.io-client';
 export class AppComponent implements OnInit {
   title = 'Fuotravel';
   data;
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['auth']);
-  }
+  constructor() {}
   ngOnInit(): void {
     // this.subscribe();
   }
