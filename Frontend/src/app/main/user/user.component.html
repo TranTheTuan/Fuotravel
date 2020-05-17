@@ -1,0 +1,16 @@
+<app-toolbar></app-toolbar>
+<div class="container-sm">
+  <div class="row mt-5">
+    <mat-nav-list class="col-sm-3">
+      <a mat-list-item [routerLink]="['/users/profile']">Profile</a>
+      <mat-divider></mat-divider>
+      <a mat-list-item [routerLink]="['/users/friends']">Friends</a>
+      <mat-divider></mat-divider>
+      <a mat-list-item [routerLink]="['/users/plans']">Plans</a>
+    </mat-nav-list>
+    <mat-divider [vertical]="true"></mat-divider>
+    <div class="col-sm-8 ml-2">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="d-flex flex-column align-items-center">
+  <h2 mat-dialog-title>Update user avatar</h2>
+  <mat-dialog-content class="mb-3">
+    <div *ngIf="!preview; then realAvatar else previewAvatar"></div>
+    <ng-template #realAvatar>
+      <img src="{{data.avatar | imageUrl}}" alt="user avatar" width="200" height="250">
+    </ng-template>
+    <ng-template #previewAvatar>
+      <img src="{{ preview }}" alt="preview avatar" width="200" height="250">
+    </ng-template>
+  </mat-dialog-content>
+  <mat-dialog-actions class="d-flex flex-row justify-content-center">
+    <input type="file" style="display: none" #uploadAvatar (change)="onFileChange($event)">
+    <button mat-button (click)="uploadAvatar.click()">upload</button>
+    <button mat-button (click)="onSave()">save</button>
+    <button mat-button (click)="onCancel()">cancel</button>
+  </mat-dialog-actions>
+</div>

@@ -11,14 +11,14 @@ import {PostModule} from '../post/post.module';
 import {RequestComponent} from './request/request.component';
 import {CommentModule} from '../comment/comment.module';
 import {
-  MatProgressBarModule,
-  MatCardModule,
-  MatDividerModule,
-  MatSnackBarModule,
-  MatIconModule,
-  MatMenuModule,
-  MatTabsModule,
-  MatFormFieldModule, MatDatepickerModule, MatInputModule, MatAutocompleteModule, MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MatCardModule,
+    MatDividerModule,
+    MatSnackBarModule,
+    MatIconModule,
+    MatMenuModule,
+    MatTabsModule,
+    MatFormFieldModule, MatDatepickerModule, MatInputModule, MatAutocompleteModule, MatProgressSpinnerModule, MatGridListModule,
 } from '@angular/material';
 // import {InteractionModule} from '../interaction/interaction.module';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -61,6 +61,7 @@ import { InteractionComponent } from './interaction/interaction.component';
         MatAutocompleteModule,
         MatProgressSpinnerModule,
         MatChipsModule,
+        MatGridListModule,
     ],
 })
 export class PlanModule { }

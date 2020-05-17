@@ -4,12 +4,12 @@ export class User {
   id: number;
   firstname: string;
   lastname: string;
-  gender: number;
+  gender: string;
   birthday: string;
   name: string;
   phone: string;
   email: string;
   avatar?: string;
   accessToken?: string;
-  tags: Tag;
+  tags: Tag[];
 }

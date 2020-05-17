@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: 'plans', loadChildren: () => import('./plan/plan.module').then(m => m.PlanModule) },
   { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
   { path: 'tag', loadChildren: () => import('./tag/tag.module').then(m => m.TagModule) },
+  { path: 'users', loadChildren: () => import('./main/user/user.module').then(m => m.UserModule)},
   { path: 'create/plan', component: PlanCreateComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];

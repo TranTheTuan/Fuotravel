@@ -98,6 +98,8 @@ Route::middleware('auth:api')->group(function() {
     });
 
     Route::prefix('users')->group(function () {
+        Route::put('{user_id}/avatar', 'API\UserController@updateAvatar');
+        Route::put('{user_id}', 'API\UserController@updateProfile');
         Route::prefix('friendships')->group(function () {
             Route::prefix('requests')->group(function () {
                 Route::get('sent', 'API\UserController@sentFriendRequests');

@@ -12,5 +12,8 @@ return [
     //error
     'password_error' => 'mật khẩu không đúng',
     'add_tags_error' => 'không thể thêm tag',
-    'detach_tags_error' => 'không thể gỡ tag'
+    'detach_tags_error' => 'không thể gỡ tag',
+
+    //user error
+    'user_not_found' => 'người dùng không tồn tại'
 ];
