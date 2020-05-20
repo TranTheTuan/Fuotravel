@@ -4,6 +4,9 @@ import {UserUpdateAvatarDialogComponent} from '../dialogs/user-update-avatar-dia
 import {AuthService} from '../../../services/auth.service';
 import {User} from '../../../models';
 import {UserUpdateProfileDialogComponent} from '../dialogs/user-update-profile-dialog/user-update-profile-dialog.component';
+import {ActivatedRoute} from '@angular/router';
+import {switchMap, tap} from 'rxjs/operators';
+import {UserService} from '../../../services/user.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -11,23 +14,35 @@ import {UserUpdateProfileDialogComponent} from '../dialogs/user-update-profile-d
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
-  currentUser: User;
+  profileUser: User;
+  authUser: User;
   tmpAvatar;
   updateAvatarDialogRef: MatDialogRef<UserUpdateAvatarDialogComponent>;
   updateProfileDialogRef: MatDialogRef<UserUpdateProfileDialogComponent>;
   constructor(
     private dialog: MatDialog,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.currentUser = this.authService.currentUserValue;
-    console.log(this.currentUser);
+    this.authUser = this.authService.currentUserValue;
+    const user$ = this.route.parent.paramMap.pipe(
+      tap(paramMap => console.log(paramMap.get('user_id'))),
+      switchMap(paramMap =>
+        this.userService.getUserDetail(paramMap.get('user_id'))
+      )
+    );
+    user$.subscribe(res => {
+      this.profileUser = res.data;
+    });
+    console.log(this.profileUser);
   }
   onOpenUpdateAvatarDialog() {
     this.updateAvatarDialogRef = this.dialog.open(UserUpdateAvatarDialogComponent, {
       width: '400px',
-      data: this.currentUser
+      data: this.profileUser
     });
     this.updateAvatarDialogRef.afterClosed().subscribe(res => {
       if (res) {
@@ -38,14 +53,14 @@ export class UserProfileComponent implements OnInit {
   onOpenUpdateProfileDialog() {
     this.updateProfileDialogRef = this.dialog.open(UserUpdateProfileDialogComponent, {
       width: '500px',
-      data: this.currentUser
+      data: this.profileUser
     });
     this.updateProfileDialogRef.afterClosed().subscribe(data => {
       if (data) {
         for (const key of Object.keys(data)) {
-          this.currentUser[key] = data[key];
+          this.profileUser[key] = data[key];
         }
-        localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+        localStorage.setItem('currentUser', JSON.stringify(this.profileUser));
       }
     });
   }

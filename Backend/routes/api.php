@@ -101,7 +101,10 @@ Route::middleware('auth:api')->group(function() {
     Route::prefix('users')->group(function () {
         Route::put('{user_id}/avatar', 'API\UserController@updateAvatar');
         Route::put('{user_id}', 'API\UserController@updateProfile');
+        Route::get('{user_id}', 'API\UserController@getProfile');
         Route::prefix('friendships')->group(function () {
+            Route::get('{user_id}', 'API\UserController@getFriends');
+            Route::delete('unfriend/{target_id}', 'API\UserController@unfriend');
             Route::prefix('requests')->group(function () {
                 Route::get('sent', 'API\UserController@sentFriendRequests');
                 Route::get('received', 'API\UserController@getFriendRequests');
@@ -110,11 +113,11 @@ Route::middleware('auth:api')->group(function() {
                 Route::delete('decline/{sender_id}', 'API\UserController@declineFriendRequest');
                 Route::delete('cancel/{resipient_id}', 'API\UserController@cancelFriendRequest');
             });
+            // block - deprecated
             Route::prefix('block')->group(function () {
                 Route::post('{target_id}', 'API\UserController@block');
                 Route::get('blocked', 'API\UserController@blockedFriends');
             });
-            Route::get('/', 'API\UserController@getFriends');
         });
     });
 });

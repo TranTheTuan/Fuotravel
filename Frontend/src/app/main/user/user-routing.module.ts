@@ -6,7 +6,7 @@ import {UserFriendsComponent} from './user-friends/user-friends.component';
 import {UserProfileComponent} from './user-profile/user-profile.component';
 
 
-const routes: Routes = [{ path: '', component: UserComponent, children: [
+const routes: Routes = [{ path: ':user_id', component: UserComponent, children: [
     { path: '', redirectTo: 'profile', pathMatch: 'full'},
     { path: 'profile', component: UserProfileComponent},
     { path: 'plans', component: UserPlansComponent},

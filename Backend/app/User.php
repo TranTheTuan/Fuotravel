@@ -160,13 +160,30 @@ class User extends \TCG\Voyager\Models\User
 
     public function sentFriendRequests()
     {
-        return $this->hasMany('App\Relationship', 'first_user_id')
-            ->where('status', Relationship::PENDING);
+        return $this->belongsToMany('App\User', 'relationships', 'first_user_id', 'second_user_id')
+            ->withPivot('status', 'action_user_id')
+            ->wherePivot('status', Relationship::PENDING);
     }
 
     public function receivedFriendRequests()
     {
-        return $this->hasMany('App\Relationship', 'second_user_id')
-            ->where('status', Relationship::PENDING);
+        return $this->belongsToMany('App\User', 'relationships', 'second_user_id', 'first_user_id')
+            ->withPivot('status', 'action_user_id')
+            ->wherePivot('status', Relationship::PENDING);
     }
+
+
+
+    // deprecated
+//    public function sentFriendRequests()
+//    {
+//        return $this->hasMany('App\Relationship', 'first_user_id')
+//            ->where('status', Relationship::PENDING);
+//    }
+//
+//    public function receivedFriendRequests()
+//    {
+//        return $this->hasMany('App\Relationship', 'second_user_id')
+//            ->where('status', Relationship::PENDING);
+//    }
 }

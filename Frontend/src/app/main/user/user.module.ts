@@ -20,33 +20,37 @@ import { UserUpdateAvatarDialogComponent } from './dialogs/user-update-avatar-di
 import {PipesModule} from '../../pipes/pipes.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { UserUpdateProfileDialogComponent } from './dialogs/user-update-profile-dialog/user-update-profile-dialog.component';
+import {MatMenuModule} from "@angular/material/menu";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 @NgModule({
   declarations: [UserComponent, UserProfileComponent, UserPlansComponent, UserFriendsComponent, UserUpdateAvatarDialogComponent, UserUpdateProfileDialogComponent],
-  imports: [
-    CommonModule,
-    UserRoutingModule,
-    MatListModule,
-    ToolbarModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatChipsModule,
-    PipesModule,
-    MatDialogModule,
-    FormsModule,
-    MatSnackBarModule,
-    MatStepperModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatRadioModule,
-    MatDatepickerModule,
-    MatCheckboxModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    MatExpansionModule
-  ]
+    imports: [
+        CommonModule,
+        UserRoutingModule,
+        MatListModule,
+        ToolbarModule,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatChipsModule,
+        PipesModule,
+        MatDialogModule,
+        FormsModule,
+        MatSnackBarModule,
+        MatStepperModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatRadioModule,
+        MatDatepickerModule,
+        MatCheckboxModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatExpansionModule,
+        MatMenuModule,
+        MatProgressSpinnerModule
+    ]
 })
 export class UserModule { }

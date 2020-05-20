@@ -23,4 +23,8 @@ export class UserService {
     const apiUrl = this.APIS[2].replace('{user_id}', userId);
     return this.http.post<ApiResponse>(apiUrl, formData);
   }
+  getUserDetail(userId: any): Observable<ApiResponse> {
+    const apiUrl = this.APIS[2].replace('{user_id}', userId);
+    return this.http.get<ApiResponse>(apiUrl);
+  }
 }

@@ -1,16 +1,24 @@
 <app-toolbar></app-toolbar>
-<div class="container-sm">
-  <div class="row mt-5">
-    <mat-nav-list class="col-sm-3">
-      <a mat-list-item [routerLink]="['/users/profile']">Profile</a>
-      <mat-divider></mat-divider>
-      <a mat-list-item [routerLink]="['/users/friends']">Friends</a>
-      <mat-divider></mat-divider>
-      <a mat-list-item [routerLink]="['/users/plans']">Plans</a>
-    </mat-nav-list>
-    <mat-divider [vertical]="true"></mat-divider>
-    <div class="col-sm-8 ml-2">
-      <router-outlet></router-outlet>
+<div *ngIf="profileUser;then menu else loading"></div>
+<ng-template #loading>
+  <div class="d-flex flex-row justify-content-center align-items-center h-75">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
+<ng-template #menu>
+  <div class="container-sm">
+    <div class="row mt-5">
+      <mat-nav-list class="col-sm-3">
+        <a mat-list-item [routerLink]="['/users/'+ profileUser?.id +'/profile']">Profile</a>
+        <mat-divider></mat-divider>
+        <a mat-list-item [routerLink]="['/users/'+ profileUser?.id +'/friends']">Friends</a>
+        <mat-divider></mat-divider>
+        <a mat-list-item [routerLink]="['/users/'+ profileUser?.id +'/plans']">Plans</a>
+      </mat-nav-list>
+      <mat-divider [vertical]="true"></mat-divider>
+      <div class="col-sm-8 ml-2">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   </div>
-</div>
+</ng-template>

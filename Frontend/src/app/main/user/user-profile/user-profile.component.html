@@ -1,38 +1,41 @@
 <h3>Public Profile</h3>
 <mat-divider class="mb-3"></mat-divider>
-<div class="d-flex flex-row">
-  <mat-card class="">
-    <div *ngIf="tmpAvatar; then tempAvatar else trueAvatar"></div>
-    <ng-template #tempAvatar>
-      <img src="{{ tmpAvatar }}" alt="user avatar" width="200" height="250">
-    </ng-template>
-    <ng-template #trueAvatar>
-      <img src="{{ currentUser.avatar | imageUrl}}" alt="user avatar" width="200" height="250">
-    </ng-template>
-    <mat-card-actions class="d-flex flex-row justify-content-around">
-      <button mat-mini-fab matTooltip="Upload new avatar" (click)="onOpenUpdateAvatarDialog()" color="primary">
-        <mat-icon>add_photo_alternate</mat-icon>
-      </button>
-      <button mat-mini-fab matTooltip="Update account" color="primary">
-        <mat-icon>create</mat-icon>
-      </button>
-      <button mat-mini-fab matTooltip="Update profile" (click)="onOpenUpdateProfileDialog()" color="primary">
-        <mat-icon>account_box</mat-icon>
-      </button>
-    </mat-card-actions>
-  </mat-card>
-  <div class="ml-4">
-    <p>{{ currentUser.firstname }} {{ currentUser.lastname}}
-      <small class="text-secondary">({{ currentUser.name }})</small>
-    </p>
-    <p>{{ currentUser.birthday }}</p>
-    <p>{{ currentUser.gender | gender}}</p>
-    <p>{{ currentUser.phone }}</p>
-    <p>{{ currentUser.email }}</p>
-    <mat-chip-list>
-      <mat-chip *ngFor="let tag of currentUser.tags">
-        {{ tag.name }}
-      </mat-chip>
-    </mat-chip-list>
+<div *ngIf="profileUser;then menu"></div>
+<ng-template #menu>
+  <div class="d-flex flex-row">
+    <mat-card class="">
+      <div *ngIf="tmpAvatar; then tempAvatar else trueAvatar"></div>
+      <ng-template #tempAvatar>
+        <img src="{{ tmpAvatar }}" alt="user avatar" width="200" height="250">
+      </ng-template>
+      <ng-template #trueAvatar>
+        <img src="{{ profileUser.avatar | imageUrl}}" alt="user avatar" width="200" height="250">
+      </ng-template>
+      <mat-card-actions class="d-flex flex-row justify-content-around" *ngIf="profileUser.id == authUser.id">
+        <button mat-mini-fab matTooltip="Upload new avatar" (click)="onOpenUpdateAvatarDialog()" color="primary">
+          <mat-icon>add_photo_alternate</mat-icon>
+        </button>
+        <button mat-mini-fab matTooltip="Update account" color="primary">
+          <mat-icon>create</mat-icon>
+        </button>
+        <button mat-mini-fab matTooltip="Update profile" (click)="onOpenUpdateProfileDialog()" color="primary">
+          <mat-icon>account_box</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    <div class="ml-4">
+      <p>{{ profileUser.firstname }} {{ profileUser.lastname}}
+        <small class="text-secondary">({{ profileUser.name }})</small>
+      </p>
+      <p>{{ profileUser.birthday }}</p>
+      <p>{{ profileUser.gender | gender}}</p>
+      <p>{{ profileUser.phone }}</p>
+      <p>{{ profileUser.email }}</p>
+      <mat-chip-list>
+        <mat-chip *ngFor="let tag of profileUser.tags">
+          {{ tag.name }}
+        </mat-chip>
+      </mat-chip-list>
+    </div>
   </div>
-</div>
+</ng-template>

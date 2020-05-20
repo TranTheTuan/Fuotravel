@@ -47,26 +47,40 @@ class UserRepository extends AbstractRepository
         return $pending;
     }
 
+    public function unfriend($target_id)
+    {
+        $user = Auth::user();
+        foreach ($user->friends as $friend) {
+            $relationship = $friend->pivot;
+            if (
+                ($relationship->first_user_id == $target_id || $relationship->second_user_id == $target_id)
+                && $relationship->status == Relationship::FRIENDS
+            ) {
+                $relationship->delete();
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function acceptFriendRequest($sender_id)
     {
         $user = Auth::user();
-        $request = $user->receivedFriendRequests()->where('first_user_id', $sender_id)->first();
-        $request->update(['action_user_id' => $user->id, 'status' => Relationship::FRIENDS]);
-
-        return $request;
+        $user->receivedFriendRequests()->updateExistingPivot($sender_id, ['action_user_id' => $user->id, 'status' => Relationship::FRIENDS]);
+        return true;
     }
 
     public function cancelFriendRequest($recipient_id)
     {
         $user = Auth::user();
-        $user->sentFriendRequests()->where('second_user_id', $recipient_id)->first()->delete();
+        $user->sentFriendRequests()->detach($recipient_id);
         return true;
     }
 
     public function declineFriendRequest($sender_id)
     {
         $user = Auth::user();
-        $user->receivedFriendRequests()->where('first_user_id', $sender_id)->first()->delete();
+        $user->receivedFriendRequests()->detach($sender_id);
         return true;
     }
 

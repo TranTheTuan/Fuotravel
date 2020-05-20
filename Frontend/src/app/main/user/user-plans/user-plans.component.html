@@ -1,7 +1,7 @@
 <h3>User's plans</h3>
 <mat-divider class="mb-3"></mat-divider>
 <div class="d-flex flex-column">
-  <mat-form-field class="col-sm-3">
+  <mat-form-field class="col-sm-3" *ngIf="profileUser.id == authUser.id">
     <mat-select [formControl]="selectedTypeControl">
       <mat-option value="0">Created plans</mat-option>
       <mat-option value="1">Requesting plans</mat-option>
@@ -10,10 +10,10 @@
     </mat-select>
   </mat-form-field>
   <ul class="list-unstyled">
-    <li *ngFor="let plan of selectedPlans">
+    <li *ngFor="let plan of selectedPlans" class="mb-4">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          {{ plan.id }} {{ plan.title }}
+          {{ plan.title }}
         </mat-expansion-panel-header>
         <div class="d-flex flex-row">
           <div class="d-flex flex-column mr-4">
@@ -28,7 +28,7 @@
           <div>
             <button mat-button [routerLink]="['/plans', plan.id]" color="primary">View</button>
           </div>
-          <div>
+          <div *ngIf="profileUser.id == authUser.id">
             <button mat-button
                     [style.display]="selectedType == '3' ? '' : 'none'"
                     color="warn" (click)="onLeave(plan.id)">Leave</button>

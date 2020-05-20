@@ -37,7 +37,7 @@ class PlanRepository extends AbstractRepository
     public function getPlansByMemberStatus($status)
     {
         if ($status == 0) {
-            $plans = Plan::where('user_id', Auth::id());
+            $plans = Plan::where('user_id', Auth::id())->get();
             return $plans;
         }
         $plans = DB::table('plans')

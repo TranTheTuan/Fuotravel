@@ -55,14 +55,20 @@ class UserController extends ApiController
         return $this->sendResponse(__('api/api.updated'));
     }
 
+    public function getProfile($user_id)
+    {
+        return $this->sendResponse(User::find($user_id));
+    }
+
     public function sentFriendRequests()
     {
         return $this->sendResponse(Auth::user()->sentFriendRequests);
     }
 
-    public function getFriends()
+    public function getFriends($user_id)
     {
-        return $this->sendResponse(Auth::user()->friends);
+        $user = User::find($user_id);
+        return $this->sendResponse($user->friends);
     }
 
     public function getFriendRequests()
@@ -70,19 +76,40 @@ class UserController extends ApiController
         return $this->sendResponse(Auth::user()->receivedFriendRequests);
     }
 
+    public function unfriend($target_id)
+    {
+        $isSuccess = $this->userRepo->unfriend($target_id);
+        if ($isSuccess) {
+            return $this->sendResponse($isSuccess);
+        }
+        return $this->sendError(__('api/api.friend_request_not_found'));
+    }
+
     public function acceptFriendRequest($sender_id)
     {
-        return $this->sendResponse($this->userRepo->acceptFriendRequest($sender_id));
+        $isAccepted = $this->userRepo->acceptFriendRequest($sender_id);
+        if ($isAccepted) {
+            return $this->sendResponse($isAccepted);
+        }
+        return $this->sendError(__('api/api.friend_request_not_found'));
     }
 
     public function cancelFriendRequest($recipient_id)
     {
-        return $this->sendResponse($this->userRepo->cancelFriendRequest($recipient_id));
+        $isCancel = $this->userRepo->cancelFriendRequest($recipient_id);
+        if ($isCancel) {
+            return $this->sendResponse($isCancel);
+        }
+        return $this->sendError(__('api/api.friend_request_not_found'));
     }
 
     public function declineFriendRequest($sender_id)
     {
-        return $this->sendResponse($this->userRepo->declineFriendRequest($sender_id)); 
+        $isDeclined = $this->userRepo->declineFriendRequest($sender_id);
+        if ($isDeclined) {
+            return $this->sendResponse($isDeclined);
+        }
+        return $this->sendError(__('api/api.friend_request_not_found'));
     }
 
     public function blockedFriends()

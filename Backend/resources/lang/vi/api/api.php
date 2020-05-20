@@ -13,7 +13,6 @@ return [
     'password_error' => 'mật khẩu không đúng',
     'add_tags_error' => 'không thể thêm tag',
     'detach_tags_error' => 'không thể gỡ tag',
-
-    //user error
-    'user_not_found' => 'người dùng không tồn tại'
+    'user_not_found' => 'người dùng không tồn tại',
+    'friend_request_not_found' => 'yêu cầu kết bạn không tồn tại'
 ];

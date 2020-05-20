@@ -4,7 +4,9 @@ import {AuthService} from '../../../services/auth.service';
 import {PlanService} from '../../../services/plan.service';
 import {FormControl} from '@angular/forms';
 import {MemberService} from '../../../services/member.service';
-import {tap} from 'rxjs/operators';
+import {switchMap, tap} from 'rxjs/operators';
+import {UserService} from "../../../services/user.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-user-plans',
@@ -16,18 +18,29 @@ export class UserPlansComponent implements OnInit {
   selectedTypeControl = new FormControl();
   selectedPlans: Plan[] = [];
   selectedType = '0';
+  profileUser: User;
+  authUser: User;
   constructor(
     private authService: AuthService,
     private planService: PlanService,
-    private memberService: MemberService
+    private memberService: MemberService,
+    private userService: UserService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.currentUser = this.authService.currentUserValue;
+    this.authUser = this.authService.currentUserValue;
     this.selectedTypeControl.setValue(this.selectedType);
+    const user$ = this.route.parent.paramMap.pipe(
+      switchMap(paramMap =>
+        this.userService.getUserDetail(paramMap.get('user_id'))
+      )
+    );
+    user$.subscribe(res => {
+      this.profileUser = res.data;
+    });
     this.planService.getPlansOption(this.selectedType).subscribe(res => {
       if (Object.keys(res.data).length > 0) {
-        console.log(res.data);
         this.selectedPlans = res.data;
       }
       // console.log(this.selectedPlans);
@@ -40,13 +53,13 @@ export class UserPlansComponent implements OnInit {
         tap(val => this.selectedType = val)
       )
       .subscribe(val => {
-      this.planService.getPlansOption(val).subscribe(res => {
-        if (Object.keys(res.data).length > 0) {
-          this.selectedPlans = res.data;
-        } else {
-          this.selectedPlans = [];
-        }
-      });
+        this.planService.getPlansOption(val).subscribe(res => {
+          if (Object.keys(res.data).length > 0) {
+            this.selectedPlans = res.data;
+          } else {
+            this.selectedPlans = [];
+          }
+        });
     });
   }
   onUnfollow(planId: any) {

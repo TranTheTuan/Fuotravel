@@ -19,12 +19,6 @@ export class ToolbarComponent implements OnInit {
   suggestPlans = [];
   authTags: Tag[];
   selectedTags: Tag[] = [];
-  demo: Tag[] = [
-    { id: 1, name: '2', isSelected: false},
-    { id: 2, name: '3', isSelected: false},
-    { id: 3, name: '4', isSelected: false},
-    { id: 4, name: '5', isSelected: false},
-  ]
   @Output() tagsSelected = new EventEmitter();
   constructor(
     private authService: AuthService,
@@ -72,7 +66,7 @@ export class ToolbarComponent implements OnInit {
     });
   }
   onSelectTag(tag: Tag) {
-    tag.isSelected = !tag.isSelected
+    tag.isSelected = !tag.isSelected;
     if (tag.isSelected) {
       this.selectedTags.push(tag);
     } else {
