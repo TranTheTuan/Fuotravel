@@ -39,6 +39,11 @@ class PlanController extends ApiController
         return $this->sendResponse($this->planRepo->filter($request->all()));
     }
 
+    public function getPlansByMemberStatus(Request $request)
+    {
+        return $this->sendResponse($this->planRepo->getPlansByMemberStatus($request->status));
+    }
+
     public function show($plan_id)
     {
         $this->authorize('view', Plan::find($plan_id));

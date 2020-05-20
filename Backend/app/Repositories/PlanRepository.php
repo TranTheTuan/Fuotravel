@@ -34,6 +34,21 @@ class PlanRepository extends AbstractRepository
         return $plans->get();
     }
 
+    public function getPlansByMemberStatus($status)
+    {
+        if ($status == 0) {
+            $plans = Plan::where('user_id', Auth::id());
+            return $plans;
+        }
+        $plans = DB::table('plans')
+            ->leftJoin('members', 'plans.id', '=', 'members.plan_id')
+            ->where('members.user_id', Auth::id())
+            ->where('members.status', $status)
+            ->select('plans.*')->distinct()
+            ->get();
+        return $plans;
+    }
+
     public function create(array $data)
     {
         $user = Auth::user();

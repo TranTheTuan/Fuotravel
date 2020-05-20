@@ -56,7 +56,14 @@ class UserRepository extends AbstractRepository
         return $request;
     }
 
-    public function cancelFriendRequest($sender_id)
+    public function cancelFriendRequest($recipient_id)
+    {
+        $user = Auth::user();
+        $user->sentFriendRequests()->where('second_user_id', $recipient_id)->first()->delete();
+        return true;
+    }
+
+    public function declineFriendRequest($sender_id)
     {
         $user = Auth::user();
         $user->receivedFriendRequests()->where('first_user_id', $sender_id)->first()->delete();

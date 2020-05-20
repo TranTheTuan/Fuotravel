@@ -7,9 +7,9 @@ import {
   MatButtonModule,
   MatCardModule, MatCheckboxModule,
   MatChipsModule, MatDatepickerModule,
-  MatDialogModule, MatFormFieldModule,
+  MatDialogModule, MatExpansionModule, MatFormFieldModule,
   MatIconModule, MatInputModule,
-  MatListModule, MatRadioModule, MatSnackBarModule, MatStepperModule,
+  MatListModule, MatRadioModule, MatSelectModule, MatSnackBarModule, MatStepperModule,
   MatTooltipModule
 } from '@angular/material';
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -44,7 +44,9 @@ import { UserUpdateProfileDialogComponent } from './dialogs/user-update-profile-
     MatRadioModule,
     MatDatepickerModule,
     MatCheckboxModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatExpansionModule
   ]
 })
 export class UserModule { }

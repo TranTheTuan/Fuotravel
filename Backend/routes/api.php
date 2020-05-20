@@ -23,6 +23,7 @@ Route::middleware('auth:api')->group(function() {
 
     Route::prefix('plans')->group(function() {
         Route::get('/', 'API\PlanController@index');
+        Route::get('members-status', 'API\PlanController@getPlansByMemberStatus');
         Route::get('{plan_id}', 'API\PlanController@show');
         Route::post('create', 'API\PlanController@create');
         Route::post('update/{plan_id}', 'API\PlanController@update');
@@ -106,10 +107,11 @@ Route::middleware('auth:api')->group(function() {
                 Route::get('received', 'API\UserController@getFriendRequests');
                 Route::post('send/{recipient_id}', 'API\UserController@sendFriendRequest');
                 Route::put('accept/{sender_id}', 'API\UserController@acceptFriendRequest');
-                Route::delete('cancel/{sender_id}', 'API\UserController@cancelFriendRequest');
+                Route::delete('decline/{sender_id}', 'API\UserController@declineFriendRequest');
+                Route::delete('cancel/{resipient_id}', 'API\UserController@cancelFriendRequest');
             });
             Route::prefix('block')->group(function () {
-                Route::post('/{target_id}', 'API\UserController@block');
+                Route::post('{target_id}', 'API\UserController@block');
                 Route::get('blocked', 'API\UserController@blockedFriends');
             });
             Route::get('/', 'API\UserController@getFriends');

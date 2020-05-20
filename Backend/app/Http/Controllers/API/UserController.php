@@ -57,7 +57,7 @@ class UserController extends ApiController
 
     public function sentFriendRequests()
     {
-        return $this->sendResponse(Auth::user()->sentFriendRequests());
+        return $this->sendResponse(Auth::user()->sentFriendRequests);
     }
 
     public function getFriends()
@@ -75,9 +75,14 @@ class UserController extends ApiController
         return $this->sendResponse($this->userRepo->acceptFriendRequest($sender_id));
     }
 
-    public function cancelFriendRequest($sender_id)
+    public function cancelFriendRequest($recipient_id)
     {
-        return $this->sendResponse($this->userRepo->cancelFriendRequest($sender_id));
+        return $this->sendResponse($this->userRepo->cancelFriendRequest($recipient_id));
+    }
+
+    public function declineFriendRequest($sender_id)
+    {
+        return $this->sendResponse($this->userRepo->declineFriendRequest($sender_id)); 
     }
 
     public function blockedFriends()
