@@ -42,7 +42,7 @@ export class UserProfileComponent implements OnInit {
   onOpenUpdateAvatarDialog() {
     this.updateAvatarDialogRef = this.dialog.open(UserUpdateAvatarDialogComponent, {
       width: '400px',
-      data: this.profileUser
+      data: this.authUser
     });
     this.updateAvatarDialogRef.afterClosed().subscribe(res => {
       if (res) {
@@ -53,14 +53,14 @@ export class UserProfileComponent implements OnInit {
   onOpenUpdateProfileDialog() {
     this.updateProfileDialogRef = this.dialog.open(UserUpdateProfileDialogComponent, {
       width: '500px',
-      data: this.profileUser
+      data: this.authUser
     });
     this.updateProfileDialogRef.afterClosed().subscribe(data => {
       if (data) {
         for (const key of Object.keys(data)) {
-          this.profileUser[key] = data[key];
+          this.authUser[key] = data[key];
         }
-        localStorage.setItem('currentUser', JSON.stringify(this.profileUser));
+        localStorage.setItem('currentUser', JSON.stringify(this.authUser));
       }
     });
   }

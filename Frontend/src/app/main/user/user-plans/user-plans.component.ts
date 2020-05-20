@@ -5,8 +5,8 @@ import {PlanService} from '../../../services/plan.service';
 import {FormControl} from '@angular/forms';
 import {MemberService} from '../../../services/member.service';
 import {switchMap, tap} from 'rxjs/operators';
-import {UserService} from "../../../services/user.service";
-import {ActivatedRoute} from "@angular/router";
+import {UserService} from '../../../services/user.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-user-plans',
@@ -43,7 +43,6 @@ export class UserPlansComponent implements OnInit {
       if (Object.keys(res.data).length > 0) {
         this.selectedPlans = res.data;
       }
-      // console.log(this.selectedPlans);
     });
     this.onTypeChange();
   }
