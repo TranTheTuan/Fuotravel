@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Relationship;
 use App\Repositories\BaseRepositories\AbstractRepository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserRepository extends AbstractRepository
 {
@@ -41,6 +42,15 @@ class UserRepository extends AbstractRepository
         return $user ? $user->active == $active : false;
     }
 
+    public function getRelationshipBetween($target_id)
+    {
+        $relationship = DB::table('relationships')
+            ->whereIn('first_user_id', [Auth::id(), $target_id])
+            ->whereIn('second_user_id', [Auth::id(), $target_id])
+            ->get()->first();
+        return $relationship;
+    }
+
     public function sendFriendRequest(array $data)
     {
         $pending = Relationship::create($data);
@@ -67,7 +77,8 @@ class UserRepository extends AbstractRepository
     {
         $user = Auth::user();
         $user->receivedFriendRequests()->updateExistingPivot($sender_id, ['action_user_id' => $user->id, 'status' => Relationship::FRIENDS]);
-        return true;
+        $relationship = $this->getRelationshipBetween($sender_id);
+        return $relationship;
     }
 
     public function cancelFriendRequest($recipient_id)

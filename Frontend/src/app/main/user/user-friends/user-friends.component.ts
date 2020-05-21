@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {ApiResponse, Plan, User} from '../../../models';
 import {RelationshipService} from '../../../services/relationship.service';
 import {switchMap, tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {UserService} from "../../../services/user.service";
-import {ActivatedRoute} from "@angular/router";
-import {AuthService} from "../../../services/auth.service";
+import {UserService} from '../../../services/user.service';
+import {ActivatedRoute} from '@angular/router';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
   selector: 'app-user-friends',
@@ -19,12 +19,14 @@ export class UserFriendsComponent implements OnInit {
   selectedType = '1';
   profileUser: User;
   authUser: User;
+
   constructor(
     private authService: AuthService,
     private relationshipService: RelationshipService,
     private userService: UserService,
     private route: ActivatedRoute
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.authUser = this.authService.currentUserValue;
@@ -44,6 +46,7 @@ export class UserFriendsComponent implements OnInit {
     });
     this.onTypeChange();
   }
+
   onTypeChange() {
     this.selectFriendControl.valueChanges
       .pipe(
@@ -67,6 +70,7 @@ export class UserFriendsComponent implements OnInit {
         });
       });
   }
+
   onCancel(recipientId: any) {
     this.relationshipService.cancelRequest(recipientId).subscribe(res => {
       if (res.data) {
@@ -75,6 +79,7 @@ export class UserFriendsComponent implements OnInit {
       }
     });
   }
+
   onDecline(senderId: any) {
     this.relationshipService.declineRequest(senderId).subscribe(res => {
       if (res.data) {
@@ -83,6 +88,7 @@ export class UserFriendsComponent implements OnInit {
       }
     });
   }
+
   onConfirm(senderId: any) {
     this.relationshipService.acceptRequest(senderId).subscribe(res => {
       if (res.data) {
@@ -91,6 +97,7 @@ export class UserFriendsComponent implements OnInit {
       }
     });
   }
+
   onUnfriend(targetId: any) {
     this.relationshipService.unfriend(targetId).subscribe(res => {
       if (res.data) {

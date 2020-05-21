@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {ApiResponse} from '../models';
@@ -27,7 +27,10 @@ export class MemberService {
   };
   membership: Array<number>;
   membership$ = new BehaviorSubject<Array<number>>([]);
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient) {
+  }
+
   getMembership(planId: any) {
     const apiUrl = this.APIS[11].replace('{plan_id}', planId);
     this.http.get<ApiResponse>(apiUrl).subscribe(res => {
@@ -35,9 +38,11 @@ export class MemberService {
       this.membership$.next([...this.membership]);
     });
   }
+
   getMembershipListener() {
     return this.membership$.asObservable();
   }
+
   getMembers(planId: any, memberType: number): Observable<ApiResponse> {
     let apiUrl = '';
     if (memberType === PENDING) {
@@ -51,6 +56,7 @@ export class MemberService {
         return res;
       }));
   }
+
   accept(userId: any, planId: any): Observable<ApiResponse> {
     const apiUrl = this.APIS[3].replace('{user_id}', userId)
       .replace('{plan_id}', planId);
@@ -59,6 +65,7 @@ export class MemberService {
         return res;
       }));
   }
+
   decline(userId: any, planId: any): Observable<ApiResponse> {
     const apiUrl = this.APIS[4].replace('{user_id}', userId)
       .replace('{plan_id}', planId);
@@ -67,6 +74,7 @@ export class MemberService {
         return res;
       }));
   }
+
   ban(userId: any, planId: any): Observable<ApiResponse> {
     const apiUrl = this.APIS[5].replace('{user_id}', userId)
       .replace('{plan_id}', planId);
@@ -75,6 +83,7 @@ export class MemberService {
         return res;
       }));
   }
+
   kick(userId: any, planId: any): Observable<ApiResponse> {
     const apiUrl = this.APIS[6].replace('{user_id}', userId)
       .replace('{plan_id}', planId);
@@ -83,6 +92,7 @@ export class MemberService {
         return res;
       }));
   }
+
   promote(userId: any, planId: any, role: any): Observable<ApiResponse> {
     const apiUrl = this.APIS[7].replace('{user_id}', userId)
       .replace('{plan_id}', planId)
@@ -92,6 +102,7 @@ export class MemberService {
         return res;
       }));
   }
+
   discharge(userId: any, planId: any, role: any): Observable<ApiResponse> {
     const apiUrl = this.APIS[8].replace('{user_id}', userId)
       .replace('{plan_id}', planId)
@@ -101,6 +112,7 @@ export class MemberService {
         return res;
       }));
   }
+
   join(planId: any) {
     const apiUrl = this.APIS[9].replace('{plan_id}', planId);
     this.http.post<ApiResponse>(apiUrl, null)
@@ -111,6 +123,7 @@ export class MemberService {
         }
       });
   }
+
   unfollow(planId: any) {
     const apiUrl = this.APIS[10].replace('{plan_id}', planId);
     this.http.post<ApiResponse>(apiUrl, null)
@@ -122,6 +135,7 @@ export class MemberService {
         this.membership$.next([...this.membership]);
       });
   }
+
   follow(planId: any) {
     const apiUrl = this.APIS[13].replace('{plan_id}', planId);
     this.http.post<ApiResponse>(apiUrl, null)
@@ -132,6 +146,7 @@ export class MemberService {
         this.membership$.next([...this.membership]);
       });
   }
+
   leave(planId: any) {
     const apiUrl = this.APIS[12].replace('{plan_id}', planId);
     this.http.post<ApiResponse>(apiUrl, null)

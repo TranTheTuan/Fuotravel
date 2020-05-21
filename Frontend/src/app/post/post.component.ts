@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PostService} from '../services/post.service';
 import {Post} from '../models/post';
 import {ActivatedRoute} from '@angular/router';
@@ -17,10 +17,13 @@ export class PostComponent implements OnInit {
   public readonly _UP = UP;
   public readonly _DOWN = DOWN;
   public posts: Post[];
+
   constructor(
     private postService: PostService,
     private voteService: VoteService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) {
+  }
+
   ngOnInit(): void {
     this.planId = this.route.parent.snapshot.paramMap.get('plan_id');
     this.postService.getPosts(this.planId);
@@ -28,6 +31,7 @@ export class PostComponent implements OnInit {
       this.posts = posts;
     });
   }
+
   vote(voteableId: any, voteable: any, voteType: any) {
     this.voteService.vote(voteableId, voteable, voteType)
       .subscribe(res => {

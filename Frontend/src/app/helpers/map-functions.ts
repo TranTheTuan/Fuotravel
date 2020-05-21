@@ -1,16 +1,19 @@
 import {Injectable} from '@angular/core';
 
 declare let H: any;
+
 export class HereMapFunction {
   private map;
   private ui;
   private behavior;
   private bubble;
+
   constructor(map: any, behavior: any, ui: any) {
     this.map = map;
     this.behavior = behavior;
     this.ui = ui;
   }
+
   openBubble(position, text) {
     if (!this.bubble) {
       this.bubble = new H.ui.InfoBubble(
@@ -23,8 +26,9 @@ export class HereMapFunction {
       this.bubble.open();
     }
   }
+
   createMarker(latitude: any, longitude: any, label: any) {
-    const marker = new H.map.Marker({ lat: latitude, lng: longitude}, {
+    const marker = new H.map.Marker({lat: latitude, lng: longitude}, {
       volatility: true
     });
     marker.draggable = true;

@@ -1,7 +1,58 @@
-<h3>Public Profile</h3>
-<mat-divider class="mb-3"></mat-divider>
 <div *ngIf="profileUser;then menu"></div>
 <ng-template #menu>
+  <div class="d-flex flex-row justify-content-between align-items-center">
+    <h3>Public Profile</h3>
+    <div>
+      <div *ngIf="relationshipBetween;then relationship else nonrelationship"></div>
+      <ng-template #nonrelationship>
+        <div>
+          <button mat-raised-button color="primary"
+                  (click)="onSendRequest(profileUser.id)"
+                  [style.display]="profileUser.id != authUser.id ? '' : 'none'">
+            Send friend request
+          </button>
+        </div>
+      </ng-template>
+      <ng-template #relationship>
+        <div>
+          <button mat-raised-button color="primary"
+                  [style.display]="isFriend ? '' : 'none'"
+                  [matMenuTriggerFor]="friendMenu">
+            Friend
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #friendMenu>
+            <button mat-menu-item
+                    (click)="onUnfriend(profileUser.id)">
+              Unfriend
+            </button>
+          </mat-menu>
+
+          <button mat-button
+                  [style.display]="isAuthStart && isPending ? '' : 'none'"
+                  [matMenuTriggerFor]="pendingMenu">
+            Pending
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #pendingMenu>
+            <button mat-menu-item (click)="onCancel(profileUser.id)">Cancel</button>
+          </mat-menu>
+
+          <button mat-button
+                  [style.display]="isTargetStart && isPending ? '' : 'none'"
+                  [matMenuTriggerFor]="respondMenu">
+            Respond to friend request
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #respondMenu>
+            <button mat-menu-item (click)="onAccept(profileUser.id)">Confirm</button>
+            <button mat-menu-item (click)="onDecline(profileUser.id)">Decline</button>
+          </mat-menu>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+  <mat-divider class="mb-3"></mat-divider>
   <div class="d-flex flex-row">
     <mat-card class="">
       <div *ngIf="tmpAvatar; then tempAvatar else trueAvatar"></div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {UserUpdateAvatarDialogComponent} from '../dialogs/user-update-avatar-dialog/user-update-avatar-dialog.component';
 import {AuthService} from '../../../services/auth.service';
@@ -7,6 +7,7 @@ import {UserUpdateProfileDialogComponent} from '../dialogs/user-update-profile-d
 import {ActivatedRoute} from '@angular/router';
 import {switchMap, tap} from 'rxjs/operators';
 import {UserService} from '../../../services/user.service';
+import {RelationshipService} from '../../../services/relationship.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -19,12 +20,20 @@ export class UserProfileComponent implements OnInit {
   tmpAvatar;
   updateAvatarDialogRef: MatDialogRef<UserUpdateAvatarDialogComponent>;
   updateProfileDialogRef: MatDialogRef<UserUpdateProfileDialogComponent>;
+  relationshipBetween;
+  isAuthStart = false;
+  isTargetStart = false;
+  isPending = false;
+  isFriend = false;
+
   constructor(
     private dialog: MatDialog,
     private authService: AuthService,
     private userService: UserService,
+    private relationshipService: RelationshipService,
     private route: ActivatedRoute
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.authUser = this.authService.currentUserValue;
@@ -36,9 +45,13 @@ export class UserProfileComponent implements OnInit {
     );
     user$.subscribe(res => {
       this.profileUser = res.data;
+      this.relationshipService.getRelationshipBetween(this.profileUser.id)
+        .subscribe(relationship => {
+          this.setRelationshipStatus(relationship.data);
+        });
     });
-    console.log(this.profileUser);
   }
+
   onOpenUpdateAvatarDialog() {
     this.updateAvatarDialogRef = this.dialog.open(UserUpdateAvatarDialogComponent, {
       width: '400px',
@@ -50,6 +63,7 @@ export class UserProfileComponent implements OnInit {
       }
     });
   }
+
   onOpenUpdateProfileDialog() {
     this.updateProfileDialogRef = this.dialog.open(UserUpdateProfileDialogComponent, {
       width: '500px',
@@ -61,6 +75,62 @@ export class UserProfileComponent implements OnInit {
           this.authUser[key] = data[key];
         }
         localStorage.setItem('currentUser', JSON.stringify(this.authUser));
+      }
+    });
+  }
+
+  setRelationshipStatus(data: any) {
+    this.relationshipBetween = data;
+    console.log(this.relationshipBetween);
+    if (this.relationshipBetween) {
+      this.isAuthStart = this.relationshipBetween.first_user_id === this.authUser.id;
+      this.isTargetStart = this.relationshipBetween.first_user_id === this.profileUser.id;
+      this.isPending = this.relationshipBetween.status === 1;
+      this.isFriend = this.relationshipBetween.status === 2;
+    } else {
+      this.isAuthStart = false;
+      this.isTargetStart = false;
+      this.isPending = false;
+      this.isFriend = false;
+    }
+  }
+
+  onUnfriend(targetId: any) {
+    this.relationshipService.unfriend(targetId).subscribe(res => {
+      if (res.data) {
+        this.setRelationshipStatus(null);
+      }
+    });
+  }
+
+  onSendRequest(targetId: any) {
+    this.relationshipService.sendRequest(targetId).subscribe(res => {
+      if (res.data) {
+        this.setRelationshipStatus(res.data);
+      }
+    });
+  }
+
+  onCancel(targetId: any) {
+    this.relationshipService.cancelRequest(targetId).subscribe(res => {
+      if (res.data) {
+        this.setRelationshipStatus(null);
+      }
+    });
+  }
+
+  onAccept(targetId: any) {
+    this.relationshipService.acceptRequest(targetId).subscribe(res => {
+      if (res.data) {
+        this.setRelationshipStatus(res.data);
+      }
+    });
+  }
+
+  onDecline(targetId: any) {
+    this.relationshipService.declineRequest(targetId).subscribe(res => {
+      if (res.data) {
+        this.setRelationshipStatus(null);
       }
     });
   }

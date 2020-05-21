@@ -11,18 +11,22 @@ import {User} from '../../../../models';
 export class UserUpdateAvatarDialogComponent implements OnInit {
   preview;
   avatarData = new FormData();
+
   constructor(
     private userService: UserService,
     private dialogRef: MatDialogRef<UserUpdateAvatarDialogComponent>,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: User
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
   }
+
   onCancel() {
     this.dialogRef.close();
   }
+
   onFileChange(e) {
     const avatar = e.target.files[0];
     this.avatarData.append('avatar', avatar);
@@ -32,6 +36,7 @@ export class UserUpdateAvatarDialogComponent implements OnInit {
       this.preview = reader.result as string;
     };
   }
+
   onSave() {
     this.avatarData.append('_method', 'put');
     this.userService.updateAvatar(this.avatarData, this.data.id).subscribe(res => {

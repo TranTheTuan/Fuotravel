@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
@@ -13,8 +13,8 @@ import {AuthService} from '../../services/auth.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
   providers: [
-    { provide: DateAdapter, useClass: MomentDateAdapter},
-    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
+    {provide: DateAdapter, useClass: MomentDateAdapter},
+    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
   ]
 })
 export class RegisterComponent implements OnInit {
@@ -32,6 +32,7 @@ export class RegisterComponent implements OnInit {
     password: ['', [Validators.required, Validators.minLength(3)]],
     password_confirmation: ['', [Validators.required, Validators.minLength(3)]]
   });
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -51,8 +52,10 @@ export class RegisterComponent implements OnInit {
       }
     );
   }
+
   ngOnInit(): void {
   }
+
   onFileChange(event) {
     const file: File = event.target.files[0];
     this.registerForm.patchValue({
@@ -65,31 +68,38 @@ export class RegisterComponent implements OnInit {
       this.preview = reader.result as string;
     };
   }
+
   firstlastnameErrorMessage(name: string) {
     const namefield = this.registerForm.get(name);
     return namefield.hasError('required') ? `${name} is required` :
       namefield.hasError('minlength') ? `${name} minimum length is 2` : '';
   }
+
   birthdayErrorMessage() {
     return this.registerForm.get('birthday').hasError('required') ? 'Birthday is required' : '';
   }
+
   genderErrorMessage() {
     return this.registerForm.get('gender').hasError('required') ? 'Gender is required' : '';
   }
+
   usernameErrorMessage() {
     return this.registerForm.get('username').hasError('required') ? 'Username is required' :
       this.registerForm.get('username').hasError('minlength') ? 'Username minimum length is 6' : '';
   }
+
   phoneErrorMessage() {
     const phone = this.registerForm.get('phone');
     return phone.hasError('required') ? 'Phone number is required' :
       phone.hasError('minlength') ? 'Phone number minimum length is 5' :
-      phone.hasError('maxlength') ? 'Phone number maximum length is 11' : '';
+        phone.hasError('maxlength') ? 'Phone number maximum length is 11' : '';
   }
+
   emailErrorMessage() {
     return this.registerForm.get('email').hasError('required') ? 'Email is required' :
       this.registerForm.get('email').hasError('email') ? 'Not a valid email format' : '';
   }
+
   passwordErrorMessage() {
     return this.registerForm.get('password').hasError('required') ? 'Password is required' :
       this.registerForm.get('password').hasError('minlength') ? 'Password minimum length is 3' : '';

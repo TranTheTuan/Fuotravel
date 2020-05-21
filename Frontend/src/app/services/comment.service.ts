@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {ApiResponse} from '../models';
@@ -15,7 +15,10 @@ export class CommentService {
     1: environment.apiURL + '/comments/{commentable_id}/commentable/{commentable}',
     2: environment.apiURL + '/comments/create/{commentable_id}/commentable/{commentable}'
   };
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient) {
+  }
+
   getAll(commentableId: any, commentable: any): Observable<ApiResponse> {
     const apiUrl = this.APIS[1].replace('{commentable_id}', commentableId)
       .replace('{commentable}', commentable);
@@ -24,6 +27,7 @@ export class CommentService {
         return res;
       }));
   }
+
   createComment(commentableId: any, commentable: any, formValue: any): Observable<ApiResponse> {
     const apiUrl = this.APIS[2].replace('{commentable_id}', commentableId)
       .replace('{commentable}', commentable);

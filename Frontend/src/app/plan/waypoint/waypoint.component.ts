@@ -23,13 +23,15 @@ export class WaypointComponent implements OnInit {
   currentCoordinate = new Coordinate('21.028511', '105.804817');
   suggestLocations;
   isSearching = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private planService: PlanService,
     private hereMapService: HereMapService,
     private snackBar: MatSnackBar,
     private route: ActivatedRoute
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.planId = this.route.parent.snapshot.paramMap.get('plan_id');
@@ -43,6 +45,7 @@ export class WaypointComponent implements OnInit {
       }
     });
   }
+
   getCurrentLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
@@ -51,9 +54,11 @@ export class WaypointComponent implements OnInit {
       });
     }
   }
+
   get waypoints() {
     return this.waypointForm.get('waypoints') as FormArray;
   }
+
   createWaypoint(waypoint?: Waypoint) {
     const formGroup = this.formBuilder.group({
       name: ['', [Validators.required]],
@@ -88,11 +93,12 @@ export class WaypointComponent implements OnInit {
             finalize(() => this.isSearching = false)
           ))
       ).subscribe(res => {
-        // @ts-ignore
-        this.suggestLocations = res.items;
-      });
+      // @ts-ignore
+      this.suggestLocations = res.items;
+    });
     return formGroup;
   }
+
   onChooseWaypoint(i: number, waypoint: any) {
     this.waypoints.at(i).patchValue({
       latitude: waypoint.position.lat,
@@ -111,9 +117,11 @@ export class WaypointComponent implements OnInit {
     }
     this.planService.setWaypoints(this.chosenWaypoints);
   }
+
   addWaypoint(waypoint: Waypoint = null) {
     this.waypoints.push(this.createWaypoint(waypoint));
   }
+
   removeWaypoint(index: number) {
     if (this.waypoints.at(index).get('name').value) {
       for (const [i, item] of this.chosenWaypoints.entries()) {
@@ -129,13 +137,14 @@ export class WaypointComponent implements OnInit {
     }
     this.waypoints.removeAt(index);
   }
+
   onSubmit() {
     for (const waypoint of this.waypointForm.value.waypoints) {
       waypoint.leave_at = dateFormat(waypoint.leave_at);
       waypoint.arrival_at = dateFormat(waypoint.arrival_at);
     }
     this.planService.updateWaypoints(this.waypointForm.value, this.planId).subscribe(res => {
-      this.snackBar.open('Route is updated :)', 'Close', { duration: 3000});
+      this.snackBar.open('Route is updated :)', 'Close', {duration: 3000});
     });
   }
 

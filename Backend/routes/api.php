@@ -105,6 +105,7 @@ Route::middleware('auth:api')->group(function() {
         Route::prefix('friendships')->group(function () {
             Route::get('{user_id}', 'API\UserController@getFriends');
             Route::delete('unfriend/{target_id}', 'API\UserController@unfriend');
+            Route::get('between/{target_id}', 'API\UserController@getRelationshipBetween');
             Route::prefix('requests')->group(function () {
                 Route::get('sent', 'API\UserController@sentFriendRequests');
                 Route::get('received', 'API\UserController@getFriendRequests');

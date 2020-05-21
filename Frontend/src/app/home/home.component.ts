@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Observable, Observer} from 'rxjs';
 import {Router} from '@angular/router';
 import {Plan, Tag} from '../models';
@@ -17,11 +17,14 @@ export class HomeComponent implements OnInit {
   });
   authTags: Tag[];
   selectedTags: Tag[] = [];
+
   constructor(
     private authService: AuthService,
     private planService: PlanService,
     private router: Router
-  ) { }
+  ) {
+  }
+
   ngOnInit(): void {
     if (localStorage.getItem('plans')) {
       this.plans = JSON.parse(localStorage.getItem('plans'));
@@ -30,11 +33,13 @@ export class HomeComponent implements OnInit {
     }
     this.authTags = this.authService.currentUserValue.tags;
   }
+
   getPlans(tagIds: string = '') {
     this.planService.getAll('', tagIds).subscribe(res => {
       this.plans = res.data;
     }, error => console.log(error));
   }
+
   onSelectTag(tag: Tag) {
     tag.isSelected = !tag.isSelected;
     if (tag.isSelected) {

@@ -7,6 +7,7 @@ import {ActivatedRoute} from '@angular/router';
 import {PlanService} from '../../services/plan.service';
 
 declare let H: any;
+
 @Component({
   selector: 'app-here-map',
   templateUrl: './here-map.component.html',
@@ -25,11 +26,13 @@ export class HereMapComponent implements OnInit, AfterViewInit {
   currentLng = 105.804817;
   waypoints: Waypoint[] = [];
   planId;
+
   constructor(
     private planService: PlanService,
     private hereMapService: HereMapService,
     private route: ActivatedRoute
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.platform = new H.service.Platform({
@@ -41,6 +44,7 @@ export class HereMapComponent implements OnInit, AfterViewInit {
     this.planId = this.route.parent.snapshot.paramMap.get('plan_id');
     this.planService.getWaypoints(this.planId);
   }
+
   ngAfterViewInit() {
     const defaultLayers = this.platform.createDefaultLayers();
     this.map = new H.Map(
@@ -60,6 +64,7 @@ export class HereMapComponent implements OnInit, AfterViewInit {
       this.onChoseWaypoint(this.waypoints);
     });
   }
+
   onChoseWaypoint(chosenWaypoints: Array<Waypoint>) {
     this.map.removeObjects(this.map.getObjects());
     chosenWaypoints.sort((a, b) => a.order > b.order ? 1 : -1);
@@ -84,6 +89,7 @@ export class HereMapComponent implements OnInit, AfterViewInit {
       this.map.addObject(marker);
     }
   }
+
   createRoutingParams(waypoint0: Waypoint, waypoint1: Waypoint, represent = 'display', modeType = 'fastest', modeVehicle = 'car') {
     return {
       mode: modeType + ';' + modeVehicle,
@@ -92,6 +98,7 @@ export class HereMapComponent implements OnInit, AfterViewInit {
       representation: represent
     };
   }
+
   private onResult = (result) => {
     let route;
     let routeShape;
@@ -129,7 +136,7 @@ export class HereMapComponent implements OnInit, AfterViewInit {
       const routeLine = new H.map.Group();
       routeLine.addObjects([routeOutline, routeArrows]);
       const startMarker = this.hereMapFunction.createMarker(startpoint.latitude, startpoint.longitude, route.waypoint[0].label);
-      const endMarker = this.hereMapFunction.createMarker(endpoint.latitude, endpoint.longitude,  route.waypoint[1].label);
+      const endMarker = this.hereMapFunction.createMarker(endpoint.latitude, endpoint.longitude, route.waypoint[1].label);
       this.map.addObjects([routeLine, startMarker, endMarker]);
       this.map.getViewModel().setLookAtData({bounds: routeLine.getBoundingBox()});
     }

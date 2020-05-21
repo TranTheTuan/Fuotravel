@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {Subject} from 'rxjs';
@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
     email: [null, [Validators.required, Validators.email]],
     password: [null, [Validators.required, Validators.minLength(3)]]
   });
+
   constructor(private authService: AuthService,
               private router: Router,
               private fb: FormBuilder) {
@@ -22,25 +23,28 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/home']);
     }
   }
+
   onSubmit(formValue: any) {
     this.authService.login(formValue).subscribe(
       data => {
-      console.log('Login successfully: ' + JSON.stringify(this.authService.currentUserValue));
-      this.router.navigate(['home']);
-    },
+        console.log('Login successfully: ' + JSON.stringify(this.authService.currentUserValue));
+        this.router.navigate(['home']);
+      },
       error => {
         this.error.next(error.error.message);
-    }
+      }
     );
   }
 
   ngOnInit(): void {
 
   }
+
   emailErrorMessage() {
     return this.loginForm.get('email').hasError('required') ? 'Email is required' :
       this.loginForm.get('email').hasError('email') ? 'Not a valid email format' : '';
   }
+
   passwordErrorMessage() {
     return this.loginForm.get('password').hasError('required') ? 'Password is required' :
       this.loginForm.get('password').hasError('minlength') ? 'Password minimum length is 3' : '';

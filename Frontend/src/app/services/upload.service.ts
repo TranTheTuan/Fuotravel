@@ -9,9 +9,11 @@ const url = 'http://localhost:8000/api/upload';
 })
 export class UploadService {
 
-  constructor(private http: HttpClient) { }
-  public upload(files: Set<File>): { [key: string]: {progress: Observable<number>}} {
-    const status: { [key: string]: {progress: Observable<number>}} = {};
+  constructor(private http: HttpClient) {
+  }
+
+  public upload(files: Set<File>): { [key: string]: { progress: Observable<number> } } {
+    const status: { [key: string]: { progress: Observable<number> } } = {};
     const formData: FormData = new FormData();
     files.forEach(file => {
       formData.append('files', file, file.name);

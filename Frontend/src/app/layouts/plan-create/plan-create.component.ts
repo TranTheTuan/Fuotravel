@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {MatDialogRef} from '@angular/material/dialog';
@@ -33,6 +33,7 @@ export class PlanCreateComponent implements OnInit {
   tagForm = this.fb.group({
     tags: this.fb.array([])
   });
+
   constructor(
     private planService: PlanService,
     private tagService: TagService,
@@ -40,11 +41,13 @@ export class PlanCreateComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<PlanCreateComponent>
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.getTags();
   }
+
   onCreatePlanSubmit() {
     const formValue = this.createPlanForm.value;
     formValue.start_at = dateFormat(formValue.start_at);
@@ -59,9 +62,10 @@ export class PlanCreateComponent implements OnInit {
       this.error.next(err.error.message);
     });
   }
+
   onUpdateTagsSubmit() {
     const selectedIds = this.tagForm.value.tags
-      .map((v, i) => ( v ? this.tags[i].id : null))
+      .map((v, i) => (v ? this.tags[i].id : null))
       .filter(v => v !== null);
     this.tagService.updateTags(this.planId, TAG_PLAN, selectedIds)
       .subscribe(res => {
@@ -69,6 +73,7 @@ export class PlanCreateComponent implements OnInit {
           'Close', {duration: 3000});
       }, error => console.log(error));
   }
+
   getTags() {
     this.tagService.getAll().subscribe(res => {
       this.tags = res.data;
@@ -77,21 +82,25 @@ export class PlanCreateComponent implements OnInit {
       });
     }, error => console.table(error.error.message));
   }
+
   get tagsArray() {
     return this.tagForm.get('tags') as FormArray;
   }
+
   buildTagsArray(tags: Tag[]) {
     const tagsArr = tags.map(tag => {
       return this.fb.control(false);
     });
     return this.fb.array(tagsArr);
   }
+
   onCancel() {
     if (this.planId) {
       this.router.navigate(['plans', this.planId]);
     }
     this.dialogRef.close();
   }
+
   onFileChange(event) {
     const file: File = event.target.files[0];
     this.createPlanForm.patchValue({
@@ -104,6 +113,7 @@ export class PlanCreateComponent implements OnInit {
       this.preview = reader.result as string;
     };
   }
+
   onDone() {
     this.dialogRef.close();
     this.router.navigate(['/plans', this.planId]);

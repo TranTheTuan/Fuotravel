@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {Plan, User} from '../models';
@@ -16,14 +16,15 @@ import {MemberService} from '../services/member.service';
 export class PlanComponent implements OnInit {
   tmpCover = '';
   links = [
-    { path: 'discuss', label: 'Discuss' },
-    { path: 'requests', label: 'Requests' },
-    { path: 'members', label: 'Members' },
-    { path: 'posts', label: 'Memories' }
+    {path: 'discuss', label: 'Discuss'},
+    {path: 'requests', label: 'Requests'},
+    {path: 'members', label: 'Members'},
+    {path: 'posts', label: 'Memories'}
   ];
   plan: Plan;
   currentUser: User;
   membership;
+
   constructor(
     private authService: AuthService,
     private planService: PlanService,
@@ -31,7 +32,9 @@ export class PlanComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private matDialog: MatDialog
-  ) {}
+  ) {
+  }
+
   ngOnInit(): void {
     this.currentUser = this.authService.currentUserValue;
     const plan$ = this.route.paramMap.pipe(
@@ -47,10 +50,11 @@ export class PlanComponent implements OnInit {
       this.membership = res;
     });
   }
+
   openDialog() {
     const dialogRef = this.matDialog.open(UpdatePlanComponent, {
       width: '500', height: '500',
-      data: { plan: this.plan}
+      data: {plan: this.plan}
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {

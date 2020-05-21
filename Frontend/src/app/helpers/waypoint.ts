@@ -8,6 +8,7 @@ export class Waypoint {
   order: number;
   latitude: string;
   longitude: string;
+
   constructor(
     name: string,
     order: number,

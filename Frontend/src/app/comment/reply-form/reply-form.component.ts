@@ -28,12 +28,14 @@ export class ReplyFormComponent implements OnInit {
     image: [''],
     parent_id: ['']
   });
+
   constructor(
     private commentService: CommentService,
     private authService: AuthService,
     private voteService: VoteService,
     private route: ActivatedRoute,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder) {
+  }
 
   ngOnInit(): void {
     this.currentUser = this.authService.currentUserValue;
@@ -41,6 +43,7 @@ export class ReplyFormComponent implements OnInit {
       parent_id: this.parentId
     });
   }
+
   onSubmit(formValue: any) {
     this.commentService.createComment(this.commentableId, this.commentableType, formValue)
       .subscribe(res => {
@@ -62,6 +65,7 @@ export class ReplyFormComponent implements OnInit {
     //   parent_id: this.parentId
     // });
   }
+
   onFileChange(event) {
     const file: File = event.target.files[0];
     this.replyForm.patchValue({

@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { HomeRoutingModule } from './home-routing.module';
+import {HomeRoutingModule} from './home-routing.module';
 import {HomeComponent} from './home.component';
 import {
   MatButtonModule,
@@ -12,13 +12,14 @@ import {PipesModule} from '../pipes/pipes.module';
 
 @NgModule({
   declarations: [HomeComponent],
-    imports: [
-        CommonModule,
-        HomeRoutingModule,
-        MatToolbarModule,
-        MatButtonModule,
-        ToolbarModule,
-        PipesModule
-    ]
+  imports: [
+    CommonModule,
+    HomeRoutingModule,
+    MatToolbarModule,
+    MatButtonModule,
+    ToolbarModule,
+    PipesModule
+  ]
 })
-export class HomeModule { }
+export class HomeModule {
+}

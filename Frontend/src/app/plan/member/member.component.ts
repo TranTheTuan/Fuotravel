@@ -16,11 +16,14 @@ export class MemberComponent implements OnInit {
   membership: Array<number>;
   planId;
   members: User[];
+
   constructor(
     private memberService: MemberService,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar
-  ) { }
+  ) {
+  }
+
   ngOnInit(): void {
     this.planId = this.route.parent.snapshot.paramMap.get('plan_id');
     this.memberService.getMembershipListener().subscribe(res => {
@@ -30,6 +33,7 @@ export class MemberComponent implements OnInit {
       this.members = res.data;
     }, error => console.log(error.error.message));
   }
+
   onPromote(userId: any, planId: any, role: any) {
     this.memberService.promote(userId, planId, role)
       .subscribe(res => {
@@ -37,6 +41,7 @@ export class MemberComponent implements OnInit {
           'Close', {duration: 3000});
       });
   }
+
   onDischarge(userId: any, planId: any, role: any) {
     this.memberService.discharge(userId, planId, role)
       .subscribe(res => {
@@ -44,6 +49,7 @@ export class MemberComponent implements OnInit {
           'Close', {duration: 3000});
       });
   }
+
   onKick(userId: any, planId: any) {
     this.memberService.kick(userId, planId)
       .subscribe(res => {
@@ -53,6 +59,7 @@ export class MemberComponent implements OnInit {
           'Close', {duration: 3000});
       });
   }
+
   onBan(userId: any, planId: any) {
     this.memberService.ban(userId, planId)
       .subscribe(res => {

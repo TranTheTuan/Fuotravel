@@ -1,6 +1,6 @@
 <div class="form-container">
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)" class="common-form">
-      <h1>Login</h1>
+    <h1>Login</h1>
     <mat-error style="max-width: fit-content">{{ error | async }}</mat-error>
     <div>
       <mat-form-field class="full-width" appearance="standard">

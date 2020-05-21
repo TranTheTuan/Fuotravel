@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {PlanCreateComponent} from './plan-create/plan-create.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -15,19 +15,20 @@ import {RouterModule} from '@angular/router';
 
 @NgModule({
   declarations: [PlanCreateComponent, UpdatePlanComponent],
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatDatepickerModule,
-        MatButtonModule,
-        MatStepperModule,
-        MatCheckboxModule,
-        MatDialogModule,
-        MatListModule,
-        RouterModule
-    ],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatButtonModule,
+    MatStepperModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatListModule,
+    RouterModule
+  ],
   exports: [PlanCreateComponent, UpdatePlanComponent]
 })
-export class LayoutModule { }
+export class LayoutModule {
+}

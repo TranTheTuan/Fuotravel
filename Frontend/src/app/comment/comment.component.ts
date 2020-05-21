@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { Comment } from '../models/comment';
+import {Comment} from '../models/comment';
 import {CommentService} from '../services/comment.service';
 import {ActivatedRoute} from '@angular/router';
 import {COMMENT, DOWN, PLAN, POST, UP} from '../helpers';
@@ -19,10 +19,12 @@ export class CommentComponent implements OnInit {
   _UP = UP;
   _DOWN = DOWN;
   comments: Comment[];
+
   constructor(
     private commentService: CommentService,
     private voteService: VoteService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
     const currentPath = this.route.snapshot.url[0].path;
@@ -31,6 +33,7 @@ export class CommentComponent implements OnInit {
     }
     this.getAll();
   }
+
   getAll() {
     this.route.parent.paramMap.pipe(
       tap((params) => this.commentableId = params.get('plan_id')),
@@ -39,6 +42,7 @@ export class CommentComponent implements OnInit {
       this.comments = res.data;
     });
   }
+
   vote(voteableId: any, voteable: any, voteType: any) {
     this.voteService.vote(voteableId, voteable, voteType)
       .subscribe(res => {
@@ -56,9 +60,11 @@ export class CommentComponent implements OnInit {
         }
       }, error => console.log(error.error));
   }
+
   addComment(newComment: Comment) {
     this.comments.unshift(newComment);
   }
+
   addReply(newReply: Comment) {
     const comment = this.comments.find(acomment => acomment.id === newReply.parent_id);
     comment.replies.unshift(newReply);

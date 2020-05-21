@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {User} from '../../models';
 import {MemberService} from '../../services/member.service';
@@ -19,12 +19,15 @@ export class RequestComponent implements OnInit {
   membership: Array<number>;
   _ADMIN = ADMIN;
   _MODERATOR = MODERATOR;
+
   constructor(
     private memberService: MemberService,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private http: HttpClient
-  ) {}
+  ) {
+  }
+
   ngOnInit(): void {
     this.planId = this.route.parent.snapshot.paramMap.get('plan_id');
     this.memberService.getMembers(this.planId, PENDING).subscribe(res => {
@@ -38,6 +41,7 @@ export class RequestComponent implements OnInit {
     //   this.snackBar.open(data.data, 'Close', {duration: 3000});
     // });
   }
+
   onAccept(userId: any, planId: any) {
     this.memberService.accept(userId, planId)
       .subscribe(res => {
@@ -47,6 +51,7 @@ export class RequestComponent implements OnInit {
           'Close', {duration: 3000});
       });
   }
+
   onDecline(userId: any, planId: any) {
     this.memberService.decline(userId, planId)
       .subscribe(res => {
@@ -56,6 +61,7 @@ export class RequestComponent implements OnInit {
           'Close', {duration: 3000});
       });
   }
+
   onBan(userId: any, planId: any) {
     this.memberService.ban(userId, planId)
       .subscribe(res => {
@@ -65,6 +71,7 @@ export class RequestComponent implements OnInit {
           'Close', {duration: 3000});
       });
   }
+
   saveme() {
     this.http.get(environment.apiURL + '/draft').subscribe();
   }

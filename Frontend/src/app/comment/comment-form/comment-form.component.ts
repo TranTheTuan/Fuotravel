@@ -27,16 +27,19 @@ export class CommentFormComponent implements OnInit {
     content: ['', [Validators.required]],
     image: ['']
   });
+
   constructor(
     private commentService: CommentService,
     private authService: AuthService,
     private voteService: VoteService,
     private route: ActivatedRoute,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder) {
+  }
 
   ngOnInit(): void {
     this.currentUser = this.authService.currentUserValue;
   }
+
   onSubmit(formValue: any) {
     this.commentService.createComment(this.commentableId, this.commentableType, formValue)
       .subscribe(res => {
@@ -52,6 +55,7 @@ export class CommentFormComponent implements OnInit {
     // this.commentFormDirective.resetForm();
     // this.imageInput.nativeElement.value = '';
   }
+
   onFileChange(event) {
     const file = event.target.files[0];
     this.commentForm.patchValue({

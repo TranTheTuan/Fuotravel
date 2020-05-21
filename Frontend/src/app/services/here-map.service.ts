@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Coordinate} from '../models/coordinate';
@@ -13,9 +13,12 @@ export class HereMapService {
     3: environment.apiURL + '/here-map/search/revgeocode/{lat}/{lng}',
     4: environment.apiURL + '/here-map/search/auto-suggest',
   };
+
   constructor(
     private http: HttpClient
-  ) { }
+  ) {
+  }
+
   getDiscover(query: string, coordinates: Coordinate, limit: any = 5, type: string = '') {
     // const apiUrl = this.APIS[1].replace('{lat}', coordinates.latitude)
     //   .replace('{lng}', coordinates.longitude)
@@ -29,15 +32,18 @@ export class HereMapService {
         .set('resultTypes', type)
     });
   }
+
   getGeocode(query: string) {
     const apiUrl = this.APIS[2].replace('{query}', query);
     return this.http.get(apiUrl);
   }
+
   getReverseGeocode(coordinates: Coordinate) {
     const apiUrl = this.APIS[3].replace('{lat}', coordinates.latitude)
       .replace('{lng}', coordinates.longitude);
     return this.http.get(apiUrl);
   }
+
   getAutoSuggest(query: string, coordinates: Coordinate, limit: any = 5, type: string = '') {
     // const apiUrl = this.APIS[4].replace('{lat}', coordinates.latitude)
     //   .replace('{lng}', coordinates.longitude)

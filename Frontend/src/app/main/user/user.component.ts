@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {User} from '../../models';
 import {switchMap, tap} from 'rxjs/operators';
@@ -12,11 +12,13 @@ import {UserService} from '../../services/user.service';
 })
 export class UserComponent implements OnInit {
   profileUser: User;
+
   constructor(
     private authService: AuthService,
     private userService: UserService,
     private route: ActivatedRoute
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     const user$ = this.route.paramMap.pipe(

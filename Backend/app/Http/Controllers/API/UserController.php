@@ -10,6 +10,7 @@ use App\Services\ImageService;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends ApiController
 {
@@ -27,6 +28,7 @@ class UserController extends ApiController
         $data['first_user_id'] = Auth::id();
         $data['second_user_id'] = $recipient_id;
         $data['action_user_id'] = Auth::id();
+        $data['status'] = Relationship::PENDING;
 
         return $this->sendResponse($this->userRepo->sendFriendRequest($data));
     }
@@ -60,6 +62,11 @@ class UserController extends ApiController
         return $this->sendResponse(User::find($user_id));
     }
 
+    public function getRelationshipBetween($target_id)
+    {
+        return $this->sendResponse($this->userRepo->getRelationshipBetween($target_id));
+    }
+
     public function sentFriendRequests()
     {
         return $this->sendResponse(Auth::user()->sentFriendRequests);
@@ -87,9 +94,9 @@ class UserController extends ApiController
 
     public function acceptFriendRequest($sender_id)
     {
-        $isAccepted = $this->userRepo->acceptFriendRequest($sender_id);
-        if ($isAccepted) {
-            return $this->sendResponse($isAccepted);
+        $relationship = $this->userRepo->acceptFriendRequest($sender_id);
+        if ($relationship) {
+            return $this->sendResponse($relationship);
         }
         return $this->sendError(__('api/api.friend_request_not_found'));
     }

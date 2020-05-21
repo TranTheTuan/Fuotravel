@@ -11,7 +11,8 @@
                 <mat-spinner diameter="24"></mat-spinner>
               </mat-option>
               <ng-container *ngIf="!isSearching">
-                <mat-option *ngFor="let item of suggestLocations" [value]="item.address.label" (click)="onChooseWaypoint(i, item)">
+                <mat-option *ngFor="let item of suggestLocations" [value]="item.address.label"
+                            (click)="onChooseWaypoint(i, item)">
                   <small>{{ item.address.label }}</small>
                 </mat-option>
               </ng-container>

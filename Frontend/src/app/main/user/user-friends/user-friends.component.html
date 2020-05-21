@@ -10,7 +10,7 @@
         <mat-option value="3">Received Friend Request</mat-option>
       </mat-select>
     </mat-form-field>
-    <div *ngIf="selectedFriends; then friendsList else emptyList"></div>
+    <div *ngIf="selectedFriends.length > 0; then friendsList else emptyList"></div>
     <ng-template #friendsList>
       <ul class="list-unstyled row justify-content-between mx-sm-1 mt-3">
         <li *ngFor="let friend of selectedFriends" class="border rounded bg-white list-column mb-3 p-1">
@@ -19,7 +19,9 @@
               <img [src]="friend.avatar | imageUrl" [alt]="friend.name" height="100px" width="100px">
             </div>
             <div class="d-flex flex-column">
-              {{ friend.firstname }} {{ friend.lastname }}
+              <a [routerLink]="['/users/' + friend.id + '/profile']">
+                {{ friend.firstname }} {{ friend.lastname }}
+              </a>
             </div>
             <div class="d-flex flex-column ml-auto" *ngIf="profileUser.id == authUser.id">
             <span>

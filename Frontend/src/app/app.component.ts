@@ -9,10 +9,14 @@ import io from 'socket.io-client';
 export class AppComponent implements OnInit {
   title = 'Fuotravel';
   data;
-  constructor() {}
+
+  constructor() {
+  }
+
   ngOnInit(): void {
     // this.subscribe();
   }
+
   // private subscribe() {
   //   const socket = io('http://localhost:3000');
   //   const echo = new Echo({

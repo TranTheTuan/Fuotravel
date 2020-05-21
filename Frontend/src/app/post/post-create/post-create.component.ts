@@ -18,18 +18,22 @@ export class PostCreateComponent implements OnInit {
     caption: ['', [Validators.required]],
     images: ['']
   });
+
   constructor(private fb: FormBuilder,
               private authService: AuthService,
               private postService: PostService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.currentUser = this.authService.currentUserValue;
   }
+
   onSubmit(formValue: any) {
     this.postService.addPost(this.planId, formValue);
     this.previews = null;
   }
+
   onFileChange(event) {
     const files = event.target.files;
     this.postForm.patchValue({

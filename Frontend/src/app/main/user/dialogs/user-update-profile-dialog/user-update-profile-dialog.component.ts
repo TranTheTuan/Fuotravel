@@ -27,6 +27,7 @@ export class UserUpdateProfileDialogComponent implements OnInit {
   tagForm = this.fb.group({
     tags: this.fb.array([])
   });
+
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<UserUpdateProfileDialogComponent>,
@@ -34,7 +35,8 @@ export class UserUpdateProfileDialogComponent implements OnInit {
     private userService: UserService,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: User
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.userId = this.data.id;
@@ -47,9 +49,11 @@ export class UserUpdateProfileDialogComponent implements OnInit {
     });
     this.getTags();
   }
+
   onCancel() {
     this.dialogRef.close();
   }
+
   onUpdateProfileSubmit() {
     const formValue = this.updateProfileForm.value;
     formValue.birthday = dateFormat(formValue.birthday, true);
@@ -60,15 +64,16 @@ export class UserUpdateProfileDialogComponent implements OnInit {
     formData.append('_method', 'PUT');
     this.userService.updateProfile(formData, this.userId).subscribe(() => {
       this.dialogRef.close(formValue);
-      this.snackBar.open('Updated user profile', 'Close', { duration: 3000 });
+      this.snackBar.open('Updated user profile', 'Close', {duration: 3000});
     }, error => {
       console.log(error);
       this.dialogRef.close();
     });
   }
+
   onUpdateTagsSubmit() {
     const selectedIds = this.tagForm.value.tags
-      .map((v, i) => ( v ? this.tags[i].id : null))
+      .map((v, i) => (v ? this.tags[i].id : null))
       .filter(v => v !== null);
     this.tagService.updateTags(this.userId, TAG_USER, selectedIds)
       .subscribe(res => {
@@ -81,10 +86,12 @@ export class UserUpdateProfileDialogComponent implements OnInit {
     selectedTags.tags = this.tags.filter(tag => selectedIds.includes(tag.id));
     this.dialogRef.close(selectedTags);
   }
+
   setCheckedStatus(tagId: any) {
     const index = this.data.tags.findIndex(tag => tag.id === tagId);
     return index !== -1;
   }
+
   getTags() {
     this.tagService.getAll().subscribe(res => {
       this.tags = res.data;
@@ -93,9 +100,11 @@ export class UserUpdateProfileDialogComponent implements OnInit {
       });
     }, error => console.table(error.error.message));
   }
+
   get tagsArray() {
     return this.tagForm.get('tags') as FormArray;
   }
+
   buildTagsArray(tags: Tag[]) {
     const tagsArr = tags.map(tag => {
       return this.fb.control(this.setCheckedStatus(tag.id));

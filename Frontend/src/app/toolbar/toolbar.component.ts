@@ -20,17 +20,20 @@ export class ToolbarComponent implements OnInit {
   authTags: Tag[];
   selectedTags: Tag[] = [];
   @Output() tagsSelected = new EventEmitter();
+
   constructor(
     private authService: AuthService,
     private planService: PlanService,
     private router: Router,
     private dialog: MatDialog
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.onSearch();
     this.authTags = this.authService.currentUserValue.tags;
   }
+
   onSearch() {
     this.searchControl.valueChanges.pipe(
       filter(val => val.length >= 2),
@@ -45,18 +48,22 @@ export class ToolbarComponent implements OnInit {
       this.suggestPlans = res.data;
     });
   }
+
   onDisplayValue(planId: any) {
     const index = this.suggestPlans.findIndex(plan => plan.id === planId);
     return (index !== -1) ? this.suggestPlans[index].title : '';
   }
+
   onSuggestionClick(planId: any) {
     this.searchControl.setValue('');
     this.router.navigate(['/plans/' + planId + '/discuss']);
   }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['auth']);
   }
+
   openDialog() {
     const dialogRef = this.dialog.open(PlanCreateComponent, {
       width: '500', height: '500'
@@ -65,6 +72,7 @@ export class ToolbarComponent implements OnInit {
       console.log(res);
     });
   }
+
   onSelectTag(tag: Tag) {
     tag.isSelected = !tag.isSelected;
     if (tag.isSelected) {

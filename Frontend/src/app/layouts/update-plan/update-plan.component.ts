@@ -32,6 +32,7 @@ export class UpdatePlanComponent implements OnInit {
   tagForm = this.fb.group({
     tags: this.fb.array([])
   });
+
   constructor(
     private planService: PlanService,
     private tagService: TagService,
@@ -41,7 +42,8 @@ export class UpdatePlanComponent implements OnInit {
     private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<UpdatePlanComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.planId = this.data.plan.id;
@@ -56,9 +58,11 @@ export class UpdatePlanComponent implements OnInit {
     });
     this.getTags();
   }
+
   onCancel() {
     this.dialogRef.close();
   }
+
   onUpdatePlanSubmit() {
     const formValue = this.updatePlanForm.value;
     formValue.start_at = dateFormat(formValue.start_at);
@@ -69,9 +73,10 @@ export class UpdatePlanComponent implements OnInit {
     }
     this.dialogRef.close(formValue);
   }
+
   onUpdateTagsSubmit() {
     const selectedIds = this.tagForm.value.tags
-      .map((v, i) => ( v ? this.tags[i].id : null))
+      .map((v, i) => (v ? this.tags[i].id : null))
       .filter(v => v !== null);
     this.tagService.updateTags(this.planId, TAG_PLAN, selectedIds)
       .subscribe(res => {
@@ -84,6 +89,7 @@ export class UpdatePlanComponent implements OnInit {
     selectedTags.tags = this.tags.filter(tag => selectedIds.includes(tag.id));
     this.dialogRef.close(selectedTags);
   }
+
   onFileChange(event) {
     const file: File = event.target.files[0];
     this.updatePlanForm.patchValue({
@@ -96,10 +102,12 @@ export class UpdatePlanComponent implements OnInit {
       this.preview = reader.result as string;
     };
   }
+
   setCheckedStatus(tagId: any) {
     const index = this.data.plan.tags.findIndex(tag => tag.id === tagId);
     return index !== -1;
   }
+
   getTags() {
     this.tagService.getAll().subscribe(res => {
       this.tags = res.data;
@@ -108,9 +116,11 @@ export class UpdatePlanComponent implements OnInit {
       });
     }, error => console.table(error.error.message));
   }
+
   get tagsArray() {
     return this.tagForm.get('tags') as FormArray;
   }
+
   buildTagsArray(tags: Tag[]) {
     const tagsArr = tags.map(tag => {
       return this.fb.control(this.setCheckedStatus(tag.id));
