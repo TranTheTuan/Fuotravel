@@ -15,6 +15,8 @@ import {LayoutModule} from '../layouts/layout.module';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatMenuModule} from "@angular/material/menu";
+import {PipesModule} from "../pipes/pipes.module";
 
 
 @NgModule({
@@ -33,7 +35,9 @@ import {MatChipsModule} from '@angular/material/chips';
     MatAutocompleteModule,
     MatProgressSpinnerModule,
     MatIconModule,
-    MatChipsModule
+    MatChipsModule,
+    MatMenuModule,
+    PipesModule
   ],
   exports: [ToolbarComponent]
 })

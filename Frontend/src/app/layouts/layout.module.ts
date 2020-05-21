@@ -12,6 +12,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatListModule} from '@angular/material/list';
 import {RouterModule} from '@angular/router';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [PlanCreateComponent, UpdatePlanComponent],
@@ -26,7 +27,8 @@ import {RouterModule} from '@angular/router';
     MatCheckboxModule,
     MatDialogModule,
     MatListModule,
-    RouterModule
+    RouterModule,
+    MatSnackBarModule
   ],
   exports: [PlanCreateComponent, UpdatePlanComponent]
 })

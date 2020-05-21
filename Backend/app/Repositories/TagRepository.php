@@ -24,7 +24,7 @@ class TagRepository extends AbstractRepository
             foreach ($data['tags'] as $tag) {
                 $taggable_type->tags()->attach($tag);
             }
-            return true;
+            return $taggable_type;
         }
         return false;
     }
@@ -55,7 +55,7 @@ class TagRepository extends AbstractRepository
             foreach ($data['tags'] as $tag) {
                 $taggable_type->tags()->attach($tag);
             }
-            return true;
+            return $taggable_type->tags;
         }
         return false;
     }

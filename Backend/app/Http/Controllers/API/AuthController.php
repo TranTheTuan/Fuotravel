@@ -68,7 +68,9 @@ class AuthController extends ApiController
         }
         $user = User::create($data);
         $token = $user->createToken('Personal access token');
-        return $this->sendResponse($token);
+        $user->accessToken = $token->accessToken;
+        $user->tags;
+        return $this->sendResponse($user);
     }
 
     public function logout()

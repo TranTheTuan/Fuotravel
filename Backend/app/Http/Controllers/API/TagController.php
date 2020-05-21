@@ -24,18 +24,20 @@ class TagController extends ApiController
         $data['tags'] = $request->all();
         $updated = $this->tagRepo->updateTags($data, $taggable_id, $taggable);
         if ($updated) {
-            return $this->sendResponse(__('api/api.added_tags'));
+            return $this->sendResponse($updated);
         }
         return $this->sendError(__('api/api.add_tags_error'));
     }
 
+    //deprecated
     public function add(Request $request, $taggable_id, $taggable)
     {
         $this->authorize('update', [Tag::class, $taggable_id, $taggable]);
         $data['tags'] = $request->all();
-        $added = $this->tagRepo->addTags($data, $taggable_id, $taggable);
-        if ($added) {
-            return $this->sendResponse(__('api/api.added_tags'));
+        $addedTags = $this->tagRepo->addTags($data, $taggable_id, $taggable);
+        if ($addedTags) {
+            $addedTags->tags;
+            return $this->sendResponse($addedTags);
         }
         return $this->sendError(__('api/api.add_tags_error'));
     }
@@ -50,6 +52,7 @@ class TagController extends ApiController
         return $this->sendResponse($this->tagRepo->showTags($taggable_id, $taggable));
     }
 
+    //deprecated
     public function detach(Request $request, $taggable_id, $taggable)
     {
         $this->authorize('update', [Tag::class, $taggable_id, $taggable]);

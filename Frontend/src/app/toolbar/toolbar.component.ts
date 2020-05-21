@@ -4,7 +4,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {PlanCreateComponent} from '../layouts/plan-create/plan-create.component';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, filter, finalize, switchMap, tap} from 'rxjs/operators';
-import {Tag} from '../models';
+import {Tag, User} from '../models';
 import {AuthService} from '../services/auth.service';
 import {PlanService} from '../services/plan.service';
 
@@ -14,6 +14,7 @@ import {PlanService} from '../services/plan.service';
   styleUrls: ['./toolbar.component.css']
 })
 export class ToolbarComponent implements OnInit {
+  currentUser: User;
   isSearching = false;
   searchControl = new FormControl();
   suggestPlans = [];
@@ -31,7 +32,8 @@ export class ToolbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.onSearch();
-    this.authTags = this.authService.currentUserValue.tags;
+    this.currentUser = this.authService.currentUserValue;
+    this.authTags = this.currentUser.tags;
   }
 
   onSearch() {

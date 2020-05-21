@@ -19,6 +19,20 @@
       </ng-container>
     </mat-autocomplete>
   </mat-form-field>
+  <span class="fill-space"></span>
   <span><button mat-button (click)="openDialog()">New Plan</button></span>
-  <span><button mat-button (click)="logout()" color="accent">logout</button></span>
+  <span>
+    <button mat-icon-button>
+      <mat-icon>notifications</mat-icon>
+    </button>
+  </span>
+  <span>
+    <button mat-icon-button [matMenuTriggerFor]="userMenu">
+      <img src="{{ currentUser.avatar | imageUrl}}" alt="user avatar" class="rounded-circle" width="25">
+    </button>
+    <mat-menu #userMenu>
+      <button mat-menu-item [routerLink]="['/users/' + currentUser.id]">profile</button>
+      <button mat-menu-item (click)="logout()">logout</button>
+    </mat-menu>
+  </span>
 </mat-toolbar>

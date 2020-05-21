@@ -21,13 +21,13 @@ export class RegisterComponent implements OnInit {
   preview = null;
   public error: Subject<any> = new Subject<any>();
   registerForm = this.fb.group({
-    firstname: ['', [Validators.required, Validators.minLength(2)]],
-    lastname: ['', [Validators.required, Validators.minLength(2)]],
-    gender: ['', [Validators.required]],
+    firstname: ['', [Validators.required]],
+    lastname: ['', [Validators.required]],
+    gender: [''],
     birthday: [''],
     avatar: [''],
     phone: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(11)]],
-    username: ['', [Validators.required, Validators.minLength(6)]],
+    name: ['', [Validators.required, Validators.minLength(6)]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(3)]],
     password_confirmation: ['', [Validators.required, Validators.minLength(3)]]
@@ -68,42 +68,5 @@ export class RegisterComponent implements OnInit {
       this.preview = reader.result as string;
     };
   }
-
-  firstlastnameErrorMessage(name: string) {
-    const namefield = this.registerForm.get(name);
-    return namefield.hasError('required') ? `${name} is required` :
-      namefield.hasError('minlength') ? `${name} minimum length is 2` : '';
-  }
-
-  birthdayErrorMessage() {
-    return this.registerForm.get('birthday').hasError('required') ? 'Birthday is required' : '';
-  }
-
-  genderErrorMessage() {
-    return this.registerForm.get('gender').hasError('required') ? 'Gender is required' : '';
-  }
-
-  usernameErrorMessage() {
-    return this.registerForm.get('username').hasError('required') ? 'Username is required' :
-      this.registerForm.get('username').hasError('minlength') ? 'Username minimum length is 6' : '';
-  }
-
-  phoneErrorMessage() {
-    const phone = this.registerForm.get('phone');
-    return phone.hasError('required') ? 'Phone number is required' :
-      phone.hasError('minlength') ? 'Phone number minimum length is 5' :
-        phone.hasError('maxlength') ? 'Phone number maximum length is 11' : '';
-  }
-
-  emailErrorMessage() {
-    return this.registerForm.get('email').hasError('required') ? 'Email is required' :
-      this.registerForm.get('email').hasError('email') ? 'Not a valid email format' : '';
-  }
-
-  passwordErrorMessage() {
-    return this.registerForm.get('password').hasError('required') ? 'Password is required' :
-      this.registerForm.get('password').hasError('minlength') ? 'Password minimum length is 3' : '';
-  }
-
 }
 

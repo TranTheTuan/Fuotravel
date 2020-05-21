@@ -77,9 +77,9 @@ Route::middleware('auth:api')->group(function() {
 
     Route::prefix('tags')->group(function () {
         Route::get('/', 'API\TagController@index');
-        Route::post('add/{taggable_id}/taggable/{taggble}', 'API\TagController@add');
+//        Route::post('add/{taggable_id}/taggable/{taggble}', 'API\TagController@add');
         Route::get('{taggable_id}/taggable/{taggable}', 'API\TagController@show');
-        Route::post('detach/{taggable_id}/taggable/{taggable}', 'API\TagController@detach');
+//        Route::post('detach/{taggable_id}/taggable/{taggable}', 'API\TagController@detach');
         Route::post('update/{taggable_id}/taggable/{taggable}', 'API\TagController@update');
     });
 
