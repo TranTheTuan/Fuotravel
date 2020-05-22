@@ -2,18 +2,30 @@ require('dotenv').config();
 
 let app = require('express')();
 let server = require('http').Server(app);
-let {Sequelize} = require('sequelize');
+let mysql = require('mysql');
 let io = require('socket.io')(server);
 let bcrypt = require('bcryptjs');
-let User = require('./models/user');
-let Receiver = require('./models/user');
-let Notification = require('./models/notification');
 // let Receiver = require('./models/receiver');
 
-const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
+const connection = mysql.createConnection({
     host: process.env.DB_HOST,
-    dialect: process.env.DB_CONNECTION
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
+})
+
+connection.connect((err) => {
+    if(err) console.log(err);
+    console.log('connection id: ' + connection.threadId);
 });
+
+connection.query('SELECT * FROM users', function (error, results, fields) {
+    if (error) throw error;
+    // console.log('The solution is: ', results[0].name);
+    // console.log('The fields are: ', fields);
+  });
+   
+  connection.end();
 
 io.on('error', (socket) => {
     console.log('error');
@@ -49,33 +61,6 @@ io.on('connection', (socket) => {
     });
 
     socket.on('notifications', (data) => {
-        const userId = data.user_id;
-        const accessToken = data.access_token;
-        (async () => {
-            const user = await User.findByPk(userId);
-            if (!user) {
-                socket.emit('notifications-res', {
-                    error: {
-                        message: 'Internal Server Error',
-                        code: 500
-                    }
-                });
-            }
-            if (user && bcrypt.compareSync(accessToken, user.access_token)) {
-                let query = Notification.findAll({
-                    where: {
-                        receivers: 42
-                    }
-                })
-                Notification.get
-            }
-        })();
+        
     })
 });
-
-try {
-    sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-} catch (error) {
-  console.error('Unable to connect to the database:', error);
-}
