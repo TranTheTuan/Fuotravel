@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Comment;
+use App\Events\CommentEvent;
 use App\Http\Controllers\ApiController;
 use App\Repositories\CommentRepository;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 
 class CommentController extends ApiController
 {
@@ -36,7 +38,6 @@ class CommentController extends ApiController
             $data['image'] = $this->imageService->uploadImage(self::UPLOAD_PATH, $request->image);
         }
         $comment = $this->commentRepo->create($data);
-
         return $this->sendResponse($comment);
     }
 

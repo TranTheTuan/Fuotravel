@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Comment;
+use App\Events\CommentEvent;
 use App\Group;
 use App\Plan;
 use App\Post;
@@ -22,6 +23,7 @@ class CommentRepository extends AbstractRepository
         $commentable_type = $this->checkCommentableType($data['commentable_id'], $data['commentable']);
         unset($data['commentable']);
         $comment = $commentable_type->comments()->create($data);
+        event(new CommentEvent($comment, $commentable_type, isset($data['parent_id'])));
         return new CommentResource($comment);
     }
 

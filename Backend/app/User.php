@@ -78,6 +78,16 @@ class User extends \TCG\Voyager\Models\User
         return $this->hasMany('App\Vote');
     }
 
+    public function receivers()
+    {
+        return $this->belongsToMany('App\Notification', 'receivers');
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany('App\Notification');
+    }
+
     // friendship that this user started second_user_id
     protected function friendsOfThisUser()
     {
