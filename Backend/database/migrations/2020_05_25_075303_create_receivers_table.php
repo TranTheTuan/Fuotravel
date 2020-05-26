@@ -17,7 +17,7 @@ class CreateReceiversTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('notification_id');
-            $table->dateTime('read_at');
+            $table->dateTime('read_at')->nullable();
             $table->timestamps();
         });
     }

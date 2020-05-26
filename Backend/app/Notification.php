@@ -6,11 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model
 {
+    const PLAN_ROOM = 'plan';
+    const POST_ROOM = 'post';
+    const COMMENT_ROOM = 'comment';
+    const USER_ROOM = 'user';
+
     protected $guarded = [];
 
     public function sender()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User', 'user_id');
     }
 
     public function receivers()

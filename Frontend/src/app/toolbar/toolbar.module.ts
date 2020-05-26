@@ -15,12 +15,17 @@ import {LayoutModule} from '../layouts/layout.module';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatChipsModule} from '@angular/material/chips';
-import {MatMenuModule} from "@angular/material/menu";
-import {PipesModule} from "../pipes/pipes.module";
+import {MatMenuModule} from '@angular/material/menu';
+import {PipesModule} from '../pipes/pipes.module';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { NotificationSheetComponent } from './notification-sheet/notification-sheet.component';
+import {MatBottomSheetModule} from "@angular/material/bottom-sheet";
+import {MatListModule} from "@angular/material/list";
 
 
 @NgModule({
-  declarations: [ToolbarComponent],
+  declarations: [ToolbarComponent, NotificationSheetComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -37,7 +42,11 @@ import {PipesModule} from "../pipes/pipes.module";
     MatIconModule,
     MatChipsModule,
     MatMenuModule,
-    PipesModule
+    PipesModule,
+    MatBadgeModule,
+    MatSidenavModule,
+    MatBottomSheetModule,
+    MatListModule
   ],
   exports: [ToolbarComponent]
 })

@@ -12,4 +12,5 @@ export class User {
   avatar?: string;
   accessToken?: string;
   tags: Tag[];
+  planIds: [number];
 }

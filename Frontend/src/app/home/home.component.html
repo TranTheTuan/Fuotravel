@@ -1,5 +1,5 @@
 <app-toolbar></app-toolbar>
-<mat-toolbar *ngIf="authTags.length > 0">
+<mat-toolbar *ngIf="authTags && authTags.length > 0">
   <button mat-stroked-button *ngFor="let tag of authTags" class="mx-1"
           [color]="tag.isSelected ? 'primary' : 'warn'"
           (click)="onSelectTag(tag)"

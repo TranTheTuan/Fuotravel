@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -47,8 +48,7 @@ class AuthController extends ApiController
         $user = $request->user();
         $token = $user->createToken('Personal access token');
         $user->accessToken = $token->accessToken;
-        $user->tags;
-        return $this->sendResponse($user);
+        return $this->sendResponse(new UserResource($user));
     }
 
     public function register(Request $request)

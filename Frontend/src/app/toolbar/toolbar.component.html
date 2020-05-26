@@ -22,11 +22,15 @@
   <span class="fill-space"></span>
   <span><button mat-button (click)="openDialog()">New Plan</button></span>
   <span>
-    <button mat-icon-button>
-      <mat-icon>notifications</mat-icon>
+    <button mat-icon-button (click)="openNotificationSheet()">
+      <mat-icon [matBadge]="notifications.length.toString()"
+                matBadgeColor="warn" matBadgeSize="small"
+                [matBadgeHidden]="notifications.length == 0">
+        notifications
+      </mat-icon>
     </button>
   </span>
-  <span>
+  <span *ngIf="currentUser">
     <button mat-icon-button [matMenuTriggerFor]="userMenu">
       <img src="{{ currentUser.avatar | imageUrl}}" alt="user avatar" class="rounded-circle" width="25">
     </button>

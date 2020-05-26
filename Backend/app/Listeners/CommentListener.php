@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\CommentEvent;
+use App\Http\Resources\NotificationResource;
 use App\Member;
 use App\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -37,27 +38,37 @@ class CommentListener
             $post = $event->post;
             $sender = $comment->user;
             $message = '';
-            $receivers_ids = [];
+            $receiver_ids = [];
+            $roomType = Notification::PLAN_ROOM;
+            $roomId = 1;
             if (!$event->isReply) {
                 if (!is_null($plan)) {
                     $message = $sender->firstname . ' ' . $sender->lastname . ' commented on plan '.$plan->title .' you are following';
-                    $receiver_ids = $plan->members()->where('status', Member::FOLLOWING)->pluck('user_id');
+                    $member_ids = $plan->members()->where('status', Member::FOLLOWING)->pluck('user_id');
+                    $receiver_ids = collect($plan->user_id)->concat($member_ids);
+                    $roomId = $plan->id;
                 }
                 if (!is_null($post)) {
                     $message = $sender->firstname . ' ' . $sender->lastname . ' commented on '.$post->user->firstname .'\'s post';
                     $commenter_ids = $post->comments()->pluck('user_id');
-                    $receiver_ids = $commenter_ids->push($post->user_id);
+                    $receiver_ids = collect($post->user_id)->concat($commenter_ids);
+                    $roomType = Notification::POST_ROOM;
+                    $roomId = $post->id;
                 }
             } else {
                 $message = $sender->firstname . ' ' . $sender->lastname . ' replied your comment';
                 $replier_ids = $comment->comments->pluck('user_id');
-                $receiver_ids = $replier_ids->push($comment->user_id);
+                $receiver_ids = collect($comment->user_id)->concat($replier_ids);
+                $roomType = Notification::COMMENT_ROOM;
+                $roomId = $comment->id;
             }
             $notification = $sender->notifications()->create([
-                'message' => $message
+                'message' => $message,
+                'room_type' => $roomType,
+                'room_id' => $roomId
             ]);
             $notification->receivers()->attach($receiver_ids);
-            Redis::publish('send-message', json_encode($notification));
+            Redis::publish('send-message', json_encode(new NotificationResource($notification)));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
         }

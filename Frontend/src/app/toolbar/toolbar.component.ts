@@ -7,6 +7,10 @@ import {debounceTime, distinctUntilChanged, filter, finalize, switchMap, tap} fr
 import {Tag, User} from '../models';
 import {AuthService} from '../services/auth.service';
 import {PlanService} from '../services/plan.service';
+import {WebSocketService} from '../services/web-socket.service';
+import {Notify} from '../models/notify';
+import {MatBottomSheet} from '@angular/material/bottom-sheet';
+import {NotificationSheetComponent} from './notification-sheet/notification-sheet.component';
 
 @Component({
   selector: 'app-toolbar',
@@ -20,13 +24,16 @@ export class ToolbarComponent implements OnInit {
   suggestPlans = [];
   authTags: Tag[];
   selectedTags: Tag[] = [];
+  notifications: Notify[] = [];
   @Output() tagsSelected = new EventEmitter();
 
   constructor(
     private authService: AuthService,
     private planService: PlanService,
+    private webSocketService: WebSocketService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private bottomSheet: MatBottomSheet
   ) {
   }
 
@@ -34,6 +41,24 @@ export class ToolbarComponent implements OnInit {
     this.onSearch();
     this.currentUser = this.authService.currentUserValue;
     this.authTags = this.currentUser.tags;
+    this.webSocketService.emit('hello', 'hello');
+    this.webSocketService.listen('welcome').subscribe(res => {
+      if (res) {
+        console.log(res);
+      }
+    });
+    this.webSocketService.emit('init', this.currentUser.planIds);
+    this.webSocketService.listen('init-res').subscribe(res => {
+      if (res) {
+        console.log('joined rooms');
+      }
+    });
+    this.webSocketService.listen('send-notification').subscribe(res => {
+      if (res) {
+        console.log(res);
+        this.notifications.push(res);
+      }
+    });
   }
 
   onSearch() {
@@ -75,15 +100,9 @@ export class ToolbarComponent implements OnInit {
     });
   }
 
-  onSelectTag(tag: Tag) {
-    tag.isSelected = !tag.isSelected;
-    if (tag.isSelected) {
-      this.selectedTags.push(tag);
-    } else {
-      const unSelectIndex = this.selectedTags.findIndex(i => i.id === tag.id);
-      this.selectedTags.splice(unSelectIndex, 1);
-    }
-    this.tagsSelected.emit(this.selectedTags.map(item => item.id).toString());
-    // this.router.navigate(['/']);
+  openNotificationSheet() {
+    this.bottomSheet.open(NotificationSheetComponent, {
+      data: this.notifications
+    });
   }
 }

@@ -26,12 +26,16 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem('plans')) {
-      this.plans = JSON.parse(localStorage.getItem('plans'));
+    if (!this.authService.currentUserValue) {
+      this.router.navigate(['/auth/login']);
     } else {
-      this.getPlans();
+      if (localStorage.getItem('plans')) {
+        this.plans = JSON.parse(localStorage.getItem('plans'));
+      } else {
+        this.getPlans();
+      }
+      this.authTags = this.authService.currentUserValue.tags;
     }
-    this.authTags = this.authService.currentUserValue.tags;
   }
 
   getPlans(tagIds: string = '') {

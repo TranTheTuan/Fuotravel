@@ -1,15 +1,19 @@
 exports.redisNotify = (io) => {
     let redis = require('redis');
 
-    let redisLogged = redis.createClient({
+    let redisNotification = redis.createClient({
         port: process.env.REDIS_PORT,
         host: process.env.REDIS_HOST,
         password: process.env.REDIS_PASSWORD
     });
 
-    redisLogged.subscribe('notification');
+    redisNotification.subscribe('send-message');
 
-    redisLogged.on('message', (channel, data) => {
-        io.in(process.env.ROOM_PLAN + data.room_id).emit('send-notification', data);
+    redisNotification.on('message', (channel, data) => {
+        const notification = JSON.parse(data);
+        const room = notification.roomType + '_room_' + notification.roomId
+        console.log(notification);
+        console.log(room);
+        io.to(room).emit('send-notification', notification);
     });
 }

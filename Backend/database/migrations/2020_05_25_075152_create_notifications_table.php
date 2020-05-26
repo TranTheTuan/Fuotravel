@@ -17,6 +17,8 @@ class CreateNotificationsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->string('message');
+            $table->string('room_type');
+            $table->unsignedBigInteger('room_id');
             $table->timestamps();
         });
     }

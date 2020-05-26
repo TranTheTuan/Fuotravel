@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Member;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\TagResouce;
 
@@ -25,7 +26,9 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'phone' => $this->phone,
             'email' => $this->email,
-            'tags' => $this->when($this->tags, TagResource::collection($this->tags))
+            'tags' => $this->when($this->tags, TagResource::collection($this->tags)),
+            'accessToken' => $this->when($this->accessToken, $this->accessToken),
+            'planIds' => $this->when($this->plans, $this->plans->pluck('id')->concat($this->members->where('status', Member::FOLLOWING)->pluck('plan_id')))
         ];
     }
 }
