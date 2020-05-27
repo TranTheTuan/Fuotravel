@@ -2,7 +2,6 @@ require('dotenv').config();
 
 let app = require('express')();
 let server = require('http').Server(app);
-const connection = require('./connection');
 let notify = require('./subscribes/notification');
 let io = require('socket.io')(server);
 
@@ -14,7 +13,6 @@ io.on('error', (socket) => {
     console.log('error');
 });
 
-
 io.on('connection', (socket) => {
     console.log('an user connected: ' + socket.id);
     socket.on('hello', (data) => {
@@ -24,11 +22,31 @@ io.on('connection', (socket) => {
 
     socket.on('init', (data) => {
         if(data) {
-            console.log('receive init');
-            const planRooms = data.map(id => {
-                return 'plan_room_' + id
-            });
+            let planRooms = [];
+            let postRooms = [];
+            let commentRooms = [];
+            let friendRooms = [];
+            let pendingFriendRoom = [];
+            for (const planId of data.plan) {
+                planRooms.push('plan_room_' + planId);
+            }
+            for (const postId of data.post) {
+                postRooms.push('post_room_' + postId);
+            }
+            for (const commentId of data.comment) {
+                commentRooms.push('comment_room_' + commentId);
+            }
+            for (const friendId of data.friend) {
+                friendRooms.push('friend_room_' + friendId);
+            }
+            for (const pendingFriendId of data.pendingFriend) {
+                pendingFriendRoom.push('pending_friend_room_' + pendingFriendId);
+            }
             socket.join(planRooms);
+            socket.join(postRooms);
+            socket.join(commentRooms);
+            socket.join(friendRooms);
+            socket.join(pendingFriendRoom);
             socket.emit('init-res', true);
         } else {
             socket.emit('init-res', false);
@@ -49,4 +67,4 @@ io.on('connection', (socket) => {
 });
 
 notify.redisNotify(io);
-connection.end();
+

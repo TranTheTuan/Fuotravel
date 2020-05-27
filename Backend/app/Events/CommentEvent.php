@@ -17,23 +17,23 @@ class CommentEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $comment, $plan = null, $post = null, $isReply;
+    public $comment, $plan = null, $post = null, $parentId;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Comment $comment, $commentableType, $isReply = false)
+    public function __construct(Comment $comment, $commentableType, $parentId = null)
     {
         $this->comment = $comment;
-        if (!$isReply) {
+        if (is_null($parentId)) {
             if ($commentableType instanceof Plan) {
                 $this->plan = $commentableType;
             } else {
                 $this->post = $commentableType;
             }
         }
-        $this->isReply = $isReply;
+        $this->parentId = $parentId;
     }
 
     /**

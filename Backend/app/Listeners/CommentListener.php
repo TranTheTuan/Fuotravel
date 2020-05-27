@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\CommentEvent;
 use App\Http\Resources\NotificationResource;
 use App\Member;
+use App\Comment;
 use App\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -41,7 +42,8 @@ class CommentListener
             $receiver_ids = [];
             $roomType = Notification::PLAN_ROOM;
             $roomId = 1;
-            if (!$event->isReply) {
+            $parentId = $event->parentId;
+            if (is_null($parentId)) {
                 if (!is_null($plan)) {
                     $message = $sender->firstname . ' ' . $sender->lastname . ' commented on plan '.$plan->title .' you are following';
                     $receiver_ids = $plan->members()->where('user_id', '!=', $sender->id)
@@ -63,9 +65,9 @@ class CommentListener
             } else {
                 $message = $sender->firstname . ' ' . $sender->lastname . ' replied your comment';
                 $replier_ids = $comment->comments->where('user_id', '!=', $sender->id)->pluck('user_id');
-                $receiver_ids = collect($comment->user_id)->concat($replier_ids);
+                $receiver_ids = collect(Comment::find($parentId)->user_id)->concat($replier_ids);
                 $roomType = Notification::COMMENT_ROOM;
-                $roomId = $comment->id;
+                $roomId = $parentId;
             }
             $notification = $sender->notifications()->create([
                 'message' => $message,

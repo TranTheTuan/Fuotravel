@@ -28,7 +28,14 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'tags' => $this->when($this->tags, TagResource::collection($this->tags)),
             'accessToken' => $this->when($this->accessToken, $this->accessToken),
-            'planIds' => $this->when($this->plans, $this->plans->pluck('id')->concat($this->members->where('status', Member::FOLLOWING)->pluck('plan_id')))
+            'roomData' => [
+                'plan' => $this->when($this->plans || $this->members->where('status', Member::FOLLOWING),
+                                $this->plans->pluck('id')->concat($this->members->where('status', Member::FOLLOWING)->pluck('plan_id'))),
+                'post' => $this->when($this->posts, $this->posts->pluck('id')),
+                'comment' => $this->when($this->comments, $this->comments->pluck('id')),
+                'friend' => $this->when($this->friends, $this->friends->pluck('id')),
+                'pendingFriend' => $this->when($this->sentFriendRequests, $this->sentFriendRequests->pluck('id'))
+            ],
         ];
     }
 }

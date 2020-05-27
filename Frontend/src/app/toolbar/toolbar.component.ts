@@ -55,7 +55,7 @@ export class ToolbarComponent implements OnInit {
         console.log(res);
       }
     });
-    this.webSocketService.emit('init', this.currentUser.planIds);
+    this.webSocketService.emit('init', this.currentUser.roomData);
     this.webSocketService.listen('init-res').subscribe(res => {
       if (res) {
         console.log('joined rooms');

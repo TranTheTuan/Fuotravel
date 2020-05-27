@@ -12,5 +12,11 @@ export class User {
   avatar?: string;
   accessToken?: string;
   tags: Tag[];
-  planIds: [number];
+  roomData: {
+    plan: [number],
+    post: [number],
+    comment: [number],
+    friend: [number],
+    pendingFriend: [number]
+  };
 }
