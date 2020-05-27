@@ -44,20 +44,25 @@ class CommentListener
             if (!$event->isReply) {
                 if (!is_null($plan)) {
                     $message = $sender->firstname . ' ' . $sender->lastname . ' commented on plan '.$plan->title .' you are following';
-                    $member_ids = $plan->members()->where('status', Member::FOLLOWING)->pluck('user_id');
-                    $receiver_ids = collect($plan->user_id)->concat($member_ids);
+                    $receiver_ids = $plan->members()->where('user_id', '!=', $sender->id)
+                        ->where('status', Member::FOLLOWING)->pluck('user_id');
+                    if ($plan->user_id != $sender->id) {
+                        $receiver_ids->push($plan->user_id);
+                    }
                     $roomId = $plan->id;
                 }
                 if (!is_null($post)) {
                     $message = $sender->firstname . ' ' . $sender->lastname . ' commented on '.$post->user->firstname .'\'s post';
-                    $commenter_ids = $post->comments()->pluck('user_id');
-                    $receiver_ids = collect($post->user_id)->concat($commenter_ids);
+                    $receiver_ids = $post->comments()->where('user_id', '!=', $sender->id)->pluck('user_id');
+                    if ($post->user_id != $sender->id) {
+                        $receiver_ids->push($post->user_id);
+                    }
                     $roomType = Notification::POST_ROOM;
                     $roomId = $post->id;
                 }
             } else {
                 $message = $sender->firstname . ' ' . $sender->lastname . ' replied your comment';
-                $replier_ids = $comment->comments->pluck('user_id');
+                $replier_ids = $comment->comments->where('user_id', '!=', $sender->id)->pluck('user_id');
                 $receiver_ids = collect($comment->user_id)->concat($replier_ids);
                 $roomType = Notification::COMMENT_ROOM;
                 $roomId = $comment->id;

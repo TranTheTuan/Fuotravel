@@ -1,6 +1,11 @@
 <mat-nav-list>
-  <mat-list-item *ngFor="let notify of data" (click)="openLink($event)">
-    <img mat-list-avatar src="{{ notify.sender.avatar | imageUrl }}">
-    <span mat-line>{{ notify.message }}</span>
-  </mat-list-item>
+  <div class="d-flex flex-row align-items-center" *ngFor="let notify of data" [ngClass]="notify.readAt == null ? 'bg-info' : 'bg-white'">
+    <mat-list-item class="col-11" (click)="openLink($event)">
+      <img mat-list-avatar src="{{ notify.sender.avatar | imageUrl }}">
+      <span mat-line>{{ notify.message }}</span>
+    </mat-list-item>
+    <button mat-icon-button matTooltip="mark as read" class="col-1">
+      <mat-icon class="text-white">done</mat-icon>
+    </button>
+  </div>
 </mat-nav-list>

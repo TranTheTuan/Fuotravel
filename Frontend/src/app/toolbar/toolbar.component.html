@@ -23,9 +23,9 @@
   <span><button mat-button (click)="openDialog()">New Plan</button></span>
   <span>
     <button mat-icon-button (click)="openNotificationSheet()">
-      <mat-icon [matBadge]="notifications.length.toString()"
+      <mat-icon [matBadge]="unreadNotificationsNumber.toString()"
                 matBadgeColor="warn" matBadgeSize="small"
-                [matBadgeHidden]="notifications.length == 0">
+                [matBadgeHidden]="unreadNotificationsNumber === 0">
         notifications
       </mat-icon>
     </button>

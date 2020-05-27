@@ -120,5 +120,9 @@ Route::middleware('auth:api')->group(function() {
                 Route::get('blocked', 'API\UserController@blockedFriends');
             });
         });
+        Route::prefix('notifications')->group(function () {
+            Route::get('/', 'API\NotificationController@index');
+            Route::put('{notification_id}/mark-as-read', 'API\NotificationController@markAsRead');
+        });
     });
 });

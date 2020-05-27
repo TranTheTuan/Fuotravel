@@ -19,7 +19,10 @@ class NotificationResource extends JsonResource
             'sender' => new UserResource($this->sender),
             'message' => $this->message,
             'roomId' => $this->room_id,
-            'roomType' => $this->room_type
+            'roomType' => $this->room_type,
+            'readAt' => $this->whenPivotLoaded('receivers', function () {
+                return $this->pivot->read_at;
+            })
         ];
     }
 }

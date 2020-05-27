@@ -14,7 +14,6 @@ io.on('error', (socket) => {
     console.log('error');
 });
 
-let redis = require('redis');
 
 io.on('connection', (socket) => {
     console.log('an user connected: ' + socket.id);

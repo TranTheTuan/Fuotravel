@@ -11,6 +11,7 @@ import {WebSocketService} from '../services/web-socket.service';
 import {Notify} from '../models/notify';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
 import {NotificationSheetComponent} from './notification-sheet/notification-sheet.component';
+import {NotificationService} from '../services/notification.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -23,13 +24,14 @@ export class ToolbarComponent implements OnInit {
   searchControl = new FormControl();
   suggestPlans = [];
   authTags: Tag[];
-  selectedTags: Tag[] = [];
   notifications: Notify[] = [];
+  unreadNotificationsNumber = 0;
   @Output() tagsSelected = new EventEmitter();
 
   constructor(
     private authService: AuthService,
     private planService: PlanService,
+    private notificationService: NotificationService,
     private webSocketService: WebSocketService,
     private router: Router,
     private dialog: MatDialog,
@@ -41,6 +43,12 @@ export class ToolbarComponent implements OnInit {
     this.onSearch();
     this.currentUser = this.authService.currentUserValue;
     this.authTags = this.currentUser.tags;
+    this.notificationService.getAllNotifications().subscribe(res => {
+      if (res.data) {
+        this.notifications = res.data;
+        this.unreadNotificationsNumber = this.notifications.filter(notify => notify.readAt == null).length;
+      }
+    });
     this.webSocketService.emit('hello', 'hello');
     this.webSocketService.listen('welcome').subscribe(res => {
       if (res) {
@@ -53,10 +61,11 @@ export class ToolbarComponent implements OnInit {
         console.log('joined rooms');
       }
     });
-    this.webSocketService.listen('send-notification').subscribe(res => {
-      if (res) {
+    this.webSocketService.listen('send-notification').subscribe((res: Notify) => {
+      if (res && res.sender.id !== this.currentUser.id) {
         console.log(res);
-        this.notifications.push(res);
+        this.notifications.unshift(res);
+        this.unreadNotificationsNumber ++;
       }
     });
   }

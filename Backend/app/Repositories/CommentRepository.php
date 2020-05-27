@@ -10,6 +10,7 @@ use App\Post;
 use App\Repositories\BaseRepositories\AbstractRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\CommentResource;
+use Illuminate\Support\Facades\Redis;
 
 class CommentRepository extends AbstractRepository
 {

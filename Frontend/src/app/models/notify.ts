@@ -6,4 +6,5 @@ export class Notify {
   message: string;
   roomId: number;
   roomType: string;
+  readAt?: string;
 }

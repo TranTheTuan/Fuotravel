@@ -22,32 +22,34 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { NotificationSheetComponent } from './notification-sheet/notification-sheet.component';
 import {MatBottomSheetModule} from "@angular/material/bottom-sheet";
 import {MatListModule} from "@angular/material/list";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
   declarations: [ToolbarComponent, NotificationSheetComponent],
-  imports: [
-    CommonModule,
-    MatToolbarModule,
-    MatButtonModule,
-    RouterModule,
-    MatDialogModule,
-    LayoutModule,
-    MatMomentDateModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,
-    MatProgressSpinnerModule,
-    MatIconModule,
-    MatChipsModule,
-    MatMenuModule,
-    PipesModule,
-    MatBadgeModule,
-    MatSidenavModule,
-    MatBottomSheetModule,
-    MatListModule
-  ],
+    imports: [
+        CommonModule,
+        MatToolbarModule,
+        MatButtonModule,
+        RouterModule,
+        MatDialogModule,
+        LayoutModule,
+        MatMomentDateModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        MatProgressSpinnerModule,
+        MatIconModule,
+        MatChipsModule,
+        MatMenuModule,
+        PipesModule,
+        MatBadgeModule,
+        MatSidenavModule,
+        MatBottomSheetModule,
+        MatListModule,
+        MatTooltipModule
+    ],
   exports: [ToolbarComponent]
 })
 export class ToolbarModule {

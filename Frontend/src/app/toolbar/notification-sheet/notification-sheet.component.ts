@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef} from '@angular/material/bottom-sheet';
-import {Notify} from "../../models/notify";
+import {Notify} from '../../models/notify';
 
 @Component({
   selector: 'app-notification-sheet',
