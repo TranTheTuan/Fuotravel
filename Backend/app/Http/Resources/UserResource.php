@@ -30,7 +30,7 @@ class UserResource extends JsonResource
             'accessToken' => $this->when($this->accessToken, $this->accessToken),
             'roomData' => [
                 'plan' => $this->when($this->plans || $this->members->where('status', Member::FOLLOWING),
-                                $this->plans->pluck('id')->concat($this->members->where('status', Member::FOLLOWING)->pluck('plan_id'))),
+                                $this->plans->pluck('id')->concat($this->members->whereIn('status', [Member::FOLLOWING, Member::ADMIN, Member::MODERATOR])->pluck('plan_id'))),
                 'post' => $this->when($this->posts, $this->posts->pluck('id')),
                 'comment' => $this->when($this->comments, $this->comments->pluck('id')),
                 'friend' => $this->when($this->friends, $this->friends->pluck('id')),

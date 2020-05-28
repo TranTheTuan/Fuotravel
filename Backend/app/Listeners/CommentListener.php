@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\CommentEvent;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\NotificationResource;
 use App\Member;
 use App\Comment;
@@ -33,11 +34,11 @@ class CommentListener
     public function handle(CommentEvent $event)
     {
         try {
-            Redis::connection();
+            // Redis::connection();
             $comment = $event->comment;
             $plan = $event->plan;
             $post = $event->post;
-            $sender = $comment->user;
+            $sender = Auth::user();
             $message = '';
             $receiver_ids = [];
             $roomType = Notification::PLAN_ROOM;
@@ -64,8 +65,10 @@ class CommentListener
                 }
             } else {
                 $message = $sender->firstname . ' ' . $sender->lastname . ' replied your comment';
-                $replier_ids = $comment->comments->where('user_id', '!=', $sender->id)->pluck('user_id');
-                $receiver_ids = collect(Comment::find($parentId)->user_id)->concat($replier_ids);
+                $receiver_ids = $comment->comments->where('user_id', '!=', $sender->id)->pluck('user_id');
+                if ($comment->user_id != $sender->id) {
+                    $receiver_ids->push($sender->id);
+                }
                 $roomType = Notification::COMMENT_ROOM;
                 $roomId = $parentId;
             }
