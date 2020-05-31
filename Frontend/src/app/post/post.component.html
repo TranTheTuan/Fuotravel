@@ -9,7 +9,7 @@
       <mat-card-subtitle>{{ post.created_at | date:'short'}}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <p>{{ post.caption }}</p>
+      <p>{{ post.caption }} {{ post.id }}</p>
     </mat-card-content>
     <div *ngIf="post.images.length > 0">
       <ng-image-slider [images]="post.images | imageObject"

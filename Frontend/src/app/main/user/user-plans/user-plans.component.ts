@@ -38,11 +38,12 @@ export class UserPlansComponent implements OnInit {
     );
     user$.subscribe(res => {
       this.profileUser = res.data;
-    });
-    this.planService.getPlansOption(this.selectedType).subscribe(res => {
-      if (Object.keys(res.data).length > 0) {
-        this.selectedPlans = res.data;
-      }
+      console.log(this.profileUser);
+      this.planService.getPlansOption(this.selectedType, this.profileUser.id).subscribe(plans => {
+        if (plans.data) {
+          this.selectedPlans = plans.data;
+        }
+      });
     });
     this.onTypeChange();
   }
@@ -52,7 +53,7 @@ export class UserPlansComponent implements OnInit {
         tap(val => this.selectedType = val)
       )
       .subscribe(val => {
-        this.planService.getPlansOption(val).subscribe(res => {
+        this.planService.getPlansOption(val, this.profileUser.id).subscribe(res => {
           if (Object.keys(res.data).length > 0) {
             this.selectedPlans = res.data;
           } else {

@@ -90,10 +90,13 @@ export class UserFriendsComponent implements OnInit {
   }
 
   onConfirm(senderId: any) {
+    console.log('confirmed');
     this.relationshipService.acceptRequest(senderId).subscribe(res => {
       if (res.data) {
+        console.log(this.selectedFriends);
         const index = this.selectedFriends.findIndex(friend => friend.id === +senderId);
         this.selectedFriends.splice(index, 1);
+        console.log(this.selectedFriends);
       }
     });
   }

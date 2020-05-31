@@ -3,6 +3,7 @@ require('dotenv').config();
 let app = require('express')();
 let server = require('http').Server(app);
 let notify = require('./subscribes/notification');
+let comment = require('./subscribes/comment');
 let io = require('socket.io')(server);
 
 server.listen(3000, () => {
@@ -27,6 +28,7 @@ io.on('connection', (socket) => {
             let commentRooms = [];
             let friendRooms = [];
             let pendingFriendRoom = [];
+            const authRoom = 'user_room_' + data.auth;
             for (const planId of data.plan) {
                 planRooms.push('plan_room_' + planId);
             }
@@ -42,6 +44,7 @@ io.on('connection', (socket) => {
             for (const pendingFriendId of data.pendingFriend) {
                 pendingFriendRoom.push('pending_friend_room_' + pendingFriendId);
             }
+            socket.join(authRoom);
             socket.join(planRooms);
             socket.join(postRooms);
             socket.join(commentRooms);
@@ -64,7 +67,12 @@ io.on('connection', (socket) => {
     socket.on('reconnect', () => {
         console.log('disconnected');
     });
+
+    socket.on('new-room', (room) => {
+        socket.join(room);
+        console.log(room);
+    });
 });
 
 notify.redisNotify(io);
-
+comment.redisComment(io);

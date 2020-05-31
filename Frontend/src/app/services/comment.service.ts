@@ -31,6 +31,7 @@ export class CommentService {
   createComment(commentableId: any, commentable: any, formValue: any): Observable<ApiResponse> {
     const apiUrl = this.APIS[2].replace('{commentable_id}', commentableId)
       .replace('{commentable}', commentable);
+    console.log(toFormData(formValue).getAll('image'));
     return this.http.post<ApiResponse>(apiUrl, toFormData(formValue))
       .pipe(map(res => {
         return res;

@@ -43,12 +43,23 @@ export class ToolbarComponent implements OnInit {
     this.onSearch();
     this.currentUser = this.authService.currentUserValue;
     this.authTags = this.currentUser.tags;
-    this.notificationService.getAllNotifications().subscribe(res => {
-      if (res.data) {
-        this.notifications = res.data;
-        this.unreadNotificationsNumber = this.notifications.filter(notify => notify.readAt == null).length;
+    this.notificationsListener();
+    this.socketInteraction();
+  }
+
+  notificationsListener() {
+    this.notificationService.getAllNotifications();
+    this.notificationService.unreadListener.subscribe(res => {
+      this.unreadNotificationsNumber = res;
+    });
+    this.notificationService.notificationListener.subscribe(res => {
+      if (res) {
+        this.notifications = res;
       }
     });
+  }
+
+  socketInteraction() {
     this.webSocketService.emit('hello', 'hello');
     this.webSocketService.listen('welcome').subscribe(res => {
       if (res) {
@@ -65,7 +76,7 @@ export class ToolbarComponent implements OnInit {
       if (res && res.sender.id !== this.currentUser.id) {
         console.log(res);
         this.notifications.unshift(res);
-        this.unreadNotificationsNumber ++;
+        this.notificationService.setUnread();
       }
     });
   }

@@ -45,6 +45,9 @@ export class ReplyFormComponent implements OnInit {
   }
 
   onSubmit(formValue: any) {
+    if (!formValue.image) {
+      delete formValue.image;
+    }
     this.commentService.createComment(this.commentableId, this.commentableType, formValue)
       .subscribe(res => {
         const newComment: Comment = res.data;
@@ -55,7 +58,7 @@ export class ReplyFormComponent implements OnInit {
           this.replyForm.patchValue({
             parent_id: this.parentId
           });
-          this.replyInput.nativeElement.value = '';
+          this.replyInput.nativeElement.value = null;
           this.preview = null;
         }
       });

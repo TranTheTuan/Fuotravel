@@ -7,8 +7,8 @@
   <div *ngIf="data.length == 0">
     You have no notifications
   </div>
-  <div class="d-flex flex-row align-items-center" *ngFor="let notify of data" [ngClass]="notify.readAt == null ? 'bg-info' : 'bg-white'">
-    <mat-list-item class="col-11" (click)="openLink($event)">
+  <div class="d-flex flex-row align-items-center" *ngFor="let notify of notifications" [ngClass]="notify.readAt == null ? 'bg-info' : 'bg-white'">
+    <mat-list-item class="col-11" (click)="openLink(notify)">
       <img mat-list-avatar src="{{ notify.sender.avatar | imageUrl }}">
       <span mat-line>{{ notify.message }}</span>
     </mat-list-item>

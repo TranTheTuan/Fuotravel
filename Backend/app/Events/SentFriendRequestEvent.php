@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Relationship;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -14,14 +15,15 @@ class SentFriendRequestEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $relationship;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Relationship $relationship)
     {
-        //
+        $this->relationship = $relationship;
     }
 
     /**

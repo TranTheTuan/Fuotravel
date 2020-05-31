@@ -26,12 +26,10 @@ class CommentEvent
     public function __construct(Comment $comment, $commentableType, $parentId = null)
     {
         $this->comment = $comment;
-        if (is_null($parentId)) {
-            if ($commentableType instanceof Plan) {
-                $this->plan = $commentableType;
-            } else {
-                $this->post = $commentableType;
-            }
+        if ($commentableType instanceof Plan) {
+            $this->plan = $commentableType;
+        } else {
+            $this->post = $commentableType;
         }
         $this->parentId = $parentId;
     }

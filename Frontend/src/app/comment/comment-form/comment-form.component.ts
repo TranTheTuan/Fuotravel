@@ -41,13 +41,16 @@ export class CommentFormComponent implements OnInit {
   }
 
   onSubmit(formValue: any) {
+    if (!formValue.image) {
+      delete formValue.image;
+    }
     this.commentService.createComment(this.commentableId, this.commentableType, formValue)
       .subscribe(res => {
         const newComment: Comment = res.data;
         this.newCommentEvent.emit(newComment);
         if (this.commentFormDirective) {
           this.commentFormDirective.resetForm();
-          this.imageInput.nativeElement.value = '';
+          this.imageInput.nativeElement.value = null;
           this.preview = null;
         }
       });

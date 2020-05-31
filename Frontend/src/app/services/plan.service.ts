@@ -87,9 +87,11 @@ export class PlanService {
     this.waypointsBehavior.next([...this.waypoints]);
   }
 
-  getPlansOption(status: any): Observable<ApiResponse> {
+  getPlansOption(status: any, userId: any): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(this.APIS[6], {
-      params: new HttpParams().set('status', status)
+      params: new HttpParams()
+        .set('status', status)
+        .set('user_id', userId)
     });
   }
 }

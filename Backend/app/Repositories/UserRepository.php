@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Events\AcceptFriendRequestEvent;
+use App\Events\SentFriendRequestEvent;
 use App\Relationship;
 use App\Repositories\BaseRepositories\AbstractRepository;
 use Illuminate\Support\Facades\Auth;
@@ -54,6 +56,7 @@ class UserRepository extends AbstractRepository
     public function sendFriendRequest(array $data)
     {
         $pending = Relationship::create($data);
+        event(new SentFriendRequestEvent($pending));
         return $pending;
     }
 
@@ -78,6 +81,7 @@ class UserRepository extends AbstractRepository
         $user = Auth::user();
         $user->receivedFriendRequests()->updateExistingPivot($sender_id, ['action_user_id' => $user->id, 'status' => Relationship::FRIENDS]);
         $relationship = $this->getRelationshipBetween($sender_id);
+        event(new AcceptFriendRequestEvent($relationship));
         return $relationship;
     }
 

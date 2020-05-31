@@ -1,4 +1,4 @@
-exports.redisNotify = (io) => {
+exports.redisComment = (io) => {
     let redis = require('redis');
 
     let redisNotification = redis.createClient({
@@ -7,13 +7,13 @@ exports.redisNotify = (io) => {
         password: process.env.REDIS_PASSWORD
     });
 
-    redisNotification.subscribe('send-message');
+    redisNotification.subscribe('add-comment');
 
     redisNotification.on('message', (channel, data) => {
-        const notification = JSON.parse(data);
-        const room = notification.roomType + '_room_' + notification.roomId
-        // console.log(notification);
+        const commentData = JSON.parse(data);
+        // const room = 'plan_room_' + commentData.roomId
+        console.log(commentData);
         // console.log(room);
-        io.to(room).emit('send-notification', notification);
+        io.emit('send-comment', commentData);
     });
 }

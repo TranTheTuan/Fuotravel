@@ -10,7 +10,7 @@ import {NotificationService} from '../../services/notification.service';
   styleUrls: ['./notification-sheet.component.css']
 })
 export class NotificationSheetComponent implements OnInit {
-
+  notifications: Notify[] = [];
   constructor(
     private bottomSheetRef: MatBottomSheetRef<NotificationSheetComponent>,
     private notificationService: NotificationService,
@@ -18,18 +18,22 @@ export class NotificationSheetComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-  }
-  openLink(event: MouseEvent) {
-    this.bottomSheetRef.dismiss();
-    event.preventDefault();
-  }
-  markAsRead(notificationId: any) {
-    this.notificationService.markAsRead(notificationId).subscribe(res => {
-      if (res.data) {
-        const notifyIndex = this.data.findIndex(notify => notify.id === notificationId);
-        this.data[notifyIndex].readAt = (new Date()).toDateString();
+    // this.notificationService.getAllNotifications();
+    this.notificationService.notificationListener.subscribe(res => {
+      if (res) {
+        this.notifications = res;
       }
     });
+  }
+  openLink(notify: Notify) {
+    if (notify.readAt == null) {
+      this.markAsRead(notify.id);
+      console.log(this.notifications);
+    }
+    // event.preventDefault();
+  }
+  markAsRead(notificationId: any) {
+    this.notificationService.markAsRead(notificationId);
   }
 
 }
