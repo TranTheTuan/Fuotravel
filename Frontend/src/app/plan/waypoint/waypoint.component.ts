@@ -8,6 +8,7 @@ import {Coordinate} from '../../models/coordinate';
 import {Waypoint} from '../../helpers/waypoint';
 import {dateFormat} from '../../helpers/date-format';
 import {MatSnackBar} from '@angular/material';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-waypoint',
@@ -23,6 +24,9 @@ export class WaypointComponent implements OnInit {
   currentCoordinate = new Coordinate('21.028511', '105.804817');
   suggestLocations;
   isSearching = false;
+  list = [
+    '1', '2', '3', '4'
+  ];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -145,6 +149,17 @@ export class WaypointComponent implements OnInit {
     }
     this.planService.updateWaypoints(this.waypointForm.value, this.planId).subscribe(res => {
       this.snackBar.open('Route is updated :)', 'Close', {duration: 3000});
+    });
+  }
+
+  drop(event: CdkDragDrop<any[]>) {
+    console.log(this.chosenWaypoints, event);
+    moveItemInArray(this.waypoints.controls, event.previousIndex, event.currentIndex);
+    this.waypoints.at(event.currentIndex).patchValue({
+      order: event.currentIndex
+    });
+    this.waypoints.at(event.previousIndex).patchValue({
+      order: event.previousIndex
     });
   }
 

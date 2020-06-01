@@ -37,7 +37,6 @@ export class PostService {
     const apiUrl = this.APIS[2].replace('{plan_id}', planId);
     this.http.post<ApiResponse>(apiUrl, toFormData(formValue)).subscribe(res => {
       const post: Post = res.data;
-      console.log(post);
       this.posts.unshift(post);
       this.posts$.next([...this.posts]);
     });

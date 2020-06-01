@@ -4,6 +4,7 @@ let app = require('express')();
 let server = require('http').Server(app);
 let notify = require('./subscribes/notification');
 let comment = require('./subscribes/comment');
+let post = require('./subscribes/post');
 let io = require('socket.io')(server);
 
 server.listen(3000, () => {
@@ -76,3 +77,4 @@ io.on('connection', (socket) => {
 
 notify.redisNotify(io);
 comment.redisComment(io);
+post.redisPost(io);

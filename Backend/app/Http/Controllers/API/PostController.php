@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Events\CreatedPostEvent;
 use App\Http\Resources\PostResource;
 use App\Plan;
 use App\Post;
@@ -50,6 +51,7 @@ class PostController extends ApiController
                 }
             }
         }
+        event(new CreatedPostEvent($post));
         return $this->sendResponse(new PostResource($post));
     }
 

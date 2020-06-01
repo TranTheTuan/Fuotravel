@@ -5,6 +5,9 @@ import {ActivatedRoute} from '@angular/router';
 import {DOWN, GROUP, PLAN, POST, UP} from '../helpers';
 import {VoteService} from '../services/vote.service';
 import {NgImageSliderComponent} from 'ng-image-slider';
+import {WebSocketService} from '../services/web-socket.service';
+import {User} from '../models';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-post',
@@ -17,18 +20,36 @@ export class PostComponent implements OnInit {
   public readonly _UP = UP;
   public readonly _DOWN = DOWN;
   public posts: Post[];
+  currentUser: User;
 
   constructor(
     private postService: PostService,
     private voteService: VoteService,
+    private authService: AuthService,
+    private webSocketService: WebSocketService,
     private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.currentUser = this.authService.currentUserValue;
     this.planId = this.route.parent.snapshot.paramMap.get('plan_id');
     this.postService.getPosts(this.planId);
     this.postService.getPostsListener().subscribe((posts: Post[]) => {
       this.posts = posts;
+    });
+    this.socketInteraction();
+  }
+
+  socketInteraction() {
+    this.webSocketService.listen('send-post').subscribe(post => {
+      const newPost: Post = post;
+      console.log(newPost);
+      if (this.currentUser.id === newPost.author.id) {
+        const newRoom = 'post_room_' + newPost.id;
+        this.webSocketService.emit('new-room', newRoom);
+      } else {
+        this.posts.unshift(newPost);
+      }
     });
   }
 

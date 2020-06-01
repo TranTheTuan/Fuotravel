@@ -32,6 +32,7 @@ import {FlexModule} from '@angular/flex-layout';
 import {WaypointComponent} from './waypoint/waypoint.component';
 import {MatChipsModule} from '@angular/material/chips';
 import {InteractionComponent} from './interaction/interaction.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import {InteractionComponent} from './interaction/interaction.component';
     MatProgressSpinnerModule,
     MatChipsModule,
     MatGridListModule,
+    DragDropModule,
   ],
 })
 export class PlanModule {

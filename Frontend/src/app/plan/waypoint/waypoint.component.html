@@ -1,5 +1,6 @@
 <form [formGroup]="waypointForm" (ngSubmit)="onSubmit()" class="d-flex flex-column">
-  <div formArrayName="waypoints" *ngFor="let waypoint of waypoints.controls; let i = index" class="d-flex flex-column">
+  <div cdkDropList (cdkDropListDropped)="drop($event)">
+  <div formArrayName="waypoints" *ngFor="let waypoint of waypoints.controls; let i = index" cdkDrag class="d-flex flex-column">
     <div [formGroupName]="i" class="d-flex flex-column">
       <div class="d-flex flex-row">
         <div class="d-flex flex-column flex-grow-1">
@@ -55,6 +56,7 @@
         <input type="text" formControlName="order">
       </div>
     </div>
+  </div>
   </div>
   <div class="d-flex flex-row justify-content-between">
     <button mat-icon-button type="button" (click)="addWaypoint()">
