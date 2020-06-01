@@ -17,7 +17,7 @@ use App\Events\BroadcastDemo;
 
 Route::post('login', 'API\AuthController@login');
 Route::post('register', 'API\AuthController@register');
-
+Route::post('soap', 'API\HereMapController@calculate');
 Route::middleware('auth:api')->group(function() {
     Route::post('logout', 'API/AuthController@logout');
 

@@ -52,4 +52,29 @@ class HereMapController extends ApiController
             'apiKey' => config('services.here.key')
         ]]);
     }
+
+    public function calculate(Request $request)
+    {
+        $data = $request->f;
+        $dat = $request->s;
+        $xml =['headers'=>['Content-Type' => 'text/xml; charset=UTF8'],
+            'body' =>
+            `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+      xmlns:us="http://soa.com/soap/calculator">
+          <soapenv:Header>
+
+      </soapenv:Header>
+      <soapenv:Body>
+      <us:getSumRequest>
+      <us:firstNumber>${data}</us:firstNumber>
+      <us:secondNumber>${dat}</us:secondNumber>
+      </us:getSumRequest>
+      </soapenv:Body>
+
+      </soapenv:Envelope>
+        `];
+        $client = new Client();
+        return $client->request('POST',
+            'http://localhost:8080/ws/', $xml);
+    }
 }
