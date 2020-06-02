@@ -16,6 +16,7 @@ import {MemberService} from '../services/member.service';
 export class PlanComponent implements OnInit {
   tmpCover = '';
   links = [
+    {path: 'here-map', label: 'Stages'},
     {path: 'discuss', label: 'Discuss'},
     {path: 'requests', label: 'Requests'},
     {path: 'members', label: 'Members'},

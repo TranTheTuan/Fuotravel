@@ -139,7 +139,6 @@ export class WaypointComponent implements OnInit {
       this.chosenWaypoints.splice(index, 1);
       this.planService.setWaypoints(this.chosenWaypoints);
     }
-    this.waypoints.removeAt(index);
   }
 
   onSubmit() {
@@ -153,7 +152,7 @@ export class WaypointComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<any[]>) {
-    console.log(this.chosenWaypoints, event);
+    // console.log(this.chosenWaypoints, event);
     moveItemInArray(this.waypoints.controls, event.previousIndex, event.currentIndex);
     this.waypoints.at(event.currentIndex).patchValue({
       order: event.currentIndex
@@ -161,6 +160,13 @@ export class WaypointComponent implements OnInit {
     this.waypoints.at(event.previousIndex).patchValue({
       order: event.previousIndex
     });
+    const temp = this.chosenWaypoints[event.previousIndex];
+    this.chosenWaypoints[event.previousIndex] = this.chosenWaypoints[event.currentIndex];
+    this.chosenWaypoints[event.currentIndex] = temp;
+    this.chosenWaypoints[event.currentIndex].order = event.currentIndex;
+    this.chosenWaypoints[event.previousIndex].order = event.previousIndex;
+    // console.log(this.chosenWaypoints);
+    this.planService.setWaypoints(this.chosenWaypoints);
   }
 
 }

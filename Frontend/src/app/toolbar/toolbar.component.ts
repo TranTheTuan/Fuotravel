@@ -93,6 +93,7 @@ export class ToolbarComponent implements OnInit {
         ))
     ).subscribe(res => {
       this.suggestPlans = res.data;
+      console.log(this.suggestPlans);
     });
   }
 

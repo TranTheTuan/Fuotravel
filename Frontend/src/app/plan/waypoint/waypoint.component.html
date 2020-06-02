@@ -1,62 +1,69 @@
-<form [formGroup]="waypointForm" (ngSubmit)="onSubmit()" class="d-flex flex-column">
-  <div cdkDropList (cdkDropListDropped)="drop($event)">
-  <div formArrayName="waypoints" *ngFor="let waypoint of waypoints.controls; let i = index" cdkDrag class="d-flex flex-column">
-    <div [formGroupName]="i" class="d-flex flex-column">
-      <div class="d-flex flex-row">
-        <div class="d-flex flex-column flex-grow-1">
-          <mat-form-field>
-            <mat-label>Name</mat-label>
-            <input matInput formControlName="name" [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngIf="isSearching">
-                <mat-spinner diameter="24"></mat-spinner>
-              </mat-option>
-              <ng-container *ngIf="!isSearching">
-                <mat-option *ngFor="let item of suggestLocations" [value]="item.address.label"
-                            (click)="onChooseWaypoint(i, item)">
-                  <small>{{ item.address.label }}</small>
-                </mat-option>
-              </ng-container>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
-        <div class="d-flex flex-column justify-content-center ml-auto">
-          <button mat-icon-button type="button" (click)="removeWaypoint(i)">
-            <mat-icon>remove_circle_outline</mat-icon>
-          </button>
-        </div>
-      </div>
-      <div class="d-flex flex-row">
-        <mat-form-field class="flex-grow-1">
-          <mat-label>Activity</mat-label>
-          <input matInput formControlName="activity">
-        </mat-form-field>
-      </div>
-      <div class="d-flex flex-row">
-        <div class="d-flex flex-column w-50">
-          <mat-form-field>
-            <mat-label>From</mat-label>
-            <input matInput [matDatepicker]="arrivalAt" formControlName="arrival_at">
-            <mat-datepicker-toggle matSuffix [for]="arrivalAt"></mat-datepicker-toggle>
-            <mat-datepicker #arrivalAt></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div class="d-flex flex-column w-50">
-          <mat-form-field>
-            <mat-label>To</mat-label>
-            <input matInput [matDatepicker]="leaveAt" formControlName="leave_at">
-            <mat-datepicker-toggle matSuffix [for]="leaveAt"></mat-datepicker-toggle>
-            <mat-datepicker #leaveAt></mat-datepicker>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="d-flex flex-row">
-        <input type="hidden" formControlName="latitude">
-        <input type="hidden" formControlName="longitude">
-        <input type="text" formControlName="order">
-      </div>
-    </div>
+<form [formGroup]="waypointForm" (ngSubmit)="onSubmit()" class="d-flex flex-column bg-white p-1 pt-3 border rounded">
+  <div *ngIf="waypoints.controls.length == 0">
+    Add a stage to the plan
   </div>
+  <div cdkDropList (cdkDropListDropped)="drop($event)">
+    <div formArrayName="waypoints" *ngFor="let waypoint of waypoints.controls; let i = index" cdkDrag class="d-flex flex-row">
+      <div class="d-flex flex-column" cdkDragHandle>
+        <mat-icon>place</mat-icon>
+      </div>
+      <div [formGroupName]="i" class="d-flex flex-column">
+        <div class="d-flex flex-row">
+          <div class="d-flex flex-column flex-grow-1">
+            <mat-form-field appearance="outline">
+              <mat-label>Name</mat-label>
+              <input matInput formControlName="name" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngIf="isSearching">
+                  <mat-spinner diameter="24"></mat-spinner>
+                </mat-option>
+                <ng-container *ngIf="!isSearching">
+                  <mat-option *ngFor="let item of suggestLocations" [value]="item.address.label"
+                              (click)="onChooseWaypoint(i, item)">
+                    <small>{{ item.address.label }}</small>
+                  </mat-option>
+                </ng-container>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div class="d-flex flex-column justify-content-center ml-auto">
+            <button mat-icon-button type="button" (click)="removeWaypoint(i)">
+              <mat-icon>remove_circle_outline</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="d-flex flex-row">
+          <mat-form-field appearance="legacy" class="flex-grow-1">
+            <mat-label>Activity</mat-label>
+            <input matInput formControlName="activity">
+          </mat-form-field>
+        </div>
+        <div class="d-flex flex-row">
+          <div class="d-flex flex-column w-50">
+            <mat-form-field appearance="legacy">
+              <mat-label>From</mat-label>
+              <input matInput [matDatepicker]="arrivalAt" formControlName="arrival_at">
+              <mat-datepicker-toggle matSuffix [for]="arrivalAt"></mat-datepicker-toggle>
+              <mat-datepicker #arrivalAt></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="d-flex flex-column w-50">
+            <mat-form-field appearance="legacy">
+              <mat-label>To</mat-label>
+              <input matInput [matDatepicker]="leaveAt" formControlName="leave_at">
+              <mat-datepicker-toggle matSuffix [for]="leaveAt"></mat-datepicker-toggle>
+              <mat-datepicker #leaveAt></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="d-flex flex-row">
+          <input type="hidden" formControlName="latitude">
+          <input type="hidden" formControlName="longitude">
+          <input type="hidden" formControlName="order">
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
   </div>
   <div class="d-flex flex-row justify-content-between">
     <button mat-icon-button type="button" (click)="addWaypoint()">

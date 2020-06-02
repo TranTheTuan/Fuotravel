@@ -84,6 +84,7 @@ export class PlanService {
 
   setWaypoints(updatedWaypoints: Waypoint[]) {
     this.waypoints = updatedWaypoints;
+    console.log(this.waypoints);
     this.waypointsBehavior.next([...this.waypoints]);
   }
 

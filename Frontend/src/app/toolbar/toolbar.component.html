@@ -13,6 +13,9 @@
         <mat-spinner diameter="24"></mat-spinner>
       </mat-option>
       <ng-container *ngIf="!isSearching">
+        <mat-option *ngIf="suggestPlans.length == 0">
+          <small>There's no plans match your search</small>
+        </mat-option>
         <mat-option *ngFor="let plan of suggestPlans" [value]="plan.id" (click)="onSuggestionClick(plan.id)">
           {{ plan.title }}
         </mat-option>

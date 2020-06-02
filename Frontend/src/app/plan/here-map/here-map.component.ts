@@ -5,6 +5,8 @@ import {HereMapService} from '../../services/here-map.service';
 import {Waypoint} from '../../helpers/waypoint';
 import {ActivatedRoute} from '@angular/router';
 import {PlanService} from '../../services/plan.service';
+import {MemberService} from '../../services/member.service';
+import {ADMIN, MODERATOR} from '../../helpers';
 
 declare let H: any;
 
@@ -26,10 +28,14 @@ export class HereMapComponent implements OnInit, AfterViewInit {
   currentLng = 105.804817;
   waypoints: Waypoint[] = [];
   planId;
+  membership;
+  _ADMIN = ADMIN;
+  _MODERATOR = MODERATOR;
 
   constructor(
     private planService: PlanService,
     private hereMapService: HereMapService,
+    private memberService: MemberService,
     private route: ActivatedRoute
   ) {
   }
@@ -43,6 +49,10 @@ export class HereMapComponent implements OnInit, AfterViewInit {
     // this.getRoute();
     this.planId = this.route.parent.snapshot.paramMap.get('plan_id');
     this.planService.getWaypoints(this.planId);
+    this.memberService.getMembershipListener().subscribe(res => {
+      this.membership = res;
+      console.log(this.membership);
+    });
   }
 
   ngAfterViewInit() {
