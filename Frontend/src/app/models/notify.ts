@@ -7,4 +7,5 @@ export class Notify {
   roomId: number;
   roomType: string;
   readAt?: string;
+  link: string;
 }

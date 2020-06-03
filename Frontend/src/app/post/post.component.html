@@ -2,9 +2,11 @@
   <app-post-create [planId]="planId"></app-post-create>
 </div>
 <div *ngFor="let post of posts">
-  <mat-card class="example-card">
+  <mat-card id="post_{{ post.id }}" class="example-card">
     <mat-card-header>
-      <div mat-card-avatar class="example-header-image"></div>
+<!--      <div mat-card-avatar class="example-header-image">-->
+        <img mat-card-avatar class="example-header-image" src="{{ post.author.avatar | imageUrl }}">
+<!--      </div>-->
       <mat-card-title>{{ post.author.name}}</mat-card-title>
       <mat-card-subtitle>{{ post.created_at | date:'short'}}</mat-card-subtitle>
     </mat-card-header>

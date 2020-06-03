@@ -8,10 +8,10 @@
     You have no notifications
   </div>
   <div class="d-flex flex-row align-items-center" *ngFor="let notify of notifications" [ngClass]="notify.readAt == null ? 'bg-info' : 'bg-white'">
-    <mat-list-item class="col-11" (click)="openLink(notify)">
+    <a mat-list-item href="{{ notify.link }}" class="col-11">
       <img mat-list-avatar src="{{ notify.sender.avatar | imageUrl }}">
       <span mat-line>{{ notify.message }}</span>
-    </mat-list-item>
+    </a>
     <button mat-icon-button matTooltip="mark as read" class="col-1"
             [style.display]="notify.readAt == null ? '' : 'none'"
             (click)="markAsRead(notify.id)">

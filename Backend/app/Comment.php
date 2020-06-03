@@ -25,6 +25,11 @@ class Comment extends Model
         return $this->hasMany('App\Comment', 'parent_id');
     }
 
+    public function parent()
+    {
+        return $this->belongsTo('App\Comment', 'parent_id');
+    }
+
     public function votes()
     {
         return $this->morphMany('App\Vote', 'voteable');

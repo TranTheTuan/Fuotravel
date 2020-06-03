@@ -38,6 +38,7 @@ class CreatedPostListener
             $plan = $post->plan;
             $sender = Auth::user();
             $message = $sender->firstname . ' ' .$sender->lastname . ' created a post in plan ' . $plan->title . ' you are following';
+            $link = '/plans/' . $plan->id . '/posts#post_' . $post->id;
             $receiver_ids = $plan->members()->where('user_id', '!=', $sender->id)
                 ->where('status', Member::FOLLOWING)->pluck('user_id');
             if ($plan->user_id != $sender->id) {
@@ -48,7 +49,8 @@ class CreatedPostListener
             $notification = $sender->notifications()->create([
                 'message' => $message,
                 'room_id' => $roomId,
-                'room_type' => $roomType
+                'room_type' => $roomType,
+                'link' => $link
             ]);
             $notification->receivers()->attach($receiver_ids);
             Redis::publish('send-message', json_encode(new NotificationResource($notification)));

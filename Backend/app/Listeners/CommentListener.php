@@ -44,6 +44,7 @@ class CommentListener
             $receiver_ids = [];
             $roomType = Notification::PLAN_ROOM;
             $roomId = 1;
+            $link = '/plans/';
             $commentPostId = 1;
             $isReply = false;
             $parentId = $event->parentId;
@@ -55,7 +56,7 @@ class CommentListener
                     $receiver_ids->push($plan->user_id);
                 }
                 $roomId = $plan->id;
-//                $commentPostId = $plan->id;
+                $link = '/plans/' . $plan->id . '/discuss#comment_' . $comment->id;
             }
             if (!is_null($post)) {
                 $message = $sender->firstname . ' ' . $sender->lastname . ' commented on '.$post->user->firstname .'\'s post';
@@ -65,6 +66,7 @@ class CommentListener
                 }
                 $roomType = Notification::POST_ROOM;
                 $roomId = $post->id;
+                $link = '/plans/' . $post->plan_id . '/posts#comment_' . $comment->id;
                 $commentPostId = $post->id;
             }
             if (!is_null($parentId)) {
@@ -80,7 +82,8 @@ class CommentListener
             $notification = $sender->notifications()->create([
                 'message' => $message,
                 'room_type' => $roomType,
-                'room_id' => $roomId
+                'room_id' => $roomId,
+                'link' => $link
             ]);
             $notification->receivers()->attach($receiver_ids);
             $commentData = [
