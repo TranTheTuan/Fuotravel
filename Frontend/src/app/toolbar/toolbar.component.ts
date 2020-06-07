@@ -83,7 +83,7 @@ export class ToolbarComponent implements OnInit {
 
   onSearch() {
     this.searchControl.valueChanges.pipe(
-      filter(val => val.length >= 2),
+      filter(val => val !== undefined && val.length >= 2),
       debounceTime(500),
       distinctUntilChanged(),
       tap(() => this.isSearching = true),

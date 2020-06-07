@@ -7,9 +7,10 @@ import {MemberComponent} from './member/member.component';
 import {PostComponent} from '../post/post.component';
 import {CommentComponent} from '../comment/comment.component';
 import {HereMapComponent} from './here-map/here-map.component';
+import {AuthGuard} from '../helpers/auth.guard';
 
 const routes: Routes = [{
-  path: ':plan_id', component: PlanComponent, children: [
+  path: ':plan_id', component: PlanComponent, canActivate: [AuthGuard], children: [
     {path: '', redirectTo: 'discuss', pathMatch: 'full'},
     {path: 'discuss', component: CommentComponent},
     {path: 'requests', component: RequestComponent},

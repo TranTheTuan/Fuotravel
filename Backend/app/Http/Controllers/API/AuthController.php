@@ -107,6 +107,8 @@ class AuthController extends ApiController
             'password' => Hash::make(Str::random(24))
         ]);
         Auth::login($loggedinUser, true);
-        dd($data, $loggedinUser);
+        $token = $loggedinUser->createToken('Personal access token');
+        $loggedinUser->accessToken = $token->accessToken;
+        dd($data, new UserResource($loggedinUser));
     }
 }

@@ -26,16 +26,8 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.authService.currentUserValue) {
-      this.router.navigate(['/auth/login']);
-    } else {
-      if (localStorage.getItem('plans')) {
-        this.plans = JSON.parse(localStorage.getItem('plans'));
-      } else {
-        this.getPlans();
-      }
+      this.getPlans();
       this.authTags = this.authService.currentUserValue.tags;
-    }
   }
 
   getPlans(tagIds: string = '') {

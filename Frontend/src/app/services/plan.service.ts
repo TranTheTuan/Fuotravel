@@ -6,12 +6,9 @@ import {ApiResponse, Plan} from '../models';
 import {catchError, map} from 'rxjs/operators';
 import {toFormData} from '../helpers/toFormData';
 import {Waypoint} from '../helpers/waypoint';
+import {Cacheable} from 'ngx-cacheable';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'multipart/form-data'
-  })
-};
+const cacheBuster$ = new Subject<void>();
 
 @Injectable({
   providedIn: 'root'
@@ -32,20 +29,26 @@ export class PlanService {
   constructor(private http: HttpClient) {
   }
 
+  @Cacheable({
+    cacheBusterObserver: cacheBuster$
+  })
   getAll(query: string = '', tags: string = ''): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(this.APIS[1], {
       params: new HttpParams()
         .set('query', query)
         .set('tags', tags)
-    })
-      .pipe(map(res => {
-        if (res.data) {
-          localStorage.setItem('plans', JSON.stringify(res.data));
-        }
-        return res;
-      }));
+    });
+      // .pipe(map(res => {
+      //   if (res.data) {
+      //     localStorage.setItem('plans', JSON.stringify(res.data));
+      //   }
+      //   return res;
+      // }));
   }
 
+  @Cacheable({
+    cacheBusterObserver: cacheBuster$
+  })
   getDetail(planId: any): Observable<ApiResponse> {
     const apiURL = this.APIS[2].replace('{plan_id}', planId);
     return this.http.get<ApiResponse>(apiURL)
@@ -54,17 +57,25 @@ export class PlanService {
       }));
   }
 
+  @Cacheable({
+    cacheBusterObserver: cacheBuster$
+  })
   createPlan(data: any): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(this.APIS[3], toFormData(data))
       .pipe(map(res => {
+        cacheBuster$.next();
         return res;
       }));
   }
 
+  @Cacheable({
+    cacheBusterObserver: cacheBuster$
+  })
   updatePlan(data: any, planId): Observable<ApiResponse> {
     const apiURL = this.APIS[4].replace('{plan_id}', planId);
     return this.http.post<ApiResponse>(apiURL, toFormData(data))
       .pipe(map(res => {
+        cacheBuster$.next();
         return res;
       }));
   }

@@ -6,6 +6,9 @@ import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
 import {toFormData} from '../helpers/toFormData';
 import {Comment} from '../models/comment';
+import {Cacheable} from 'ngx-cacheable';
+
+const cacheBuster$ = new Subject();
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +22,9 @@ export class CommentService {
   constructor(private http: HttpClient) {
   }
 
+  @Cacheable({
+    cacheBusterObserver: cacheBuster$
+  })
   getAll(commentableId: any, commentable: any): Observable<ApiResponse> {
     const apiUrl = this.APIS[1].replace('{commentable_id}', commentableId)
       .replace('{commentable}', commentable);
@@ -28,12 +34,16 @@ export class CommentService {
       }));
   }
 
+  @Cacheable({
+    cacheBusterObserver: cacheBuster$
+  })
   createComment(commentableId: any, commentable: any, formValue: any): Observable<ApiResponse> {
     const apiUrl = this.APIS[2].replace('{commentable_id}', commentableId)
       .replace('{commentable}', commentable);
     console.log(toFormData(formValue).getAll('image'));
     return this.http.post<ApiResponse>(apiUrl, toFormData(formValue))
       .pipe(map(res => {
+        cacheBuster$.next();
         return res;
       }));
   }

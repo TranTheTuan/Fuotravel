@@ -40,6 +40,12 @@ export class LoginComponent implements OnInit {
 
   }
 
+  onLoginWithProvider(provider: string) {
+    this.authService.loginWithProvider(provider).subscribe(res => {
+      // this.router.navigate(['home']);
+    });
+  }
+
   emailErrorMessage() {
     return this.loginForm.get('email').hasError('required') ? 'Email is required' :
       this.loginForm.get('email').hasError('email') ? 'Not a valid email format' : '';

@@ -13,7 +13,8 @@ import {toFormData} from '../helpers/toFormData';
 export class AuthService {
   private APIS = {
     1: environment.apiURL + '/login',
-    2: environment.apiURL + '/register'
+    2: environment.apiURL + '/register',
+    3: environment.apiURL + '/login/provider/{provider}',
   };
   private currentUserSubject: BehaviorSubject<any>;
   readonly currentUser: Observable<User>;
@@ -37,6 +38,11 @@ export class AuthService {
         }
         return res;
       }));
+  }
+
+  loginWithProvider(provider: string): Observable<any> {
+    const apiUrl = this.APIS[3].replace('{provider}', provider);
+    return this.http.get<any>(apiUrl);
   }
 
   register(params: any): Observable<ApiResponse> {
