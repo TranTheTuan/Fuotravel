@@ -36,10 +36,12 @@ class SendPlanJoinRequestListener
         $roomType = Notification::PLAN_ROOM;
         $roomId = $member->plan_id;
         $message = $sender->firstname . ' ' .$sender->lastname . ' sent join request to plan ' . $plan->title;
+        $link = '/plans/' . $plan->id;
         $notification = $sender->notifications()->create([
             'message' => $message,
             'room_type' => $roomType,
-            'room_id' => $roomId
+            'room_id' => $roomId,
+            'link' => $link
         ]);
         $receiver_ids = $plan->members()->whereIn('status', [Member::ADMIN, Member::MODERATOR])->pluck('user_id');
         $notification->receivers()->attach($receiver_ids);

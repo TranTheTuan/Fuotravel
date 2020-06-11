@@ -37,10 +37,12 @@ class AcceptPlanJoinRequestListener
         $roomType = Notification::PLAN_ROOM;
         $roomId = $member->plan_id;
         $message = 'Your request to join plan ' . $plan->title . ' is accepted';
+        $link = '/plans/' . $plan->id;
         $notification = $sender->notifications()->create([
             'message' => $message,
             'room_type' => $roomType,
-            'room_id' => $roomId
+            'room_id' => $roomId,
+            'link' => $link
         ]);
         $notification->receivers()->attach($member->user_id);
         Redis::publish('send-message', \json_encode(new NotificationResource($notification)));

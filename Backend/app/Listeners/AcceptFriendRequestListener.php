@@ -37,11 +37,13 @@ class AcceptFriendRequestListener
             $sender = Auth::user();
             $roomType = Notification::USER_ROOM;
             $message = $sender->firstname . ' ' . $sender->lastname . ' accepted your friend request';
+            $link = '/users/' . $sender->id . '/profile';
             $roomId = $relationship->first_user_id;
             $notification = $sender->notifications()->create([
                 'message' => $message,
                 'room_type' => $roomType,
-                'room_id' => $roomId
+                'room_id' => $roomId,
+                'link' => $link
             ]);
             $notification->receivers()->attach($roomId);
             Redis::publish('send-message', json_encode(new NotificationResource($notification)));

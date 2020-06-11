@@ -80,7 +80,7 @@ class User extends \TCG\Voyager\Models\User
 
     public function receivers()
     {
-        return $this->belongsToMany('App\Notification', 'receivers')
+        return $this->belongsToMany('App\Notification', 'receivers')->orderBy('created_at', 'desc')
             ->withPivot('read_at');
     }
 

@@ -30,6 +30,6 @@ class TagPolicy
             return true;
         }
         $member = $taggable_type->members->where('user_id', $user->id)->pluck('status');
-        return $member->contains(Member::ADMIN) || $member->contains(Member::MODERATOR);
+        return $taggable_type->user_id == $user->id || $member->contains(Member::ADMIN) || $member->contains(Member::MODERATOR);
     }
 }
