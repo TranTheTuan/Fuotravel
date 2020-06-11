@@ -10,6 +10,8 @@ class Notification extends Model
     const POST_ROOM = 'post';
     const COMMENT_ROOM = 'comment';
     const USER_ROOM = 'user';
+    const FRIEND_ROOM = 'friend';
+    const PENDING_FRIEND_ROOM = 'pending_friend';
 
     protected $guarded = [];
 

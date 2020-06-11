@@ -7,6 +7,7 @@ import {UpdatePlanComponent} from '../layouts/update-plan/update-plan.component'
 import {switchMap} from 'rxjs/operators';
 import {PlanService} from '../services/plan.service';
 import {MemberService} from '../services/member.service';
+import {FormArray, FormBuilder} from '@angular/forms';
 
 @Component({
   selector: 'app-plan',
@@ -25,11 +26,16 @@ export class PlanComponent implements OnInit {
   plan: Plan;
   currentUser: User;
   membership;
+  inviteFriends: User[];
+  friendForm = this.fb.group({
+    friends: this.fb.array([])
+  });
 
   constructor(
     private authService: AuthService,
     private planService: PlanService,
     private memberService: MemberService,
+    private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private matDialog: MatDialog
@@ -46,10 +52,43 @@ export class PlanComponent implements OnInit {
     plan$.subscribe(res => {
       this.plan = res.data;
       this.memberService.getMembership(this.plan.id);
+      this.getFriends();
     });
     this.memberService.getMembershipListener().subscribe(res => {
       this.membership = res;
     });
+  }
+
+  onInviteFriendsSubmit() {
+    const selectedIds = this.friendForm.value.friends
+      .map((v, i) => (v ? this.inviteFriends[i].id : null))
+      .filter(v => v !== null);
+    console.log(selectedIds);
+    this.planService.inviteFriends(this.plan.id, selectedIds).subscribe(res => {
+      console.log(res.data);
+      this.friendForm.reset();
+    });
+  }
+
+  getFriends() {
+    this.planService.getInvitableFriends(this.plan.id).subscribe(res => {
+      this.inviteFriends = res.data;
+      console.log(this.inviteFriends);
+      this.friendForm = this.fb.group({
+        friends: this.buildFriendsArray(this.inviteFriends)
+      });
+    });
+  }
+
+  get friendsArray() {
+    return this.friendForm.get('friends') as FormArray;
+  }
+
+  buildFriendsArray(friends: User[]) {
+    const friendsArr = friends.map(friend => {
+      return this.fb.control('');
+    });
+    return this.fb.array(friendsArr);
   }
 
   openDialog() {

@@ -15,14 +15,35 @@
     <button mat-raised-button *ngIf="currentUser.id === plan.user_id" (click)="openDialog()">Edit</button>
   </div>
   <div class="container-sm mt-3">
-    <h3>{{ plan.title }}</h3>
-    <p>{{ plan.description }}</p>
-    <p>bắt đầu tại: {{ plan.departure }}, vào hồi: {{ plan.start_at }}</p>
-    <p>điểm đến: {{ plan.destination }}, vào hồi: {{ plan.arrival_at }}</p>
-    <p>số thành viên dự kiến: {{ plan.members_quantity }}</p>
-    <mat-chip-list>
-      <mat-chip *ngFor="let tag of plan.tags">{{ tag.name }}</mat-chip>
-    </mat-chip-list>
+    <div class="d-flex flex-row justify-content-between">
+      <div class="d-flex flex-column">
+        <h3>{{ plan.title }}</h3>
+        <p>{{ plan.description }}</p>
+        <p>bắt đầu tại: {{ plan.departure }}, vào hồi: {{ plan.start_at }}</p>
+        <p>điểm đến: {{ plan.destination }}, vào hồi: {{ plan.arrival_at }}</p>
+        <p>số thành viên dự kiến: {{ plan.members_quantity }}</p>
+        <mat-chip-list>
+          <mat-chip *ngFor="let tag of plan.tags">{{ tag.name }}</mat-chip>
+        </mat-chip-list>
+      </div>
+      <div class="d-flex flex-column border rounded" style="width: 200px">
+        <p class="p-2">Invite your friends</p>
+        <mat-divider></mat-divider>
+        <form [formGroup]="friendForm" (ngSubmit)="onInviteFriendsSubmit()">
+          <mat-list style="height: 150px; overflow-y: auto">
+            <mat-list-item *ngFor="let friend of friendsArray.controls; let i = index">
+              <mat-checkbox
+                [formControl]="friend"
+                labelPosition="after">
+                {{ inviteFriends[i].name}}
+              </mat-checkbox>
+            </mat-list-item>
+          </mat-list>
+          <mat-divider></mat-divider>
+          <button mat-button>submit</button>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
 <nav mat-tab-nav-bar mat-stretch-tabs>

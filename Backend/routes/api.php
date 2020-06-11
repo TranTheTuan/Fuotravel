@@ -36,6 +36,7 @@ Route::middleware('auth:api')->group(function() {
         Route::post('{plan_id}/waypoints', 'API\WaypointController');
         Route::get('{plan_id}/waypoints', 'API\PlanController@getWaypoints');
         Route::get('{plan_id}/invitable-friends', 'API\PlanController@getInvitableFriends');
+        Route::post('{plan_id}/invite-friends', 'API\PlanController@sendInvitation');
     });
 
     Route::prefix('here-map')->group(function() {

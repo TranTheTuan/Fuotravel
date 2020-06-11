@@ -39,7 +39,7 @@ class SentPlanInvitationListener
             $link = '/plans/' . $plan->id;
             $notification = $sender->notifications()->create([
                 'message' => $message,
-                'room_type' => 'user',
+                'room_type' => Notification::FRIEND_ROOM,
                 'room_id' => $sender->id,
                 'link' => $link
             ]);

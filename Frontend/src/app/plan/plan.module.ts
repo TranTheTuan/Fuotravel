@@ -23,7 +23,7 @@ import {
   MatInputModule,
   MatAutocompleteModule,
   MatProgressSpinnerModule,
-  MatGridListModule,
+  MatGridListModule, MatListModule, MatCheckboxModule,
 } from '@angular/material';
 // import {InteractionModule} from '../interaction/interaction.module';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -69,6 +69,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     MatChipsModule,
     MatGridListModule,
     DragDropModule,
+    MatListModule,
+    MatCheckboxModule,
   ],
 })
 export class PlanModule {

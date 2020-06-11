@@ -21,6 +21,8 @@ export class PlanService {
     4: environment.apiURL + '/plans/update/{plan_id}',
     5: environment.apiURL + '/plans/{plan_id}/waypoints',
     6: environment.apiURL + '/plans/members-status',
+    7: environment.apiURL + '/plans/{plan_id}/invitable-friends',
+    8: environment.apiURL + '/plans/{plan_id}/invite-friends'
   };
   private waypoints: Waypoint[] = [];
   private waypointsBehavior = new BehaviorSubject<Waypoint[]>(this.waypoints);
@@ -38,12 +40,16 @@ export class PlanService {
         .set('query', query)
         .set('tags', tags)
     });
-      // .pipe(map(res => {
-      //   if (res.data) {
-      //     localStorage.setItem('plans', JSON.stringify(res.data));
-      //   }
-      //   return res;
-      // }));
+  }
+
+  getInvitableFriends(planId: any): Observable<ApiResponse> {
+    const apiUrl = this.APIS[7].replace('{plan_id}', planId);
+    return this.http.get<ApiResponse>(apiUrl);
+  }
+
+  inviteFriends(planId: any, formData: any): Observable<ApiResponse> {
+    const apiUrl = this.APIS[8].replace('{plan_id}', planId);
+    return this.http.post<ApiResponse>(apiUrl, formData);
   }
 
   @Cacheable({

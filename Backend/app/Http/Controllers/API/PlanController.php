@@ -107,15 +107,19 @@ class PlanController extends ApiController
     public function getInvitableFriends($plan_id)
     {
         $user = Auth::user();
-        $invitableFriends = $user->friends->filter(function($value, $key) use($plan_id) {
-            $memberStatus = $value->members()->where('plan_id', $plan_id)->pluck('status');
-            return !$memberStatus->contains(Member::MEMBER) && !$memberStatus->contains(Member::PENDING);
-        });
-        return $this->sendResponse($invitableFriends);
+        $invitableFriends = collect();
+        foreach ($user->friends as $friend) {
+            $memberStatus = $friend->members()->where('plan_id', $plan_id)->pluck('status');
+            if ($memberStatus->isEmpty()) {
+                $invitableFriends->push($friend);
+            }
+        }
+        return $this->sendResponse($invitableFriends->all());
     }
 
-    public function sendInvitation($plan_id, $receiver_ids)
+    public function sendInvitation($plan_id, Request $request)
     {
+        $receiver_ids = $request->all();
         \event(new SentPlanInvitationEvent(Plan::find($plan_id), $receiver_ids));
         return $this->sendResponse('sent invitations to your friends');
     }

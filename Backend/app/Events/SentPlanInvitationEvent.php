@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Plan;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -15,10 +16,12 @@ class SentPlanInvitationEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $plan, $receiver_ids;
+
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param Plan $plan
+     * @param $receiver_ids
      */
     public function __construct(Plan $plan, $receiver_ids)
     {
