@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\PlanRequest;
 use App\Services\ImageService;
+use App\Events\SentPlanInvitationEvent;
 
 class PlanController extends ApiController
 {
@@ -101,5 +102,21 @@ class PlanController extends ApiController
     {
         $plan = Plan::find($plan_id);
         return $this->sendResponse($plan->waypoints);
+    }
+
+    public function getInvitableFriends($plan_id)
+    {
+        $user = Auth::user();
+        $invitableFriends = $user->friends->filter(function($value, $key) use($plan_id) {
+            $memberStatus = $value->members()->where('plan_id', $plan_id)->pluck('status');
+            return !$memberStatus->contains(Member::MEMBER) && !$memberStatus->contains(Member::PENDING);
+        });
+        return $this->sendResponse($invitableFriends);
+    }
+
+    public function sendInvitation($plan_id, $receiver_ids)
+    {
+        \event(new SentPlanInvitationEvent(Plan::find($plan_id), $receiver_ids));
+        return $this->sendResponse('sent invitations to your friends');
     }
 }
