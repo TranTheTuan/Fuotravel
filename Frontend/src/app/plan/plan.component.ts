@@ -2,12 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {Plan, User} from '../models';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatSnackBar} from '@angular/material';
 import {UpdatePlanComponent} from '../layouts/update-plan/update-plan.component';
 import {switchMap} from 'rxjs/operators';
 import {PlanService} from '../services/plan.service';
 import {MemberService} from '../services/member.service';
 import {FormArray, FormBuilder} from '@angular/forms';
+import {ADMIN, MEMBER} from '../helpers';
 
 @Component({
   selector: 'app-plan',
@@ -16,6 +17,8 @@ import {FormArray, FormBuilder} from '@angular/forms';
 })
 export class PlanComponent implements OnInit {
   tmpCover = '';
+  _MEMBER  = MEMBER;
+  _ADMIN = ADMIN;
   links = [
     {path: 'here-map', label: 'Stages'},
     {path: 'discuss', label: 'Discuss'},
@@ -38,7 +41,8 @@ export class PlanComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private matSnackBar: MatSnackBar
   ) {
   }
 
@@ -65,7 +69,8 @@ export class PlanComponent implements OnInit {
       .filter(v => v !== null);
     console.log(selectedIds);
     this.planService.inviteFriends(this.plan.id, selectedIds).subscribe(res => {
-      console.log(res.data);
+      this.matSnackBar.open('Sent invitations to your friends :))',
+        'Close', { duration: 3000});
       this.friendForm.reset();
     });
   }

@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {Routes, RouterModule, ExtraOptions} from '@angular/router';
 
 import {PlanComponent} from './plan.component';
 import {RequestComponent} from './request/request.component';
@@ -11,7 +11,7 @@ import {AuthGuard} from '../helpers/auth.guard';
 
 const routes: Routes = [{
   path: ':plan_id', component: PlanComponent, canActivate: [AuthGuard], children: [
-    {path: '', redirectTo: 'discuss', pathMatch: 'full'},
+    {path: '', redirectTo: 'here-map', pathMatch: 'full'},
     {path: 'discuss', component: CommentComponent},
     {path: 'requests', component: RequestComponent},
     {path: 'members', component: MemberComponent},

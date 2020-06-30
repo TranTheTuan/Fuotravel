@@ -128,6 +128,8 @@ Route::middleware('auth:api')->group(function() {
         Route::prefix('notifications')->group(function () {
             Route::get('/', 'API\NotificationController@index');
             Route::put('{notification_id}/mark-as-read', 'API\NotificationController@markAsRead');
+            Route::put('{notification_id}/mark-as-unread', 'API\NotificationController@markAsUnread');
+            Route::put('{notification_id}/mark-all-as-read', 'API\NotificationController@markAllAsRead');
         });
     });
 });

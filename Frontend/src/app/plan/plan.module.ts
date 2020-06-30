@@ -33,6 +33,7 @@ import {WaypointComponent} from './waypoint/waypoint.component';
 import {MatChipsModule} from '@angular/material/chips';
 import {InteractionComponent} from './interaction/interaction.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     DragDropModule,
     MatListModule,
     MatCheckboxModule,
+    ScrollingModule,
   ],
 })
 export class PlanModule {

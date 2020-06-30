@@ -8,18 +8,16 @@
   </button>
 </mat-toolbar>
 <div class="container-sm">
-  <ul style="list-style: none">
-    <li *ngFor="let plan of plans">
-      <div class="card w-50 h-50 my-3 p-1">
-        <div class="row position-relative">
-          <div class="col-md-4">
-            <img [src]="plan.cover | imageUrl" [alt]="plan.title" class="img-fluid rounded">
-          </div>
-          <div class="col-md-8 position-static">
-            <a [routerLink]="['/plans', plan.id]" class="stretched-link">{{ plan.title }}</a><br>
-            <span class="text-secondary">{{ plan.departure }} - {{ plan.start_at }}</span><br>
-            <span class="text-secondary">{{ plan.destination }} - {{ plan.arrival_at }}</span>
-          </div>
+  <ul style="list-style: none" class="row">
+    <li *ngFor="let plan of plans" class="col-md-4 col-sm-6">
+      <div class="d-flex flex-column m-3 m-sm-2 p-1">
+        <div class="d-flex flex-row my-1">
+          <img [src]="plan.cover | imageUrl" [alt]="plan.title" height="auto" width="100%">
+        </div>
+        <div class="d-flex flex-column">
+          <a [routerLink]="['/plans', plan.id]" class="stretched-link">{{ plan.title }}</a>
+          <small class="text-secondary">{{ plan.departure }} - {{ plan.start_at }}</small>
+          <small class="text-secondary">{{ plan.destination }} - {{ plan.arrival_at }}</small>
         </div>
       </div>
     </li>

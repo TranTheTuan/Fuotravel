@@ -108,9 +108,9 @@ class MemberRepository extends AbstractRepository
 
     public function getMembers(Plan $plan)
     {
-        $members = $plan->members->where('status', Member::MEMBER)->each(function($requester, $key) {
-            return $requester->user;
-        })->pluck('user');
+        $members = $plan->members->where('status', Member::MEMBER)->each(function($member, $key) {
+            return $member->user;
+        });
         return $members;
     }
 

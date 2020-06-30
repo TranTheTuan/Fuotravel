@@ -25,15 +25,19 @@ export class NotificationSheetComponent implements OnInit {
       }
     });
   }
-  openLink(notify: Notify) {
-    if (notify.readAt == null) {
-      this.markAsRead(notify.id);
-      console.log(this.notifications);
-    }
-    // event.preventDefault();
-  }
-  markAsRead(notificationId: any) {
+
+  markAsRead(notificationId: any, canClose: boolean) {
     this.notificationService.markAsRead(notificationId);
+    if (canClose) {
+      this.bottomSheetRef.dismiss();
+    }
   }
 
+  markAsUnread(notificationId: any) {
+    this.notificationService.markAsUnread(notificationId);
+  }
+
+  markAllAsRead() {
+    this.notificationService.markAllAsRead();
+  }
 }

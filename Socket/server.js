@@ -45,6 +45,7 @@ io.on('connection', (socket) => {
             for (const pendingFriendId of data.pendingFriend) {
                 pendingFriendRoom.push('pending_friend_room_' + pendingFriendId);
             }
+            console.log(authRoom);
             socket.join(authRoom);
             socket.join(planRooms);
             socket.join(postRooms);
@@ -73,6 +74,10 @@ io.on('connection', (socket) => {
         socket.join(room);
         console.log(room);
     });
+
+    socket.on('leave-room', (room) => {
+        socket.leave(room);
+    })
 });
 
 notify.redisNotify(io);

@@ -69,8 +69,8 @@ export class WaypointComponent implements OnInit {
       activity: ['', [Validators.required]],
       latitude: ['', [Validators.required, Validators.min(-90), Validators.max(90)]],
       longitude: ['', [Validators.required, Validators.min(-180), Validators.max(180)]],
-      arrival_at: [''],
-      leave_at: [''],
+      arrival_at: ['', [Validators.required]],
+      leave_at: ['', [Validators.required]],
       order: ['', [Validators.required]]
     });
     if (waypoint) {
@@ -138,6 +138,8 @@ export class WaypointComponent implements OnInit {
       }
       this.chosenWaypoints.splice(index, 1);
       this.planService.setWaypoints(this.chosenWaypoints);
+    } else {
+      this.waypoints.removeAt(index);
     }
   }
 

@@ -2,7 +2,7 @@
   <div *ngIf="waypoints.controls.length == 0">
     Add a stage to the plan
   </div>
-  <div cdkDropList (cdkDropListDropped)="drop($event)">
+  <div cdkDropList (cdkDropListDropped)="drop($event)" class="waypoint-form-list">
     <div formArrayName="waypoints" *ngFor="let waypoint of waypoints.controls; let i = index" cdkDrag class="d-flex flex-row">
       <div class="d-flex flex-column" cdkDragHandle>
         <mat-icon>place</mat-icon>

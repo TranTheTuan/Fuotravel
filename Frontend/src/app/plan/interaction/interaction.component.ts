@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {ADMIN, BANNED, FOLLOWING, MEMBER, MODERATOR, PENDING} from '../../helpers';
 import {MemberService} from '../../services/member.service';
+import {WebSocketService} from '../../services/web-socket.service';
 
 @Component({
   selector: 'app-interaction',
@@ -20,6 +21,7 @@ export class InteractionComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private webSocketService: WebSocketService,
     private memberService: MemberService
   ) {
   }
@@ -29,17 +31,25 @@ export class InteractionComponent implements OnInit {
 
   onSendRequest() {
     this.memberService.join(this.planId);
+    const newRoom = 'plan_room_' + this.planId;
+    this.webSocketService.emit('new-room', newRoom);
   }
 
   onUnfollow() {
     this.memberService.unfollow(this.planId);
+    const oldRoom = 'plan_room_' + this.planId;
+    this.webSocketService.emit('leave-room', oldRoom);
   }
 
   onFollow() {
     this.memberService.follow(this.planId);
+    const newRoom = 'plan_room_' + this.planId;
+    this.webSocketService.emit('new-room', newRoom);
   }
 
   onLeave() {
     this.memberService.leave(this.planId);
+    const oldRoom = 'plan_room_' + this.planId;
+    this.webSocketService.emit('leave-room', oldRoom);
   }
 }

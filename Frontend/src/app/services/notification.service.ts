@@ -11,7 +11,9 @@ import {Notify} from '../models/notify';
 export class NotificationService {
   private APIS = {
     1: environment.apiURL + '/users/notifications',
-    2: environment.apiURL + '/users/notifications/{notification_id}/mark-as-read'
+    2: environment.apiURL + '/users/notifications/{notification_id}/mark-as-read',
+    3: environment.apiURL + '/users/notifications/{notification_id}/mark-as-unread',
+    4: environment.apiURL + '/users/notifications/{notification_id}/mark-all-as-read'
   };
   notifications: Notify[] = [];
   unread = 0;
@@ -39,13 +41,33 @@ export class NotificationService {
 
   markAsRead(notificationId: any) {
     const apiUrl = this.APIS[2].replace('{notification_id}', notificationId);
-    return this.http.put<ApiResponse>(apiUrl, null).subscribe(res => {
-      const updatedNotifications = [...this.notifications];
-      const notifyIndex = updatedNotifications.findIndex(notify => notify.id === notificationId);
-      updatedNotifications[notifyIndex].readAt = (new Date()).toDateString();
-      this.notifications = updatedNotifications;
-      this.unreadSubject.next(--this.unread);
-      this.notificationSubject.next([...this.notifications]);
-    });
+    this.unreadSubject.next(--this.unread);
+    const updatedNotifications = [...this.notifications];
+    const notifyIndex = updatedNotifications.findIndex(notify => notify.id === notificationId);
+    updatedNotifications[notifyIndex].readAt = (new Date()).toDateString();
+    this.notifications = updatedNotifications;
+    this.notificationSubject.next([...this.notifications]);
+    return this.http.put<ApiResponse>(apiUrl, null).subscribe();
+  }
+
+  markAsUnread(notificationId: any) {
+    const apiUrl = this.APIS[3].replace('{notification_id}', notificationId);
+    this.unreadSubject.next(++this.unread);
+    const updatedNotifications = [...this.notifications];
+    const notifyIndex = updatedNotifications.findIndex(notify => notify.id === notificationId);
+    updatedNotifications[notifyIndex].readAt = null;
+    this.notifications = updatedNotifications;
+    this.notificationSubject.next([...this.notifications]);
+    return this.http.put<ApiResponse>(apiUrl, null).subscribe();
+  }
+
+  markAllAsRead() {
+    const apiUrl = this.APIS[4];
+    this.unreadSubject.next(this.unread = 0);
+    const updatedNotifications = [...this.notifications];
+    updatedNotifications.forEach(notification => notification.readAt = (new Date()).toDateString());
+    this.notifications = updatedNotifications;
+    this.notificationSubject.next([...this.notifications]);
+    return this.http.put<ApiResponse>(apiUrl, null).subscribe();
   }
 }

@@ -37,7 +37,7 @@ class AcceptPlanJoinRequestListener
         $roomType = Notification::PLAN_ROOM;
         $roomId = $member->plan_id;
         $message = 'Your request to join plan ' . $plan->title . ' is accepted';
-        $link = '/plans/' . $plan->id;
+        $link = '/plans/' . $plan->id . '/members';
         $notification = $sender->notifications()->create([
             'message' => $message,
             'room_type' => $roomType,

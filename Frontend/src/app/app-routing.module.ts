@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {Routes, RouterModule, ExtraOptions} from '@angular/router';
 import {PlanCreateComponent} from './layouts/plan-create/plan-create.component';
 
 const routes: Routes = [
@@ -12,8 +12,13 @@ const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'}
 ];
 
+const routerOption: ExtraOptions = {
+  useHash: false,
+  anchorScrolling: 'enabled'
+};
+
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, routerOption)],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

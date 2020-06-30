@@ -36,7 +36,7 @@ class SendPlanJoinRequestListener
         $roomType = Notification::PLAN_ROOM;
         $roomId = $member->plan_id;
         $message = $sender->firstname . ' ' .$sender->lastname . ' sent join request to plan ' . $plan->title;
-        $link = '/plans/' . $plan->id;
+        $link = '/plans/' . $plan->id . '/requests';
         $notification = $sender->notifications()->create([
             'message' => $message,
             'room_type' => $roomType,

@@ -24,4 +24,21 @@ class NotificationController extends ApiController
         $user->receivers()->updateExistingPivot($notificationId, ['read_at' => Carbon::now()]);
         return $this->sendResponse(NotificationResource::collection($user->receivers));
     }
+
+    public function markAsUnread($notificationId)
+    {
+        $user = Auth::user();
+        $user->receivers()->updateExistingPivot($notificationId, ['read_at' => null]);
+        return $this->sendResponse(NotificationResource::collection($user->receivers));
+    }
+
+    public function markAllAsRead()
+    {
+        $user = Auth::user();
+        foreach ($user->receivers as $receiver) {
+            $receiver->pivot->read_at = Carbon::now();
+            $receiver->pivot->save();
+        }
+        return $this->sendResponse(NotificationResource::collection($user->receivers));
+    }
 }

@@ -28,7 +28,7 @@
     <button mat-icon-button (click)="openNotificationSheet()">
       <mat-icon [matBadge]="unreadNotificationsNumber.toString()"
                 matBadgeColor="warn" matBadgeSize="small"
-                [matBadgeHidden]="unreadNotificationsNumber === 0">
+                [matBadgeHidden]="unreadNotificationsNumber <= 0">
         notifications
       </mat-icon>
     </button>

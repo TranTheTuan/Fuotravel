@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Events\CreatedPlanEvent;
 use App\Group;
 use App\Http\Controllers\ApiController;
 use App\Repositories\MemberRepository;
@@ -63,6 +64,7 @@ class PlanController extends ApiController
 
         $newPlan = $this->planRepo->create($data);
         $newPlan->members()->create(['user_id' => Auth::id(), 'status' => Member::ADMIN]);
+        event(new CreatedPlanEvent($newPlan));
 
         return $this->sendResponse($newPlan);
     }

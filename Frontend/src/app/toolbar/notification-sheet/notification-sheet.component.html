@@ -1,25 +1,25 @@
 <mat-nav-list>
   <div class="d-flex flex-row justify-content-between">
     <span>Notifications</span>
-    <span>mark all as read</span>
+    <a (click)="markAllAsRead()">mark all as read</a>
   </div>
   <mat-divider class="mb-2"></mat-divider>
   <div *ngIf="data.length == 0">
     You have no notifications
   </div>
-  <div class="d-flex flex-row align-items-center" *ngFor="let notify of notifications" [ngClass]="notify.readAt == null ? 'bg-info' : 'bg-white'">
-    <a mat-list-item href="{{ notify.link }}" class="col-11">
+  <div class="d-flex flex-row align-items-center" *ngFor="let notify of notifications" [ngClass]="notify.readAt == null ? 'bg-primary' : 'bg-white'">
+    <a mat-list-item routerLink="{{notify.link | linkFragment: false}}" fragment="{{ notify.link | linkFragment:true}}" (click)="markAsRead(notify.id, true)" class="col-11">
       <img mat-list-avatar src="{{ notify.sender.avatar | imageUrl }}">
       <span mat-line>{{ notify.message }}</span>
     </a>
     <button mat-icon-button matTooltip="mark as read" class="col-1"
             [style.display]="notify.readAt == null ? '' : 'none'"
-            (click)="markAsRead(notify.id)">
+            (click)="markAsRead(notify.id, false)">
       <mat-icon class="text-white">drafts</mat-icon>
     </button>
     <button mat-icon-button matTooltip="mark unread" class="col-1"
             [style.display]="notify.readAt != null ? '' : 'none'"
-            (click)="markAsRead(notify.id)">
+            (click)="markAsUnread(notify.id)">
       <mat-icon>markunread</mat-icon>
     </button>
   </div>
