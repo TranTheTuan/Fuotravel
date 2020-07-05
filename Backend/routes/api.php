@@ -17,7 +17,6 @@ use App\Events\BroadcastDemo;
 
 Route::post('login', 'API\AuthController@login');
 Route::post('register', 'API\AuthController@register');
-Route::post('soap', 'API\HereMapController@calculate');
 Route::get('login/provider/{provider}', 'API\AuthController@redirectToProviderOAuth');
 Route::get('login/facebook/callback', 'API\AuthController@handleFacebookCallback');
 Route::get('login/google/callback', 'API\AuthController@handleGoogleCallback');

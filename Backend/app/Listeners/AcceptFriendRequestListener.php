@@ -33,6 +33,7 @@ class AcceptFriendRequestListener
     public function handle(AcceptFriendRequestEvent $event)
     {
         try {
+            $redis = Redis::connection();
             $relationship = $event->relationship;
             $sender = Auth::user();
             $roomType = Notification::USER_ROOM;
@@ -46,7 +47,7 @@ class AcceptFriendRequestListener
                 'link' => $link
             ]);
             $notification->receivers()->attach($roomId);
-            Redis::publish('send-message', json_encode(new NotificationResource($notification)));
+            $redis->publish('send-message', json_encode(new NotificationResource($notification)));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
         }

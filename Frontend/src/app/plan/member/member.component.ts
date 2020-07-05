@@ -54,7 +54,7 @@ export class MemberComponent implements OnInit {
   onKick(userId: any, planId: any) {
     this.memberService.kick(userId, planId)
       .subscribe(res => {
-        const userIndex = this.members.findIndex(user => user.id === + userId);
+        const userIndex = this.members.findIndex(user => user.id === +userId);
         this.members.splice(userIndex, 1);
         this.snackBar.open('User has been kicked out, what a dick >:(',
           'Close', {duration: 3000});
@@ -64,7 +64,7 @@ export class MemberComponent implements OnInit {
   onBan(userId: any, planId: any) {
     this.memberService.ban(userId, planId)
       .subscribe(res => {
-        const userIndex = this.members.findIndex(user => user.id === + userId);
+        const userIndex = this.members.findIndex(user => user.id === +userId);
         this.members.splice(userIndex, 1);
         this.snackBar.open('User has been banned, dick head >:(',
           'Close', {duration: 3000});

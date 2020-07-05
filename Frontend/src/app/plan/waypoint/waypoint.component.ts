@@ -90,15 +90,15 @@ export class WaypointComponent implements OnInit {
         debounceTime(500),
         distinctUntilChanged(),
         tap(() => this.isSearching = true),
-        switchMap(input => this.hereMapService.getAutoSuggest(input, this.currentCoordinate)
+        switchMap(input => this.hereMapService.getDiscover(input, this.currentCoordinate)
           .pipe(
             // @ts-ignore
             filter(item => item.resultType !== 'categoryQuery'),
             finalize(() => this.isSearching = false)
           ))
       ).subscribe(res => {
-      // @ts-ignore
-      this.suggestLocations = res.items;
+        // @ts-ignore
+        this.suggestLocations = res.items;
     });
     return formGroup;
   }

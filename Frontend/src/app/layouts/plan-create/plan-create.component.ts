@@ -9,6 +9,8 @@ import {TagService} from '../../services/tag.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {TAG_PLAN} from '../../helpers';
 import {PlanService} from '../../services/plan.service';
+import {WebSocketService} from '../../services/web-socket.service';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-plan-create',
@@ -37,9 +39,11 @@ export class PlanCreateComponent implements OnInit {
   constructor(
     private planService: PlanService,
     private tagService: TagService,
+    private authService: AuthService,
     private router: Router,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
+    private webSocketService: WebSocketService,
     private dialogRef: MatDialogRef<PlanCreateComponent>
   ) {
   }
@@ -55,6 +59,9 @@ export class PlanCreateComponent implements OnInit {
     this.planService.createPlan(formValue).subscribe(res => {
       if (res.data) {
         this.planId = res.data.id;
+        const newRoom = 'plan_room_' + this.planId;
+        this.webSocketService.emit('new-room', newRoom);
+        this.authService.updateUserRooms('plan', this.planId);
         this.snackBar.open('Plan created, go to next step to add tags',
           'Close', {duration: 5000});
       }

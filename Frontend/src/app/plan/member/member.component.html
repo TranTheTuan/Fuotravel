@@ -15,14 +15,14 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #settingMenu="matMenu">
-            <button [matMenuTriggerFor]="promoteMenu"
-                    [style.display]="membership.includes(_ADMIN) ? '' : 'none'"
-                    mat-menu-item>promote</button>
-            <mat-divider></mat-divider>
-            <button [matMenuTriggerFor]="dischargeMenu"
-                    [style.display]="membership.includes(_ADMIN) ? '' : 'none'"
-                    mat-menu-item>discharge</button>
-            <mat-divider></mat-divider>
+<!--            <button [matMenuTriggerFor]="promoteMenu"-->
+<!--                    [style.display]="membership.includes(_ADMIN) ? '' : 'none'"-->
+<!--                    mat-menu-item>promote</button>-->
+<!--            <mat-divider></mat-divider>-->
+<!--            <button [matMenuTriggerFor]="dischargeMenu"-->
+<!--                    [style.display]="membership.includes(_ADMIN) ? '' : 'none'"-->
+<!--                    mat-menu-item>discharge</button>-->
+<!--            <mat-divider></mat-divider>-->
             <button (click)="onKick(member.id, planId)"
                     mat-menu-item>kick</button>
             <mat-divider></mat-divider>

@@ -56,11 +56,10 @@ export class CommentComponent implements OnInit {
   }
   socketInteraction() {
     this.webSocketService.listen('send-comment').subscribe(res => {
-      console.log(res);
       const newComment: Comment = res.comment;
-      console.log(this.currentUser.name);
       if (this.currentUser.id === newComment.author.id) {
         const newRoom = 'comment_room_' + newComment.id ;
+        this.authService.updateUserRooms('comment', newComment.id);
         this.webSocketService.emit('new-room', newRoom);
       } else {
         if (this.commentableType === POST) {

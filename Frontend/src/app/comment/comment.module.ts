@@ -11,21 +11,23 @@ import {ReplyFormComponent} from './reply-form/reply-form.component';
 import {PipesModule} from '../pipes/pipes.module';
 import {MatListModule} from '@angular/material';
 import {NgImageSliderModule} from 'ng-image-slider';
+import {RouterModule} from '@angular/router';
 
 
 @NgModule({
   declarations: [CommentComponent, CommentFormComponent, ReplyFormComponent],
-  imports: [
-    CommonModule,
-    MatIconModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    PipesModule,
-    MatListModule,
-    NgImageSliderModule
-  ],
+    imports: [
+        CommonModule,
+        MatIconModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        PipesModule,
+        MatListModule,
+        NgImageSliderModule,
+        RouterModule
+    ],
   exports: [CommentComponent]
 })
 export class CommentModule {

@@ -43,9 +43,9 @@ export class PostComponent implements OnInit {
   socketInteraction() {
     this.webSocketService.listen('send-post').subscribe(post => {
       const newPost: Post = post;
-      console.log(newPost);
       if (this.currentUser.id === newPost.author.id) {
         const newRoom = 'post_room_' + newPost.id;
+        this.authService.updateUserRooms('post', newPost.id);
         this.webSocketService.emit('new-room', newRoom);
       } else {
         this.posts.unshift(newPost);

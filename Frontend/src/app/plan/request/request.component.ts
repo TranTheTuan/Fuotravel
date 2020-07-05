@@ -45,7 +45,7 @@ export class RequestComponent implements OnInit {
   onAccept(userId: any, planId: any) {
     this.memberService.accept(userId, planId)
       .subscribe(res => {
-        const userIndex = this.requesters.indexOf(userId);
+        const userIndex = this.requesters.findIndex(user => user.id === +userId);
         this.requesters.splice(userIndex, 1);
         this.snackBar.open('Users request has been accepted, yo :D',
           'Close', {duration: 3000});

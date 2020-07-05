@@ -32,6 +32,7 @@ class SentPlanInvitationListener
     public function handle(SentPlanInvitationEvent $event)
     {
         try {
+            $redis = Redis::connection();
             $plan = $event->plan;
             $receiver_ids = $event->receiver_ids;
             $sender = Auth::user();
@@ -44,7 +45,7 @@ class SentPlanInvitationListener
                 'link' => $link
             ]);
             $notification->receivers()->attach($receiver_ids);
-            Redis::publish('send-message', \json_encode(new NotificationResource($notification)));
+            $redis->publish('send-message', \json_encode(new NotificationResource($notification)));
         } catch(\Exception $e) {
             Log::error($e->getMessage());
         }

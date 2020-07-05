@@ -35,7 +35,7 @@ class CommentListener
     public function handle(CommentEvent $event)
     {
         try {
-            // Redis::connection();
+            $redis = Redis::connection();
             $comment = $event->comment;
             $plan = $event->plan;
             $post = $event->post;
@@ -71,10 +71,12 @@ class CommentListener
             }
             if (!is_null($parentId)) {
                 $message = $sender->firstname . ' ' . $sender->lastname . ' replied your comment';
-                $receiver_ids = $comment->comments->where('user_id', '!=', $sender->id)->pluck('user_id');
-                if ($comment->user_id != $sender->id) {
-                    $receiver_ids->push($sender->id);
+                if ($comment->parent->user_id != $sender->id) {
+                    $receiver_ids->push($comment->parent->user_id);
                 }
+//                if ($comment->user_id != $sender->id) {
+//                    $receiver_ids->push($sender->id);
+//                }
                 $roomType = Notification::COMMENT_ROOM;
                 $roomId = $parentId;
                 $isReply = true;
@@ -85,14 +87,15 @@ class CommentListener
                 'room_id' => $roomId,
                 'link' => $link
             ]);
+            $receiver_ids = $receiver_ids->unique()->values();
             $notification->receivers()->attach($receiver_ids);
             $commentData = [
                 'comment' => new CommentResource($comment),
                 'commentPostId' => $commentPostId,
                 'isReply' => $isReply
             ];
-            Redis::publish('send-message', json_encode(new NotificationResource($notification)));
-            Redis::publish('add-comment', json_encode($commentData));
+            $redis->publish('send-message', json_encode(new NotificationResource($notification)));
+            $redis->publish('add-comment', json_encode($commentData));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
         }

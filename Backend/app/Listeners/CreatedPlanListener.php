@@ -32,6 +32,7 @@ class CreatedPlanListener
     public function handle(CreatedPlanEvent $event)
     {
         try {
+            $redis = Redis::connection();
             $plan = $event->plan;
             $sender = Auth::user();
             $receiver_ids = $sender->friends->pluck('id');
@@ -44,7 +45,7 @@ class CreatedPlanListener
                 'link' => $link
             ]);
             $notification->receivers()->attach($receiver_ids);
-            Redis::publish('send-message', json_encode(new NotificationResource($notification)));
+            $redis->publish('send-message', json_encode(new NotificationResource($notification)));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
         }

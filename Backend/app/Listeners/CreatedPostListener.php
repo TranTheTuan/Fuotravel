@@ -34,6 +34,7 @@ class CreatedPostListener
     public function handle(CreatedPostEvent $event)
     {
         try {
+            $redis = Redis::connection();
             $post = $event->post;
             $plan = $post->plan;
             $sender = Auth::user();
@@ -53,8 +54,8 @@ class CreatedPostListener
                 'link' => $link
             ]);
             $notification->receivers()->attach($receiver_ids);
-            Redis::publish('send-message', json_encode(new NotificationResource($notification)));
-            Redis::publish('add-post', json_encode(new PostResource($post)));
+            $redis->publish('send-message', json_encode(new NotificationResource($notification)));
+            $redis->publish('add-post', json_encode(new PostResource($post)));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
         }

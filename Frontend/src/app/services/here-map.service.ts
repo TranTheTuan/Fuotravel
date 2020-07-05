@@ -20,16 +20,12 @@ export class HereMapService {
   }
 
   getDiscover(query: string, coordinates: Coordinate, limit: any = 5, type: string = '') {
-    // const apiUrl = this.APIS[1].replace('{lat}', coordinates.latitude)
-    //   .replace('{lng}', coordinates.longitude)
-    //   .replace('{query}', query)
-    //   .replace('{limit}', limit);
     return this.http.get(this.APIS[1], {
       params: new HttpParams()
-        .set('at', `${coordinates.latitude},${coordinates.longitude}`)
+        .set('lat', coordinates.latitude)
+        .set('lng', coordinates.longitude)
         .set('query', query)
         .set('limit', limit)
-        .set('resultTypes', type)
     });
   }
 

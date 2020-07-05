@@ -40,6 +40,20 @@ export class AuthService {
       }));
   }
 
+  updateUserRooms(roomType: string, roomId: number) {
+    const currentUser = this.currentUserValue;
+    currentUser.roomData[roomType].push(roomId);
+    console.log(currentUser);
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+  }
+
+  removeUserRooms(roomType: string, roomId: number) {
+    const currentUser = this.currentUserValue;
+    const roomIndex = currentUser.roomData[roomType].findIndex(room => room === roomId);
+    currentUser.roomData[roomType].splice(roomIndex, 1);
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+  }
+
   loginWithProvider(provider: string): Observable<any> {
     const apiUrl = this.APIS[3].replace('{provider}', provider);
     return this.http.get<any>(apiUrl);

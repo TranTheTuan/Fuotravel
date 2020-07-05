@@ -32,24 +32,28 @@ export class InteractionComponent implements OnInit {
   onSendRequest() {
     this.memberService.join(this.planId);
     const newRoom = 'plan_room_' + this.planId;
+    this.authService.updateUserRooms('plan', this.planId);
     this.webSocketService.emit('new-room', newRoom);
   }
 
   onUnfollow() {
     this.memberService.unfollow(this.planId);
     const oldRoom = 'plan_room_' + this.planId;
+    this.authService.removeUserRooms('plan', this.planId);
     this.webSocketService.emit('leave-room', oldRoom);
   }
 
   onFollow() {
     this.memberService.follow(this.planId);
     const newRoom = 'plan_room_' + this.planId;
+    this.authService.updateUserRooms('plan', this.planId);
     this.webSocketService.emit('new-room', newRoom);
   }
 
   onLeave() {
     this.memberService.leave(this.planId);
     const oldRoom = 'plan_room_' + this.planId;
+    this.authService.removeUserRooms('plan', this.planId);
     this.webSocketService.emit('leave-room', oldRoom);
   }
 }

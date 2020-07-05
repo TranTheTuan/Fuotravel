@@ -110,7 +110,7 @@ class MemberRepository extends AbstractRepository
     {
         $members = $plan->members->where('status', Member::MEMBER)->each(function($member, $key) {
             return $member->user;
-        });
+        })->pluck('user');
         return $members;
     }
 

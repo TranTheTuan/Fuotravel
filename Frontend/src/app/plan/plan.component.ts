@@ -59,6 +59,7 @@ export class PlanComponent implements OnInit {
       this.getFriends();
     });
     this.memberService.getMembershipListener().subscribe(res => {
+      console.log(res);
       this.membership = res;
     });
   }
