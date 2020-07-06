@@ -15,7 +15,7 @@ class PlanSeeder extends Seeder
         DB::table('plans')->insert([
             [
                 'title' => 'Du hành quanh Việt Nam',
-                'description' => 'very funny trip I sure',
+                'description' => 'very funny trip',
                 'departure' => 'Hanoi',
                 'start_at' => '2020/03/01',
                 'destination' => 'Saigon',
@@ -25,7 +25,7 @@ class PlanSeeder extends Seeder
             ],
             [
                 'title' => 'Du lịch Tây Bắc',
-                'description' => 'very funny trip I sure',
+                'description' => 'very funny trip',
                 'departure' => 'Hanoi',
                 'start_at' => '2020/03/01',
                 'destination' => 'Laocai',
@@ -35,7 +35,7 @@ class PlanSeeder extends Seeder
             ],
             [
                 'title' => 'Kham pha Mucangchai',
-                'description' => 'very funny trip I sure',
+                'description' => 'very funny trip',
                 'departure' => 'Hanoi',
                 'start_at' => '2020/03/01',
                 'destination' => 'Phnompenh',
@@ -45,7 +45,7 @@ class PlanSeeder extends Seeder
             ],
             [
                 'title' => 'nước Laos xinh đẹp',
-                'description' => 'very funny trip I sure',
+                'description' => 'very funny trip',
                 'departure' => 'Hanoi',
                 'start_at' => '2020/03/01',
                 'destination' => 'Vientian',
@@ -55,7 +55,7 @@ class PlanSeeder extends Seeder
             ],
             [
                 'title' => 'miền Tây hoang dã',
-                'description' => 'very funny trip I sure',
+                'description' => 'very funny trip',
                 'departure' => 'Saigon',
                 'start_at' => '2020/03/01',
                 'destination' => 'Camau',
@@ -65,7 +65,7 @@ class PlanSeeder extends Seeder
             ],
             [
                 'title' => 'Một chuyến đi về Tây Nguyên',
-                'description' => 'very funny trip I sure',
+                'description' => 'very funny trip',
                 'departure' => 'Saigon',
                 'start_at' => '2020/03/01',
                 'destination' => 'Play ku',
@@ -74,8 +74,8 @@ class PlanSeeder extends Seeder
                 'user_id' => 3
             ],
             [
-                'title' => 'Du hành quanh Việt Nam',
-                'description' => 'very funny trip I sure',
+                'title' => 'Du lịch Đà Nẵng',
+                'description' => 'very funny trip',
                 'departure' => 'Hanoi',
                 'start_at' => '2020/03/01',
                 'destination' => 'Phnompenh',
@@ -84,34 +84,34 @@ class PlanSeeder extends Seeder
                 'user_id' => 4
             ],
             [
-                'title' => 'Du hành quanh Việt Nam',
-                'description' => 'very funny trip I sure',
-                'departure' => 'Hanoi',
-                'start_at' => '2020/03/01',
-                'destination' => 'Phnompenh',
-                'arrival_at' => '2020/03/09',
-                'members_quantity' => 10,
-                'user_id' => 5
-            ],
-            [
-                'title' => 'Du hành quanh Việt Nam',
-                'description' => 'very funny trip I sure',
-                'departure' => 'Hanoi',
-                'start_at' => '2020/03/01',
-                'destination' => 'Phnompenh',
-                'arrival_at' => '2020/03/09',
-                'members_quantity' => 10,
-                'user_id' => 5
-            ],
-            [
-                'title' => 'Du hành quanh Việt Nam',
-                'description' => 'very funny trip I sure',
+                'title' => 'giao lưu văn hóa Tây Nguyên',
+                'description' => 'very funny trip',
                 'departure' => 'Hanoi',
                 'start_at' => '2020/03/01',
                 'destination' => 'Phnompenh',
                 'arrival_at' => '2020/03/09',
                 'members_quantity' => 10,
                 'user_id' => 4
+            ],
+            [
+                'title' => 'nghỉ mát Sầm Sơn',
+                'description' => 'very funny trip',
+                'departure' => 'Hanoi',
+                'start_at' => '2020/03/01',
+                'destination' => 'Phnompenh',
+                'arrival_at' => '2020/03/09',
+                'members_quantity' => 10,
+                'user_id' => 5
+            ],
+            [
+                'title' => 'Một chuyến đi lên Hà Giang',
+                'description' => 'very funny trip',
+                'departure' => 'Hanoi',
+                'start_at' => '2020/03/01',
+                'destination' => 'Phnompenh',
+                'arrival_at' => '2020/03/09',
+                'members_quantity' => 10,
+                'user_id' => 5
             ],
         ]);
     }

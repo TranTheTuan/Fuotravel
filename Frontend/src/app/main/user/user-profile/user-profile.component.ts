@@ -8,6 +8,7 @@ import {ActivatedRoute} from '@angular/router';
 import {switchMap, tap} from 'rxjs/operators';
 import {UserService} from '../../../services/user.service';
 import {RelationshipService} from '../../../services/relationship.service';
+import {WebSocketService} from '../../../services/web-socket.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -29,6 +30,7 @@ export class UserProfileComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private authService: AuthService,
+    private webSocketService: WebSocketService,
     private userService: UserService,
     private relationshipService: RelationshipService,
     private route: ActivatedRoute
@@ -99,6 +101,9 @@ export class UserProfileComponent implements OnInit {
     this.relationshipService.unfriend(targetId).subscribe(res => {
       if (res.data) {
         this.setRelationshipStatus(null);
+        const oldRoom = 'friend_room_' + targetId;
+        this.authService.removeUserRooms('friend', targetId);
+        this.webSocketService.emit('leave-room', oldRoom);
       }
     });
   }
@@ -123,6 +128,9 @@ export class UserProfileComponent implements OnInit {
     this.relationshipService.acceptRequest(targetId).subscribe(res => {
       if (res.data) {
         this.setRelationshipStatus(res.data);
+        const newRoom = 'friend_room_' + targetId;
+        this.authService.updateUserRooms('friend', targetId);
+        this.webSocketService.emit('new-room', newRoom);
       }
     });
   }

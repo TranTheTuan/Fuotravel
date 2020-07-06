@@ -81,7 +81,7 @@ export class HereMapComponent implements OnInit, AfterViewInit {
   onChoseWaypoint(chosenWaypoints: Array<Waypoint>) {
     this.markers = [];
     this.map.removeObjects(this.map.getObjects());
-    // chosenWaypoints.sort((a, b) => a.order > b.order ? 1 : -1);
+    chosenWaypoints.sort((a, b) => a.order > b.order ? 1 : -1);
     const waypointsLength = chosenWaypoints.length;
     if (waypointsLength > 1) {
       for (let i = 0; i < waypointsLength - 1; i++) {

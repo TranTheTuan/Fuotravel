@@ -78,6 +78,7 @@ export class PlanComponent implements OnInit {
   getFriends() {
     this.planService.getInvitableFriends(this.plan.id).subscribe(res => {
       this.inviteFriends = res.data;
+      console.log(this.inviteFriends, this.membership);
       this.friendForm = this.fb.group({
         friends: this.buildFriendsArray(this.inviteFriends)
       });

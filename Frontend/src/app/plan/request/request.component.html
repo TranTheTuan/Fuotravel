@@ -10,7 +10,7 @@
           <img [src]="requester.avatar | imageUrl" [alt]="requester.name" height="100px" width="100px">
         </div>
         <div class="d-flex flex-column">
-          {{ requester.firstname }} {{ requester.lastname }}
+          <a [routerLink]="['/users/' + requester.id]">{{ requester.firstname }} {{ requester.lastname }}</a>
         </div>
         <div class="d-flex flex-column ml-auto">
           <span [style.display]="membership.includes(_ADMIN) || membership.includes(_MODERATOR) ? '' : 'none'">

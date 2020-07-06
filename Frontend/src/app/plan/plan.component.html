@@ -16,11 +16,11 @@
   </div>
   <div class="container-sm mt-3">
     <div class="d-flex flex-row justify-content-between">
-      <div class="d-flex flex-column">
+      <div class="d-flex flex-column col-md-9">
         <h3>{{ plan.title }} <mat-icon [ngClass]="plan.status ? 'text-success' : 'text-danger'">fiber_manual_record</mat-icon></h3>
         <p>{{ plan.description }}</p>
-        <p>{{ plan.departure }} - {{ plan.start_at }}</p>
-        <p>{{ plan.destination }} - {{ plan.arrival_at }}</p>
+        <p><strong>{{ plan.departure }}</strong> - {{ plan.start_at }}</p>
+        <p><strong>{{ plan.destination }}</strong> - {{ plan.arrival_at }}</p>
         <p>expected <span class="text-primary">{{ plan.members_quantity }}</span> participants</p>
         <mat-chip-list>
           <mat-chip *ngFor="let tag of plan.tags">{{ tag.name }}</mat-chip>
@@ -33,7 +33,7 @@
           {{ plan.status ? 'Open' : 'Close' }}
         </mat-slide-toggle>
       </div>
-      <div class="d-flex flex-column border rounded friend-invitations-box"
+      <div class="d-flex flex-column border rounded friend-invitations-box col-md-3"
            *ngIf="(membership.includes(_MEMBER) || membership.includes(_ADMIN)) && friendsArray.controls.length > 0">
         <p class="p-2">Invite your friends</p>
         <mat-divider></mat-divider>

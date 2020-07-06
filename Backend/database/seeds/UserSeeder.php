@@ -59,26 +59,15 @@ class UserSeeder extends Seeder
             ],
             [
                 'firstname' => 'Cuong',
-                'lastname' => 'Cung',
+                'lastname' => 'Nguyen',
                 'gender' => 1,
                 'birthday' => '1998/01/20',
                 'avatar' => 'default/avatar/avatar.png',
-                'name' => 'cuongcc',
-                'email' => 'cuongcc@gmail.com',
+                'name' => 'cuongnn',
+                'email' => 'cuongnn@gmail.com',
                 'password' => bcrypt('secret'),
                 'active' => 1
-            ],
-            [
-                'firstname' => 'Thao',
-                'lastname' => 'Tao',
-                'gender' => 1,
-                'birthday' => '1998/01/20',
-                'avatar' => 'default/avatar/avatar.png',
-                'name' => 'thaott',
-                'email' => 'thaott@gmail.com',
-                'password' => bcrypt('secret'),
-                'active' => 1
-            ],
+            ]
         ]);
     }
 }

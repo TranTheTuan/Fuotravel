@@ -7,6 +7,7 @@ import {Observable} from 'rxjs';
 import {UserService} from '../../../services/user.service';
 import {ActivatedRoute} from '@angular/router';
 import {AuthService} from '../../../services/auth.service';
+import {WebSocketService} from '../../../services/web-socket.service';
 
 @Component({
   selector: 'app-user-friends',
@@ -22,6 +23,7 @@ export class UserFriendsComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private webSocketService: WebSocketService,
     private relationshipService: RelationshipService,
     private userService: UserService,
     private route: ActivatedRoute
@@ -93,10 +95,11 @@ export class UserFriendsComponent implements OnInit {
     console.log('confirmed');
     this.relationshipService.acceptRequest(senderId).subscribe(res => {
       if (res.data) {
-        console.log(this.selectedFriends);
         const index = this.selectedFriends.findIndex(friend => friend.id === +senderId);
         this.selectedFriends.splice(index, 1);
-        console.log(this.selectedFriends);
+        const newRoom = 'friend_room_' + senderId;
+        this.authService.updateUserRooms('friend', senderId);
+        this.webSocketService.emit('new-room', newRoom);
       }
     });
   }
@@ -106,6 +109,9 @@ export class UserFriendsComponent implements OnInit {
       if (res.data) {
         const index = this.selectedFriends.findIndex(friend => friend.id === +targetId);
         this.selectedFriends.splice(index, 1);
+        const oldRoom = 'friend_room_' + targetId;
+        this.authService.removeUserRooms('friend', targetId);
+        this.webSocketService.emit('leave-room', oldRoom);
       }
     });
   }
