@@ -40,7 +40,8 @@ export class CommentFormComponent implements OnInit {
     this.currentUser = this.authService.currentUserValue;
   }
 
-  onSubmit(formValue: any) {
+  onSubmit() {
+    const formValue = this.commentForm.value;
     if (!formValue.image) {
       delete formValue.image;
     }

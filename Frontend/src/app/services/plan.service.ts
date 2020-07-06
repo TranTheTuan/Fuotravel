@@ -22,7 +22,8 @@ export class PlanService {
     5: environment.apiURL + '/plans/{plan_id}/waypoints',
     6: environment.apiURL + '/plans/members-status',
     7: environment.apiURL + '/plans/{plan_id}/invitable-friends',
-    8: environment.apiURL + '/plans/{plan_id}/invite-friends'
+    8: environment.apiURL + '/plans/{plan_id}/invite-friends',
+    9: environment.apiURL + '/plans/update/status/{plan_id}'
   };
   private waypoints: Waypoint[] = [];
   private waypointsBehavior = new BehaviorSubject<Waypoint[]>(this.waypoints);
@@ -111,5 +112,9 @@ export class PlanService {
         .set('status', status)
         .set('user_id', userId)
     });
+  }
+
+  updatePlanStatus(planId: any): Observable<any> {
+    return this.http.put<ApiResponse>(this.APIS[9].replace('{plan_id}', planId), null);
   }
 }

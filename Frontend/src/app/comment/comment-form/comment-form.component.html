@@ -1,4 +1,4 @@
-<form [formGroup]="commentForm" (ngSubmit)="onSubmit(commentForm.value)" class="d-flex flex-row">
+<form [formGroup]="commentForm" (ngSubmit)="onSubmit()" class="d-flex flex-row">
   <div class="d-flex flex-column mr-3">
     <img [src]="currentUser.avatar | imageUrl" [alt]="currentUser.name" height="40px" width="40px">
   </div>

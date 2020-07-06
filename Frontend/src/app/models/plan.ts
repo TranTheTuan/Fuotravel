@@ -16,5 +16,6 @@ export class Plan {
   members_quantity: number;
   // tslint:disable-next-line:variable-name
   user_id: number;
+  status: boolean;
   tags: Tag[];
 }

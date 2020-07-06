@@ -26,7 +26,7 @@ import {
   MatGridListModule, MatListModule, MatCheckboxModule,
 } from '@angular/material';
 // import {InteractionModule} from '../interaction/interaction.module';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HereMapComponent} from './here-map/here-map.component';
 import {FlexModule} from '@angular/flex-layout';
 import {WaypointComponent} from './waypoint/waypoint.component';
@@ -34,6 +34,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import {InteractionComponent} from './interaction/interaction.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {ScrollingModule} from '@angular/cdk/scrolling';
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 @NgModule({
   declarations: [
@@ -73,6 +74,8 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
     MatListModule,
     MatCheckboxModule,
     ScrollingModule,
+    MatSlideToggleModule,
+    FormsModule,
   ],
 })
 export class PlanModule {

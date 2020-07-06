@@ -69,8 +69,8 @@
           </mat-form-field>
           <div mat-dialog-actions>
             <button mat-raised-button type="submit" [disabled]="createPlanForm.invalid" color="primary">Submit</button>
-            <button mat-stroked-button type="button" (click)="onCancel()">Cancel</button>
             <button mat-stroked-button type="button" [disabled]="!planId" matStepperNext>Next</button>
+            <button mat-stroked-button type="button" (click)="onCancel()" color="accent">Cancel</button>
           </div>
         </form>
       </div>
@@ -98,7 +98,7 @@
     <mat-step>
       <ng-template matStepLabel>Done</ng-template>
       <p>You created your plan successfully</p>
-      <div>
+      <div mat-dialog-actions>
         <button mat-stroked-button matStepperPrevious>Back</button>
         <button mat-stroked-button (click)="onDone()" color="primary">Go to plan</button>
       </div>

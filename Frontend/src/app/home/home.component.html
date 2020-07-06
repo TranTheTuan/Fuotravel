@@ -15,7 +15,10 @@
           <img [src]="plan.cover | imageUrl" [alt]="plan.title" height="auto" width="100%">
         </div>
         <div class="d-flex flex-column">
-          <a [routerLink]="['/plans', plan.id]" class="stretched-link">{{ plan.title }}</a>
+          <a [routerLink]="['/plans', plan.id]" class="stretched-link">
+            {{ plan.title }}
+            <mat-icon class="small" [ngClass]="plan.status ? 'text-success' : 'text-danger'">fiber_manual_record</mat-icon>
+          </a>
           <small class="text-secondary">{{ plan.departure }} - {{ plan.start_at }}</small>
           <small class="text-secondary">{{ plan.destination }} - {{ plan.arrival_at }}</small>
         </div>

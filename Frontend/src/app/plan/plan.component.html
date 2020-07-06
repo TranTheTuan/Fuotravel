@@ -11,20 +11,27 @@
   </div>
   <div fxLayout="row" fxLayoutAlign="space-between" class="mt-3">
     <app-interaction *ngIf="currentUser.id !== plan.user_id" [planId]="plan.id"
-                     [membership]="membership"></app-interaction>
+                     [membership]="membership" [planStatus]="!!plan.status"></app-interaction>
     <button mat-raised-button *ngIf="currentUser.id === plan.user_id" (click)="openDialog()">Edit</button>
   </div>
   <div class="container-sm mt-3">
     <div class="d-flex flex-row justify-content-between">
       <div class="d-flex flex-column">
-        <h3>{{ plan.title }}</h3>
+        <h3>{{ plan.title }} <mat-icon [ngClass]="plan.status ? 'text-success' : 'text-danger'">fiber_manual_record</mat-icon></h3>
         <p>{{ plan.description }}</p>
-        <p>bắt đầu tại: {{ plan.departure }}, vào hồi: {{ plan.start_at }}</p>
-        <p>điểm đến: {{ plan.destination }}, vào hồi: {{ plan.arrival_at }}</p>
-        <p>số thành viên dự kiến: {{ plan.members_quantity }}</p>
+        <p>{{ plan.departure }} - {{ plan.start_at }}</p>
+        <p>{{ plan.destination }} - {{ plan.arrival_at }}</p>
+        <p>expected <span class="text-primary">{{ plan.members_quantity }}</span> participants</p>
         <mat-chip-list>
           <mat-chip *ngFor="let tag of plan.tags">{{ tag.name }}</mat-chip>
         </mat-chip-list>
+        <mat-slide-toggle
+          *ngIf="currentUser.id === plan.user_id"
+          [checked]="!!plan.status"
+          color="primary"
+          (toggleChange)="onUpdateStatus()">
+          {{ plan.status ? 'Open' : 'Close' }}
+        </mat-slide-toggle>
       </div>
       <div class="d-flex flex-column border rounded friend-invitations-box"
            *ngIf="(membership.includes(_MEMBER) || membership.includes(_ADMIN)) && friendsArray.controls.length > 0">
@@ -42,7 +49,7 @@
           </mat-list>
           <mat-divider></mat-divider>
           <div class="p-2">
-            <button mat-button color="primary">send invitation</button>
+            <button mat-stroked-button color="primary">send invitation</button>
           </div>
         </form>
       </div>

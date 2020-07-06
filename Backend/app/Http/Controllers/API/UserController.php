@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Relationship;
 use App\Repositories\UserRepository;
 use App\Services\ImageService;
@@ -59,7 +60,7 @@ class UserController extends ApiController
 
     public function getProfile($user_id)
     {
-        return $this->sendResponse(User::find($user_id));
+        return $this->sendResponse(new UserResource(User::find($user_id)));
     }
 
     public function getRelationshipBetween($target_id)

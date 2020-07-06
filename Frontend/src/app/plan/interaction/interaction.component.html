@@ -1,6 +1,6 @@
 <div fxLayout="row" fxLayoutGap="5px">
   <button mat-raised-button
-          [style.display]="!membership.includes(_PENDING) && !membership.includes(_MEMBER) ? '' : 'none'"
+          [style.display]="(!membership.includes(_PENDING) && !membership.includes(_MEMBER)) && planStatus ? '' : 'none'"
           (click)="onSendRequest()" color="primary">
     <mat-icon>add</mat-icon>
     Send Request

@@ -11,6 +11,7 @@ import {WebSocketService} from '../../services/web-socket.service';
 })
 export class InteractionComponent implements OnInit {
   @Input() planId;
+  @Input() planStatus: boolean;
   @Input() membership: Array<number>;
   readonly _PENDING = PENDING;
   readonly _MEMBER = MEMBER;

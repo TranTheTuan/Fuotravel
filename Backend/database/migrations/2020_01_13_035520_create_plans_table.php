@@ -23,7 +23,7 @@ class CreatePlansTable extends Migration
             $table->string('destination');
             $table->dateTime('arrival_at');
             $table->tinyInteger('members_quantity');
-            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('status')->default(1);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('group_id')->nullable();
             $table->timestamps();

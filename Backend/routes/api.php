@@ -30,7 +30,7 @@ Route::middleware('auth:api')->group(function() {
         Route::post('create', 'API\PlanController@create');
         Route::post('update/{plan_id}', 'API\PlanController@update');
         Route::delete('delete/{plan_id}', 'API\PlanController@delete');
-        Route::put('update/status/{plan_id}', 'API\PlanController@updateStatus');
+        Route::put('update/status/{plan_id}', 'API\PlanController@toggleStatus');
         Route::put('cancel/{plan_id}', 'API\PlanController@cancel');
         Route::post('{plan_id}/waypoints', 'API\WaypointController');
         Route::get('{plan_id}/waypoints', 'API\PlanController@getWaypoints');

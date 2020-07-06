@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroupDirective, Validators} from '@angular/forms';
 import {PostService} from '../../services/post.service';
 import {User} from '../../models';
@@ -12,6 +12,7 @@ import {AuthService} from '../../services/auth.service';
 export class PostCreateComponent implements OnInit {
   @Input() planId;
   @ViewChild(FormGroupDirective) postFormDirective;
+  @ViewChild('imageInput') imageInput: ElementRef;
   previews = [];
   currentUser: User;
   postForm = this.fb.group({
@@ -29,9 +30,17 @@ export class PostCreateComponent implements OnInit {
     this.currentUser = this.authService.currentUserValue;
   }
 
-  onSubmit(formValue: any) {
+  onSubmit() {
+    const formValue = this.postForm.value;
+    if (!formValue.images) {
+      delete formValue.images;
+    }
     this.postService.addPost(this.planId, formValue);
-    this.previews = null;
+    if (this.postFormDirective) {
+      this.postFormDirective.resetForm();
+      this.imageInput.nativeElement.value = null;
+      this.previews = [];
+    }
   }
 
   onFileChange(event) {

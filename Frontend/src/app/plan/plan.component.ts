@@ -97,6 +97,12 @@ export class PlanComponent implements OnInit {
     return this.fb.array(friendsArr);
   }
 
+  onUpdateStatus() {
+    this.plan.status = !this.plan.status;
+    this.planService.updatePlanStatus(this.plan.id).subscribe();
+    console.log(this.plan.status);
+  }
+
   openDialog() {
     const dialogRef = this.matDialog.open(UpdatePlanComponent, {
       width: '500', height: '500',

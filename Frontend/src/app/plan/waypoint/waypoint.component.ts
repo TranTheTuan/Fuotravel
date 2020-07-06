@@ -24,9 +24,6 @@ export class WaypointComponent implements OnInit {
   currentCoordinate = new Coordinate('21.028511', '105.804817');
   suggestLocations;
   isSearching = false;
-  list = [
-    '1', '2', '3', '4'
-  ];
 
   constructor(
     private formBuilder: FormBuilder,

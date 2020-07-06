@@ -9,17 +9,19 @@ import {
 } from '@angular/material';
 import {ToolbarModule} from '../toolbar/toolbar.module';
 import {PipesModule} from '../pipes/pipes.module';
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [HomeComponent],
-  imports: [
-    CommonModule,
-    HomeRoutingModule,
-    MatToolbarModule,
-    MatButtonModule,
-    ToolbarModule,
-    PipesModule
-  ]
+    imports: [
+        CommonModule,
+        HomeRoutingModule,
+        MatToolbarModule,
+        MatButtonModule,
+        ToolbarModule,
+        PipesModule,
+        MatIconModule
+    ]
 })
 export class HomeModule {
 }

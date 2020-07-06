@@ -125,4 +125,12 @@ class PlanController extends ApiController
         \event(new SentPlanInvitationEvent(Plan::find($plan_id), $receiver_ids));
         return $this->sendResponse('sent invitations to your friends');
     }
+
+    public function toggleStatus($plan_id)
+    {
+        $plan = Plan::find($plan_id);
+        $plan->status = !$plan->status;
+        $plan->save();
+        return $this->sendResponse('updated plan status');
+    }
 }

@@ -24,7 +24,6 @@
           <button (click)="vote(comment.id, _COMMENT, _DOWN)" mat-icon-button>
             <mat-icon>thumb_down</mat-icon>
           </button>
-          <button mat-button>Reply</button>
         </span>
         <ul *ngIf="comment.replies.length > 0" class="mt-2">
           <li *ngFor="let reply of comment.replies">
@@ -46,7 +45,6 @@
                   <button (click)="vote(reply.id, _COMMENT, _DOWN)" mat-icon-button>
                     <mat-icon>thumb_down</mat-icon>
                   </button>
-                  <button mat-button>Reply</button>
                 </span>
               </div>
             </div>
