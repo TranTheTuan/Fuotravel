@@ -106,10 +106,13 @@ export class WaypointComponent implements OnInit {
       longitude: waypoint.position.lng,
       order: i
     });
+    const waypointValue = this.waypoints.at(i).value;
     const newWaypoint = new Waypoint(
       waypoint.address.label, i,
       waypoint.position.lat,
-      waypoint.position.lng);
+      waypoint.position.lng,
+      waypointValue.activity,
+      waypointValue.arrival_at, waypointValue.leave_at);
     const existingIndex = this.chosenWaypoints.findIndex(item => item.order === i);
     if (existingIndex !== -1) {
       this.chosenWaypoints[existingIndex] = newWaypoint;
