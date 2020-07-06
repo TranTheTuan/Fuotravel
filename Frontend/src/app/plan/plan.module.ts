@@ -35,6 +35,7 @@ import {InteractionComponent} from './interaction/interaction.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     ScrollingModule,
     MatSlideToggleModule,
     FormsModule,
+    MatTableModule,
   ],
 })
 export class PlanModule {

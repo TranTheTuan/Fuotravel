@@ -149,6 +149,7 @@ export class WaypointComponent implements OnInit {
       waypoint.arrival_at = dateFormat(waypoint.arrival_at);
     }
     this.planService.updateWaypoints(this.waypointForm.value, this.planId).subscribe(res => {
+      this.planService.setWaypoints(this.chosenWaypoints);
       this.snackBar.open('Route is updated :)', 'Close', {duration: 3000});
     });
   }

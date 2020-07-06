@@ -36,28 +36,28 @@ export class HereMapFunction {
       this.map.setCenter(ev.target.getGeometry());
       this.openBubble(ev.target.getGeometry(), label);
     }, false);
-    this.map.addEventListener('dragstart', (ev) => {
-      const target = ev.target;
-      const pointer = ev.currentPointer;
-      if (target instanceof H.map.Marker) {
-        const targetPosition = this.map.geoToScreen(target.getGeometry());
-        target.offset = new H.math.Point(pointer.viewportX - targetPosition.x, pointer.viewportY - targetPosition.y);
-        this.behavior.disable();
-      }
-    }, false);
-    this.map.addEventListener('dragend', (ev) => {
-      const target = ev.target;
-      if (target instanceof H.map.Marker) {
-        this.behavior.enable();
-      }
-    }, false);
-    this.map.addEventListener('drag', (ev) => {
-      const target = ev.target;
-      const pointer = ev.currentPointer;
-      if (target instanceof H.map.Marker) {
-        target.setGeometry(this.map.screenToGeo(pointer.viewportX - target.offset.x, pointer.viewportY - target.offset.y));
-      }
-    }, false);
+    // this.map.addEventListener('dragstart', (ev) => {
+    //   const target = ev.target;
+    //   const pointer = ev.currentPointer;
+    //   if (target instanceof H.map.Marker) {
+    //     const targetPosition = this.map.geoToScreen(target.getGeometry());
+    //     target.offset = new H.math.Point(pointer.viewportX - targetPosition.x, pointer.viewportY - targetPosition.y);
+    //     this.behavior.disable();
+    //   }
+    // }, false);
+    // this.map.addEventListener('dragend', (ev) => {
+    //   const target = ev.target;
+    //   if (target instanceof H.map.Marker) {
+    //     this.behavior.enable();
+    //   }
+    // }, false);
+    // this.map.addEventListener('drag', (ev) => {
+    //   const target = ev.target;
+    //   const pointer = ev.currentPointer;
+    //   if (target instanceof H.map.Marker) {
+    //     target.setGeometry(this.map.screenToGeo(pointer.viewportX - target.offset.x, pointer.viewportY - target.offset.y));
+    //   }
+    // }, false);
     return marker;
   }
 }

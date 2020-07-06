@@ -7,4 +7,30 @@
        style="height: 500px;">
     <div #hereMap class="border border-primary h-100"></div>
   </div>
+  <div class="col-md-12">
+    <mat-table [dataSource]="waypoints">
+      <ng-container matColumnDef="position">
+        <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+        <mat-cell *matCellDef="let i = index"> {{ i + 1 }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.name }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="activity">
+        <mat-header-cell *matHeaderCellDef> Activity </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.activity }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="from">
+        <mat-header-cell *matHeaderCellDef> From </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.arrival_at }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="to">
+        <mat-header-cell *matHeaderCellDef> To </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.leave_at }} </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onClickWaypoint(row)"></mat-row>
+    </mat-table>
+  </div>
 </div>

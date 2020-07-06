@@ -27,10 +27,13 @@ export class HereMapComponent implements OnInit, AfterViewInit {
   currentLat = 21.028511;
   currentLng = 105.804817;
   waypoints: Waypoint[] = [];
+  datasource: Waypoint[] = [];
+  markers = [];
   planId;
   membership;
   _ADMIN = ADMIN;
   _MODERATOR = MODERATOR;
+  displayedColumns = ['position', 'name', 'activity', 'from', 'to'];
 
   constructor(
     private planService: PlanService,
@@ -51,7 +54,6 @@ export class HereMapComponent implements OnInit, AfterViewInit {
     this.planService.getWaypoints(this.planId);
     this.memberService.getMembershipListener().subscribe(res => {
       this.membership = res;
-      console.log(this.membership);
     });
   }
 
@@ -71,13 +73,15 @@ export class HereMapComponent implements OnInit, AfterViewInit {
     this.hereMapFunction = new HereMapFunction(this.map, behavior, this.ui);
     this.planService.waypointsListener.subscribe(res => {
       this.waypoints = res;
+      console.log(this.markers);
       this.onChoseWaypoint(this.waypoints);
     });
   }
 
   onChoseWaypoint(chosenWaypoints: Array<Waypoint>) {
+    this.markers = [];
     this.map.removeObjects(this.map.getObjects());
-    chosenWaypoints.sort((a, b) => a.order > b.order ? 1 : -1);
+    // chosenWaypoints.sort((a, b) => a.order > b.order ? 1 : -1);
     const waypointsLength = chosenWaypoints.length;
     if (waypointsLength > 1) {
       for (let i = 0; i < waypointsLength - 1; i++) {
@@ -98,6 +102,11 @@ export class HereMapComponent implements OnInit, AfterViewInit {
       this.map.setZoom(14);
       this.map.addObject(marker);
     }
+  }
+
+  onClickWaypoint(row) {
+    this.markers[row.order].dispatchEvent('tap');
+    console.log(row, this.markers[row.order].getGeometry());
   }
 
   createRoutingParams(waypoint0: Waypoint, waypoint1: Waypoint, represent = 'display', modeType = 'fastest', modeVehicle = 'car') {
@@ -149,6 +158,7 @@ export class HereMapComponent implements OnInit, AfterViewInit {
       const endMarker = this.hereMapFunction.createMarker(endpoint.latitude, endpoint.longitude, route.waypoint[1].label);
       this.map.addObjects([routeLine, startMarker, endMarker]);
       this.map.getViewModel().setLookAtData({bounds: routeLine.getBoundingBox()});
+      this.markers.push(startMarker);
     }
   }
 
