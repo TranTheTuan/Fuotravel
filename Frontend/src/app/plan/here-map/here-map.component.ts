@@ -48,7 +48,7 @@ export class HereMapComponent implements OnInit, AfterViewInit {
       apikey: environment.apiMapJS
     });
     this.searchService = this.platform.getSearchService();
-    this.routingService = this.platform.getRoutingService();
+    this.routingService = this.platform.getRoutingService(null, 8);
     // this.getRoute();
     this.planId = this.route.parent.snapshot.paramMap.get('plan_id');
     this.planService.getWaypoints(this.planId);
@@ -111,54 +111,89 @@ export class HereMapComponent implements OnInit, AfterViewInit {
 
   createRoutingParams(waypoint0: Waypoint, waypoint1: Waypoint, represent = 'display', modeType = 'fastest', modeVehicle = 'car') {
     return {
-      mode: modeType + ';' + modeVehicle,
-      waypoint0: 'geo!' + waypoint0.latitude + ',' + waypoint0.longitude,
-      waypoint1: 'geo!' + waypoint1.latitude + ',' + waypoint1.longitude,
-      representation: represent
+      routingMode: 'fast',
+      transportMode: 'car',
+      origin: waypoint0.latitude + ',' + waypoint0.longitude,
+      destination: waypoint1.latitude + ',' + waypoint1.longitude,
+      return: 'polyline'
+      // mode: modeType + ';' + modeVehicle,
+      // waypoint0: 'geo!' + waypoint0.latitude + ',' + waypoint0.longitude,
+      // waypoint1: 'geo!' + waypoint1.latitude + ',' + waypoint1.longitude,
+      // representation: represent
     };
   }
 
   private onResult = (result) => {
-    let route;
-    let routeShape;
-    let startpoint;
-    let endpoint;
-    let lineString;
-    if (result.response.route) {
-      route = result.response.route[0];
-      routeShape = route.shape;
-      lineString = new H.geo.LineString();
-      routeShape.forEach(point => {
-        const parts = point.split(',');
-        lineString.pushLatLngAlt(parts[0], parts[1]);
+    // let route;
+    // let routeShape;
+    // let startpoint;
+    // let endpoint;
+    // let lineString;
+    if (result.routes.length) {
+      result.routes[0].sections.forEach((section) => {
+        const lineString = new H.geo.LineString.fromFlexiblePolyline(section.polyline);
+        const routeOutline = new H.map.Polyline(lineString, {
+          style: {
+            lineWidth: 10,
+            strokeColor: 'rgba(0, 128, 255, 0.7)',
+            lineTailCap: 'arrow-tail',
+            lineHeadCap: 'arrow-head'
+          }
+        });
+        const routeArrows = new H.map.Polyline(lineString, {
+          style: {
+            lineWidth: 10,
+            fillColor: 'white',
+            strokeColor: 'rgba(255, 255, 255, 1)',
+            lineDash: [0, 2],
+            lineTailCap: 'arrow-tail',
+            lineHeadCap: 'arrow-head'
+          }
+        });
+        const routeLine = new H.map.Group();
+        routeLine.addObjects([routeOutline, routeArrows]);
+        const startMarker = new H.map.Marker(section.departure.place.location);
+        const endMarker = new H.map.Marker(section.arrival.place.location);
+        this.map.addObjects([routeLine, startMarker, endMarker]);
+        this.map.getViewModel().setLookAtData({bounds: routeLine.getBoundingBox()});
+        this.markers.push(startMarker);
       });
-      startpoint = route.waypoint[0].mappedPosition;
-      endpoint = route.waypoint[1].mappedPosition;
-      const routeOutline = new H.map.Polyline(lineString, {
-        style: {
-          lineWidth: 10,
-          strokeColor: 'rgba(0, 128, 255, 0.7)',
-          lineTailCap: 'arrow-tail',
-          lineHeadCap: 'arrow-head'
-        }
-      });
-      const routeArrows = new H.map.Polyline(lineString, {
-        style: {
-          lineWidth: 10,
-          fillColor: 'white',
-          strokeColor: 'rgba(255, 255, 255, 1)',
-          lineDash: [0, 2],
-          lineTailCap: 'arrow-tail',
-          lineHeadCap: 'arrow-head'
-        }
-      });
-      const routeLine = new H.map.Group();
-      routeLine.addObjects([routeOutline, routeArrows]);
-      const startMarker = this.hereMapFunction.createMarker(startpoint.latitude, startpoint.longitude, route.waypoint[0].label);
-      const endMarker = this.hereMapFunction.createMarker(endpoint.latitude, endpoint.longitude, route.waypoint[1].label);
-      this.map.addObjects([routeLine, startMarker, endMarker]);
-      this.map.getViewModel().setLookAtData({bounds: routeLine.getBoundingBox()});
-      this.markers.push(startMarker);
+
+
+      // route = result.response.route[0];
+      // routeShape = route.shape;
+      // lineString = new H.geo.LineString();
+      // routeShape.forEach(point => {
+      //   const parts = point.split(',');
+      //   lineString.pushLatLngAlt(parts[0], parts[1]);
+      // });
+      // startpoint = route.waypoint[0].mappedPosition;
+      // endpoint = route.waypoint[1].mappedPosition;
+      // const routeOutline = new H.map.Polyline(lineString, {
+      //   style: {
+      //     lineWidth: 10,
+      //     strokeColor: 'rgba(0, 128, 255, 0.7)',
+      //     lineTailCap: 'arrow-tail',
+      //     lineHeadCap: 'arrow-head'
+      //   }
+      // });
+      // const routeArrows = new H.map.Polyline(lineString, {
+      //   style: {
+      //     lineWidth: 10,
+      //     fillColor: 'white',
+      //     strokeColor: 'rgba(255, 255, 255, 1)',
+      //     lineDash: [0, 2],
+      //     lineTailCap: 'arrow-tail',
+      //     lineHeadCap: 'arrow-head'
+      //   }
+      // });
+      // const routeLine = new H.map.Group();
+      // routeLine.addObjects([routeOutline, routeArrows]);
+      // const startMarker = this.hereMapFunction.createMarker(startpoint.latitude, startpoint.longitude, route.waypoint[0].label);
+      // const endMarker = this.hereMapFunction.createMarker(endpoint.latitude, endpoint.longitude, route.waypoint[1].label);
+      // this.map.addObjects([routeLine, startMarker, endMarker]);
+      // this.map.getViewModel().setLookAtData({bounds: routeLine.getBoundingBox()});
+      // this.markers.push(startMarker);
     }
   }
 
