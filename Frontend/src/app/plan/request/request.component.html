@@ -1,18 +1,20 @@
 <h3>Join Requests</h3>
 <mat-divider class="my-3"></mat-divider>
 <!--<button mat-button (click)="saveme()">save me</button>-->
-<div *ngIf="requesters; then requestsList else emptyList"></div>
-<ng-template #requestsList>
-  <ul class="list-unstyled row justify-content-between mx-sm-5">
-    <li *ngFor="let requester of requesters" class="border rounded bg-white list-column mb-3 p-1">
-      <div class="d-flex flex-row">
-        <div class="d-flex flex-column mr-4">
-          <img [src]="requester.avatar | imageUrl" [alt]="requester.name" height="100px" width="100px">
-        </div>
-        <div class="d-flex flex-column">
-          <a [routerLink]="['/users/' + requester.id]">{{ requester.firstname }} {{ requester.lastname }}</a>
-        </div>
-        <div class="d-flex flex-column ml-auto">
+<div *ngIf="requesters; then requests else loading"></div>
+<ng-template #requests>
+  <div *ngIf="requesters.length > 0; then requestsList else emptyList"></div>
+  <ng-template #requestsList>
+    <ul class="list-unstyled row justify-content-between mx-sm-5">
+      <li *ngFor="let requester of requesters" class="border rounded bg-white list-column mb-3 p-1">
+        <div class="d-flex flex-row">
+          <div class="d-flex flex-column mr-4">
+            <img [src]="requester.avatar | imageUrl" [alt]="requester.name" height="100px" width="100px">
+          </div>
+          <div class="d-flex flex-column">
+            <a [routerLink]="['/users/' + requester.id]">{{ requester.firstname }} {{ requester.lastname }}</a>
+          </div>
+          <div class="d-flex flex-column ml-auto">
           <span [style.display]="membership.includes(_ADMIN) || membership.includes(_MODERATOR) ? '' : 'none'">
             <button mat-icon-button [matMenuTriggerFor]="settingMenu">
               <mat-icon>more_vert</mat-icon>
@@ -23,12 +25,18 @@
               <button (click)="onDecline(requester.id, planId)" mat-menu-item>decline</button>
             </mat-menu>
           </span>
+          </div>
         </div>
-      </div>
-    </li>
-  </ul>
+      </li>
+    </ul>
+  </ng-template>
+  <ng-template #emptyList>
+    <p>This plan has no join requests</p>
+  </ng-template>
 </ng-template>
-<ng-template #emptyList>
-  <p>This plan has no join requests</p>
+<ng-template #loading>
+  <div class="d-flex flex-row justify-content-center align-items-center h-75">
+    <mat-spinner diameter="60"></mat-spinner>
+  </div>
 </ng-template>
 

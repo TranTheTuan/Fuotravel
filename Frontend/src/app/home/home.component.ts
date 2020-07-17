@@ -11,10 +11,7 @@ import {PlanService} from '../services/plan.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  public plans: Plan[];
-  public time = new Observable<string>((observer: Observer<string>) => {
-    setInterval(() => observer.next(new Date().toLocaleTimeString().toString()), 1000);
-  });
+  plans: Plan[];
   authTags: Tag[];
   selectedTags: Tag[] = [];
 

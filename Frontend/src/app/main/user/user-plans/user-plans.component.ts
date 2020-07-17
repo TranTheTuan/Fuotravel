@@ -16,7 +16,7 @@ import {ActivatedRoute} from '@angular/router';
 export class UserPlansComponent implements OnInit {
   currentUser: User;
   selectedTypeControl = new FormControl();
-  selectedPlans: Plan[] = [];
+  selectedPlans: Plan[];
   selectedType = '0';
   profileUser: User;
   authUser: User;

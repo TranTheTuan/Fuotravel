@@ -12,6 +12,7 @@
 
 
 .title {
+  display: flex;
   text-decoration: none;
   color: aliceblue;
 }

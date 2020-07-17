@@ -11,39 +11,56 @@
         <mat-option value="3">Joined plans</mat-option>
       </mat-select>
     </mat-form-field>
-    <ul class="list-unstyled">
-      <li *ngFor="let plan of selectedPlans" class="mb-4">
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            {{ plan.title }}
-          </mat-expansion-panel-header>
-          <div class="d-flex flex-row">
-            <div class="d-flex flex-column mr-4">
-              <img [src]="plan.cover | imageUrl" [alt]="plan.description" height="100px" width="200px">
-            </div>
-            <div class="d-flex flex-column">
-              <p>{{ plan.departure }}  {{ plan.start_at }}</p>
-              <p>{{ plan.destination }}  {{ plan.arrival_at }}</p>
-            </div>
-          </div>
-          <mat-action-row class="d-flex flex-row justify-content-between">
-            <div>
-              <button mat-button [routerLink]="['/plans', plan.id]" color="primary">View</button>
-            </div>
-            <div *ngIf="profileUser.id == authUser.id">
-              <button mat-button
-                      [style.display]="selectedType == '3' ? '' : 'none'"
-                      color="warn" (click)="onLeave(plan.id)">Leave</button>
-              <button mat-button
-                      [style.display]="selectedType == '2' ? '' : 'none'"
-                      color="warn" (click)="onUnfollow(plan.id)">Unfollow</button>
-              <button mat-button
-                      [style.display]="selectedType == '1' ? '' : 'none'"
-                      color="warn" (click)="onLeave(plan.id)">Cancel Request</button>
-            </div>
-          </mat-action-row>
-        </mat-expansion-panel>
-      </li>
-    </ul>
+    <div *ngIf="selectedPlans; then plans else loading"></div>
+    <ng-template #plans>
+      <div *ngIf="selectedPlans.length > 0; then plansList else emptyList"></div>
+      <ng-template #plansList>
+        <ul class="list-unstyled">
+          <li *ngFor="let plan of selectedPlans" class="mb-4">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                {{ plan.title }}
+              </mat-expansion-panel-header>
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column mr-4">
+                  <img [src]="plan.cover | imageUrl" [alt]="plan.description" height="100px" width="200px">
+                </div>
+                <div class="d-flex flex-column">
+                  <p>{{ plan.departure }}  {{ plan.start_at }}</p>
+                  <p>{{ plan.destination }}  {{ plan.arrival_at }}</p>
+                </div>
+              </div>
+              <mat-action-row class="d-flex flex-row justify-content-between">
+                <div>
+                  <button mat-button [routerLink]="['/plans', plan.id]" color="primary">View</button>
+                </div>
+                <div *ngIf="profileUser.id == authUser.id">
+                  <button mat-button
+                          [style.display]="selectedType == '3' ? '' : 'none'"
+                          color="warn" (click)="onLeave(plan.id)">Leave
+                  </button>
+                  <button mat-button
+                          [style.display]="selectedType == '2' ? '' : 'none'"
+                          color="warn" (click)="onUnfollow(plan.id)">Unfollow
+                  </button>
+                  <button mat-button
+                          [style.display]="selectedType == '1' ? '' : 'none'"
+                          color="warn" (click)="onLeave(plan.id)">Cancel Request
+                  </button>
+                </div>
+              </mat-action-row>
+            </mat-expansion-panel>
+          </li>
+        </ul>
+      </ng-template>
+      <ng-template #emptyList>
+        <p>you have no plans :(</p>
+      </ng-template>
+    </ng-template>
+    <ng-template #loading>
+      <div class="d-flex flex-row justify-content-center align-items-center h-75">
+        <mat-spinner diameter="60"></mat-spinner>
+      </div>
+    </ng-template>
   </div>
 </ng-template>

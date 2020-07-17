@@ -1,28 +1,32 @@
 <h3>Members</h3>
 <mat-divider class="my-3"></mat-divider>
-<ul class="list-unstyled row justify-content-between mx-5">
-  <li *ngFor="let member of members" class="border rounded bg-white list-column mb-3 p-1">
-    <div class="d-flex flex-row">
-      <div class="d-flex flex-column mr-4">
-        <img [src]="member.avatar | imageUrl" [alt]="member.name" height="100px" width="100px">
-      </div>
-      <div class="d-flex flex-column">
-        <a [routerLink]="['/users/' + member.id]">{{ member.firstname }} {{ member.lastname }}</a>
-      </div>
-      <div class="d-flex flex-column ml-auto">
+<div *ngIf="members;then membersPanel else loading"></div>
+<ng-template #membersPanel>
+  <div *ngIf="members.length > 0;then membersList else emptyList"></div>
+  <ng-template #membersList>
+    <ul class="list-unstyled row justify-content-between mx-5">
+      <li *ngFor="let member of members" class="border rounded bg-white list-column mb-3 p-1">
+        <div class="d-flex flex-row">
+          <div class="d-flex flex-column mr-4">
+            <img [src]="member.avatar | imageUrl" [alt]="member.name" height="100px" width="100px">
+          </div>
+          <div class="d-flex flex-column">
+            <a [routerLink]="['/users/' + member.id]">{{ member.firstname }} {{ member.lastname }}</a>
+          </div>
+          <div class="d-flex flex-column ml-auto">
         <span [style.display]="membership.includes(_ADMIN) || membership.includes(_MODERATOR) ? '' : 'none'">
           <button mat-icon-button [matMenuTriggerFor]="settingMenu">
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #settingMenu="matMenu">
 <!--            <button [matMenuTriggerFor]="promoteMenu"-->
-<!--                    [style.display]="membership.includes(_ADMIN) ? '' : 'none'"-->
-<!--                    mat-menu-item>promote</button>-->
-<!--            <mat-divider></mat-divider>-->
-<!--            <button [matMenuTriggerFor]="dischargeMenu"-->
-<!--                    [style.display]="membership.includes(_ADMIN) ? '' : 'none'"-->
-<!--                    mat-menu-item>discharge</button>-->
-<!--            <mat-divider></mat-divider>-->
+            <!--                    [style.display]="membership.includes(_ADMIN) ? '' : 'none'"-->
+            <!--                    mat-menu-item>promote</button>-->
+            <!--            <mat-divider></mat-divider>-->
+            <!--            <button [matMenuTriggerFor]="dischargeMenu"-->
+            <!--                    [style.display]="membership.includes(_ADMIN) ? '' : 'none'"-->
+            <!--                    mat-menu-item>discharge</button>-->
+            <!--            <mat-divider></mat-divider>-->
             <button (click)="onKick(member.id, planId)"
                     mat-menu-item>kick</button>
             <mat-divider></mat-divider>
@@ -40,7 +44,17 @@
             <button (click)="onDischarge(member.id, planId, _MODERATOR)" mat-menu-item>Moderator</button>
           </mat-menu>
         </span>
-      </div>
-    </div>
-  </li>
-</ul>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </ng-template>
+  <ng-template #emptyList>
+    <p>This plan has no members</p>
+  </ng-template>
+</ng-template>
+<ng-template #loading>
+  <div class="d-flex flex-row justify-content-center align-items-center h-75">
+    <mat-spinner diameter="60"></mat-spinner>
+  </div>
+</ng-template>

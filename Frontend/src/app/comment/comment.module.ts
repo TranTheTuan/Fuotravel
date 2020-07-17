@@ -12,6 +12,7 @@ import {PipesModule} from '../pipes/pipes.module';
 import {MatListModule} from '@angular/material';
 import {NgImageSliderModule} from 'ng-image-slider';
 import {RouterModule} from '@angular/router';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import {RouterModule} from '@angular/router';
         PipesModule,
         MatListModule,
         NgImageSliderModule,
-        RouterModule
+        RouterModule,
+        MatProgressSpinnerModule
     ],
   exports: [CommentComponent]
 })

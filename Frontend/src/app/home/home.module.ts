@@ -10,6 +10,7 @@ import {
 import {ToolbarModule} from '../toolbar/toolbar.module';
 import {PipesModule} from '../pipes/pipes.module';
 import {MatIconModule} from "@angular/material/icon";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [HomeComponent],
@@ -20,7 +21,8 @@ import {MatIconModule} from "@angular/material/icon";
         MatButtonModule,
         ToolbarModule,
         PipesModule,
-        MatIconModule
+        MatIconModule,
+        MatProgressSpinnerModule
     ]
 })
 export class HomeModule {

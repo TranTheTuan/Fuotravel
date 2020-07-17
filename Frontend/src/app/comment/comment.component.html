@@ -4,60 +4,68 @@
                     (newCommentEvent)="addComment($event)">
   </app-comment-form>
 </div>
-<ul>
-  <li *ngFor="let comment of comments" class="mt-3">
-    <div id="comment_{{ comment.id }}" class="d-flex flex-row">
-      <div class="d-flex flex-column mr-2">
-        <img [src]="comment.author.avatar | imageUrl" [alt]="comment.author.name" height="40px" width="40px">
-      </div>
-      <div class="d-flex flex-column w-100">
-        <a [routerLink]="['/users/' + comment.author.id]">{{ comment.author.name }}</a>
-        <p>{{ comment.content }}</p>
-        <div *ngIf="comment.image">
-          <img src="{{ comment.image | imageUrl }}" class="rounded" height="auto" width="20%" alt="comment-image">
+<div *ngIf="comments;then listComments else loading"></div>
+<ng-template #loading>
+  <div class="d-flex flex-row justify-content-center align-items-center h-75">
+    <mat-spinner diameter="60"></mat-spinner>
+  </div>
+</ng-template>
+<ng-template #listComments>
+  <ul>
+    <li *ngFor="let comment of comments" class="mt-3">
+      <div id="comment_{{ comment.id }}" class="d-flex flex-row">
+        <div class="d-flex flex-column mr-2">
+          <img [src]="comment.author.avatar | imageUrl" [alt]="comment.author.name" height="40px" width="40px">
         </div>
-        <span>
+        <div class="d-flex flex-column w-100">
+          <a [routerLink]="['/users/' + comment.author.id]">{{ comment.author.name }}</a>
+          <p>{{ comment.content }}</p>
+          <div *ngIf="comment.image">
+            <img src="{{ comment.image | imageUrl }}" class="rounded" height="auto" width="20%" alt="comment-image">
+          </div>
+          <span>
           {{ comment.vote }}
-          <button (click)="vote(comment.id, _COMMENT, _UP)" mat-icon-button>
+            <button (click)="vote(comment.id, _COMMENT, _UP)" mat-icon-button>
             <mat-icon>thumb_up</mat-icon>
           </button>
           <button (click)="vote(comment.id, _COMMENT, _DOWN)" mat-icon-button>
             <mat-icon>thumb_down</mat-icon>
           </button>
         </span>
-        <ul *ngIf="comment.replies.length > 0" class="mt-2">
-          <li *ngFor="let reply of comment.replies">
-            <div id="comment_{{ reply.id }}" class="d-flex flex-row">
-              <div class="d-flex flex-column mr-2">
-                <img [src]="reply.author.avatar | imageUrl" [alt]="comment.author.name" height="40px" width="40px">
-              </div>
-              <div class="d-flex flex-column w-100">
-                <a [routerLink]="['/users/' + reply.author.id]">{{ reply.author.name }}</a>
-                <p>{{ reply.content }}</p>
-                <span *ngIf="reply.image">
+          <ul *ngIf="comment.replies.length > 0" class="mt-2">
+            <li *ngFor="let reply of comment.replies">
+              <div id="comment_{{ reply.id }}" class="d-flex flex-row">
+                <div class="d-flex flex-column mr-2">
+                  <img [src]="reply.author.avatar | imageUrl" [alt]="comment.author.name" height="40px" width="40px">
+                </div>
+                <div class="d-flex flex-column w-100">
+                  <a [routerLink]="['/users/' + reply.author.id]">{{ reply.author.name }}</a>
+                  <p>{{ reply.content }}</p>
+                  <span *ngIf="reply.image">
                   <img src="{{ reply.image | imageUrl }}" class="rounded" height="auto" width="50%" alt="comment-image">
                 </span>
-                <span>
+                  <span>
                   {{ reply.vote }}
-                  <button (click)="vote(reply.id, _COMMENT, _UP)" mat-icon-button>
+                    <button (click)="vote(reply.id, _COMMENT, _UP)" mat-icon-button>
                     <mat-icon>thumb_up</mat-icon>
                   </button>
                   <button (click)="vote(reply.id, _COMMENT, _DOWN)" mat-icon-button>
                     <mat-icon>thumb_down</mat-icon>
                   </button>
                 </span>
+                </div>
               </div>
-            </div>
-          </li>
-        </ul>
-        <div class="border bg-white p-2 rounded">
-          <app-reply-form [parentId]="comment.id"
-                          [commentableType]="commentableType"
-                          [commentableId]="commentableId"
-                          (newReplyEvent)="addReply($event)">
-          </app-reply-form>
+            </li>
+          </ul>
+          <div class="border bg-white p-2 rounded">
+            <app-reply-form [parentId]="comment.id"
+                            [commentableType]="commentableType"
+                            [commentableId]="commentableId"
+                            (newReplyEvent)="addReply($event)">
+            </app-reply-form>
+          </div>
         </div>
       </div>
-    </div>
-  </li>
-</ul>
+    </li>
+  </ul>
+</ng-template>

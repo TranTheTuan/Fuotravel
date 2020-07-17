@@ -1,5 +1,11 @@
 <app-toolbar></app-toolbar>
-<div *ngIf="plan">
+<div *ngIf="plan;then detail else loading"></div>
+<ng-template #loading>
+  <div class="d-flex flex-row justify-content-center align-items-center h-75">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
+<ng-template #detail>
   <div class="cover">
     <div *ngIf="tmpCover && tmpCover !== '';then tempCover else trueCover"></div>
     <ng-template #tempCover>
@@ -55,7 +61,7 @@
       </div>
     </div>
   </div>
-</div>
+</ng-template>
 <nav mat-tab-nav-bar mat-stretch-tabs>
   <a mat-tab-link *ngFor="let link of links"
      [routerLink]="link.path"

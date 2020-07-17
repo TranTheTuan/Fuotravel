@@ -7,23 +7,31 @@
     {{ tag.name }}
   </button>
 </mat-toolbar>
-<div class="container-sm">
-  <ul style="list-style: none" class="row">
-    <li *ngFor="let plan of plans" class="col-md-4 col-sm-6">
-      <div class="d-flex flex-column m-3 m-sm-2 p-1">
-        <div class="d-flex flex-row my-1">
-          <img [src]="plan.cover | imageUrl" [alt]="plan.title" height="auto" width="100%">
+<div *ngIf="plans;then menu else loading"></div>
+<ng-template #loading>
+  <div class="d-flex flex-row justify-content-center align-items-center h-75">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
+<ng-template #menu>
+  <div class="container-sm">
+    <ul style="list-style: none" class="row">
+      <li *ngFor="let plan of plans" class="col-md-4 col-sm-6">
+        <div class="d-flex flex-column m-3 m-sm-2 p-1">
+          <div class="d-flex flex-row my-1">
+            <img [src]="plan.cover | imageUrl" [alt]="plan.title" height="auto" width="100%">
+          </div>
+          <div class="d-flex flex-column">
+            <a [routerLink]="['/plans', plan.id]" class="stretched-link">
+              {{ plan.title }}
+              <mat-icon class="small" [ngClass]="plan.status ? 'text-success' : 'text-danger'">fiber_manual_record</mat-icon>
+            </a>
+            <small class="text-secondary">{{ plan.departure }} - {{ plan.start_at }}</small>
+            <small class="text-secondary">{{ plan.destination }} - {{ plan.arrival_at }}</small>
+          </div>
         </div>
-        <div class="d-flex flex-column">
-          <a [routerLink]="['/plans', plan.id]" class="stretched-link">
-            {{ plan.title }}
-            <mat-icon class="small" [ngClass]="plan.status ? 'text-success' : 'text-danger'">fiber_manual_record</mat-icon>
-          </a>
-          <small class="text-secondary">{{ plan.departure }} - {{ plan.start_at }}</small>
-          <small class="text-secondary">{{ plan.destination }} - {{ plan.arrival_at }}</small>
-        </div>
-      </div>
-    </li>
-  </ul>
-  <router-outlet></router-outlet>
-</div>
+      </li>
+    </ul>
+    <router-outlet></router-outlet>
+  </div>
+</ng-template>

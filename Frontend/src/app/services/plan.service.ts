@@ -32,9 +32,6 @@ export class PlanService {
   constructor(private http: HttpClient) {
   }
 
-  @Cacheable({
-    cacheBusterObserver: cacheBuster$
-  })
   getAll(query: string = '', tags: string = ''): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(this.APIS[1], {
       params: new HttpParams()
@@ -114,7 +111,8 @@ export class PlanService {
     });
   }
 
-  updatePlanStatus(planId: any): Observable<any> {
-    return this.http.put<ApiResponse>(this.APIS[9].replace('{plan_id}', planId), null);
+  updatePlanStatus(planId: any): Observable<ApiResponse> {
+    const apiURL = this.APIS[9].replace('{plan_id}', planId);
+    return this.http.put<ApiResponse>(apiURL, null);
   }
 }

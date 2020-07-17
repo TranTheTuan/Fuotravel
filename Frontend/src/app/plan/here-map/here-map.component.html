@@ -7,7 +7,7 @@
        style="height: 500px;">
     <div #hereMap class="border border-primary h-100"></div>
   </div>
-  <div class="col-md-12">
+  <div class="col-md-12 mt-2">
     <mat-table [dataSource]="waypoints">
       <ng-container matColumnDef="position">
         <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
@@ -30,7 +30,10 @@
         <mat-cell *matCellDef="let element"> {{ element.leave_at }} </mat-cell>
       </ng-container>
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onClickWaypoint(row)"></mat-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
+    <ng-container *ngIf="waypoints.length == 0">
+      this plan haven't had a route yet
+    </ng-container>
   </div>
 </div>

@@ -16,7 +16,7 @@ import {WebSocketService} from '../../../services/web-socket.service';
 })
 export class UserFriendsComponent implements OnInit {
   selectFriendControl = new FormControl();
-  selectedFriends: User[] = [];
+  selectedFriends: User[];
   selectedType = '1';
   profileUser: User;
   authUser: User;

@@ -11,21 +11,23 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material';
 import {NgImageSliderModule} from 'ng-image-slider';
 import {PipesModule} from '../pipes/pipes.module';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [PostComponent, PostCreateComponent],
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    CommentModule,
-    MatDividerModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    NgImageSliderModule,
-    PipesModule
-  ],
+    imports: [
+        CommonModule,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        CommentModule,
+        MatDividerModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        NgImageSliderModule,
+        PipesModule,
+        MatProgressSpinnerModule
+    ],
   exports: [PostComponent]
 })
 export class PostModule {

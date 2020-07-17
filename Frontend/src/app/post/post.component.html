@@ -1,35 +1,43 @@
-<div class="border mb-3">
-  <app-post-create [planId]="planId"></app-post-create>
-</div>
-<div *ngFor="let post of posts">
-  <mat-card id="post_{{ post.id }}" class="example-card">
-    <mat-card-header>
-<!--      <div mat-card-avatar class="example-header-image">-->
+<div *ngIf="posts;then listPosts else loading"></div>
+<ng-template #loading>
+  <div class="d-flex flex-row justify-content-center align-items-center h-75">
+    <mat-spinner diameter="60"></mat-spinner>
+  </div>
+</ng-template>
+<ng-template #listPosts>
+  <div class="border mb-3">
+    <app-post-create [planId]="planId"></app-post-create>
+  </div>
+  <div *ngFor="let post of posts">
+    <mat-card id="post_{{ post.id }}" class="example-card">
+      <mat-card-header>
+        <!--      <div mat-card-avatar class="example-header-image">-->
         <img mat-card-avatar class="example-header-image" src="{{ post.author.avatar | imageUrl }}">
-<!--      </div>-->
-      <mat-card-title>{{ post.author.name}}</mat-card-title>
-      <mat-card-subtitle>{{ post.created_at | date:'short'}}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <p>{{ post.caption }}</p>
-    </mat-card-content>
-    <div *ngIf="post.images.length > 0">
-      <ng-image-slider [images]="post.images | imageObject"
-                       [showArrow]="post.images.length > 1"></ng-image-slider>
-    </div>
-    <mat-divider></mat-divider>
-    <mat-card-actions>
-      {{ post.vote }}
-      <button (click)="vote(post.id, _POST, _UP)" mat-icon-button>
-        <mat-icon>thumb_up</mat-icon>
-      </button>
-      <button (click)="vote(post.id, _POST, _DOWN)" mat-icon-button>
-        <mat-icon>thumb_down</mat-icon>
-      </button>
-    </mat-card-actions>
-    <mat-divider></mat-divider>
-    <mat-card-footer>
-      <app-comment [commentableId]="post.id" [commentableType]="_POST"></app-comment>
-    </mat-card-footer>
-  </mat-card>
-</div>
+        <!--      </div>-->
+        <mat-card-title>{{ post.author.name}}</mat-card-title>
+        <mat-card-subtitle>{{ post.created_at | date:'short'}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ post.caption }}</p>
+      </mat-card-content>
+      <div *ngIf="post.images.length > 0">
+        <ng-image-slider [images]="post.images | imageObject"
+                         [showArrow]="post.images.length > 1"></ng-image-slider>
+      </div>
+      <mat-divider></mat-divider>
+      <mat-card-actions>
+        {{ post.vote }}
+        <button (click)="vote(post.id, _POST, _UP)" mat-icon-button>
+          <mat-icon>thumb_up</mat-icon>
+        </button>
+        <button (click)="vote(post.id, _POST, _DOWN)" mat-icon-button>
+          <mat-icon>thumb_down</mat-icon>
+        </button>
+      </mat-card-actions>
+      <mat-divider></mat-divider>
+      <mat-card-footer>
+        <app-comment [commentableId]="post.id" [commentableType]="_POST"></app-comment>
+      </mat-card-footer>
+    </mat-card>
+  </div>
+</ng-template>

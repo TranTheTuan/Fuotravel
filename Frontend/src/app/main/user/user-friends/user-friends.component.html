@@ -10,20 +10,22 @@
         <mat-option value="3">Received Friend Request</mat-option>
       </mat-select>
     </mat-form-field>
-    <div *ngIf="selectedFriends.length > 0; then friendsList else emptyList"></div>
-    <ng-template #friendsList>
-      <ul class="list-unstyled row justify-content-between mx-sm-1 mt-3">
-        <li *ngFor="let friend of selectedFriends" class="border rounded bg-white list-column mb-3 p-1">
-          <div class="d-flex flex-row">
-            <div class="d-flex flex-column mr-4">
-              <img [src]="friend.avatar | imageUrl" [alt]="friend.name" height="100px" width="100px">
-            </div>
-            <div class="d-flex flex-column">
-              <a [routerLink]="['/users/' + friend.id + '/profile']">
-                {{ friend.firstname }} {{ friend.lastname }}
-              </a>
-            </div>
-            <div class="d-flex flex-column ml-auto" *ngIf="profileUser.id == authUser.id">
+    <div *ngIf="selectedFriends; then friends else loading"></div>
+    <ng-template #friends>
+      <div *ngIf="selectedFriends.length > 0; then friendsList else emptyList"></div>
+      <ng-template #friendsList>
+        <ul class="list-unstyled row justify-content-between mx-sm-1 mt-3">
+          <li *ngFor="let friend of selectedFriends" class="border rounded bg-white list-column mb-3 p-1">
+            <div class="d-flex flex-row">
+              <div class="d-flex flex-column mr-4">
+                <img [src]="friend.avatar | imageUrl" [alt]="friend.name" height="100px" width="100px">
+              </div>
+              <div class="d-flex flex-column">
+                <a [routerLink]="['/users/' + friend.id + '/profile']">
+                  {{ friend.firstname }} {{ friend.lastname }}
+                </a>
+              </div>
+              <div class="d-flex flex-column ml-auto" *ngIf="profileUser.id == authUser.id">
             <span>
               <button mat-icon-button [matMenuTriggerFor]="settingMenu">
                 <mat-icon>more_vert</mat-icon>
@@ -43,13 +45,19 @@
                         (click)="onDecline(friend.id)">Decline</button>
               </mat-menu>
             </span>
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </ng-template>
+      <ng-template #emptyList>
+        <p>you have no friend :v</p>
+      </ng-template>
     </ng-template>
-    <ng-template #emptyList>
-      <p>you have no friend :v</p>
+    <ng-template #loading>
+      <div class="d-flex flex-row justify-content-center align-items-center h-75">
+        <mat-spinner diameter="60"></mat-spinner>
+      </div>
     </ng-template>
   </div>
 </ng-template>
