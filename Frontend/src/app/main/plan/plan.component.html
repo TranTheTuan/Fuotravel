@@ -2,7 +2,7 @@
 <div *ngIf="plan;then detail else loading"></div>
 <ng-template #loading>
   <div class="d-flex flex-row justify-content-center align-items-center h-75">
-    <mat-spinner></mat-spinner>
+    <mat-spinner strokeWidth="5"></mat-spinner>
   </div>
 </ng-template>
 <ng-template #detail>
@@ -70,7 +70,7 @@
     {{link.label}}
   </a>
 </nav>
-<div class="container-sm border-right border-left p-3 bg-light">
+<div class="container-sm border-right border-left p-3 bg-light menu">
   <router-outlet></router-outlet>
 </div>
 

@@ -4,7 +4,7 @@
 <div *ngIf="posts;then listPosts else loading"></div>
 <ng-template #loading>
   <div class="d-flex flex-row justify-content-center align-items-center h-75">
-    <mat-spinner diameter="60"></mat-spinner>
+    <mat-spinner diameter="60" strokeWidth="5"></mat-spinner>
   </div>
 </ng-template>
 <ng-template #listPosts>
