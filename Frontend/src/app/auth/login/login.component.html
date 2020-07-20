@@ -1,19 +1,21 @@
-<div class="form-container">
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)" class="common-form">
-    <h1>Login</h1>
+<div class="d-flex flex-column justify-content-center align-items-center h-100 background-container">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)" class="common-form rounded p-3 bg-white">
+    <h3 class="d-flex justify-content-center mb-4">Login</h3>
     <mat-error style="max-width: fit-content">{{ error | async }}</mat-error>
     <div>
-      <mat-form-field class="full-width" appearance="standard">
+      <mat-form-field class="w-100" appearance="outline">
         <mat-label>email</mat-label>
         <input matInput type="text" placeholder="email..." name="email" required formControlName="email">
-        <mat-error *ngIf="loginForm.get('email').invalid">{{ emailErrorMessage() }}</mat-error>
+        <mat-error *ngIf="loginForm.get('email').hasError('required')">Email is required</mat-error>
+        <mat-error *ngIf="loginForm.get('email').hasError('email')">Email is invalid</mat-error>
       </mat-form-field>
     </div>
     <div>
-      <mat-form-field class="full-width" appearance="standard">
+      <mat-form-field class="w-100" appearance="outline">
         <mat-label>Password</mat-label>
         <input matInput type="password" placeholder="password..." name="password" required formControlName="password">
-        <mat-error *ngIf="loginForm.get('password').invalid">{{ passwordErrorMessage() }}</mat-error>
+        <mat-error *ngIf="loginForm.get('password').hasError('required')">Password is required</mat-error>
+        <mat-error *ngIf="loginForm.get('password').hasError('minlength')">Password minimum length is 3</mat-error>
       </mat-form-field>
     </div>
     <button mat-stroked-button type="submit" [disabled]="loginForm.invalid">Login</button>

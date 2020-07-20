@@ -27,7 +27,6 @@ export class HereMapComponent implements OnInit, AfterViewInit {
   currentLat = 21.028511;
   currentLng = 105.804817;
   waypoints: Waypoint[] = [];
-  datasource: Waypoint[] = [];
   markers = [];
   planId;
   membership;
@@ -49,7 +48,6 @@ export class HereMapComponent implements OnInit, AfterViewInit {
     });
     this.searchService = this.platform.getSearchService();
     this.routingService = this.platform.getRoutingService();
-    // this.getRoute();
     this.planId = this.route.parent.snapshot.paramMap.get('plan_id');
     this.planService.getWaypoints(this.planId);
     this.memberService.getMembershipListener().subscribe(res => {
@@ -73,7 +71,6 @@ export class HereMapComponent implements OnInit, AfterViewInit {
     this.hereMapFunction = new HereMapFunction(this.map, behavior, this.ui);
     this.planService.waypointsListener.subscribe(res => {
       this.waypoints = res;
-      console.log(this.markers);
       this.onChoseWaypoint(this.waypoints);
     });
   }

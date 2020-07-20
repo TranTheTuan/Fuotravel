@@ -5,10 +5,11 @@
 html, body { height: 100%; }
 /*body { margin: 0; font-family: "Comic Sans MS", "Helvetica Neue", sans-serif; }*/
 
-.form-container {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+.background-container {
+  background-image: url("assets/images/cover3.jpg");
+  background-size:     cover;                      /* <------ */
+  background-repeat:   no-repeat;
+  background-position: center center;
 }
 
 .group-section {
@@ -37,4 +38,26 @@ td {
 
 .button-row button {
   margin-right: 8px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

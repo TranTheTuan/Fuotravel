@@ -45,15 +45,4 @@ export class LoginComponent implements OnInit {
       // this.router.navigate(['home']);
     });
   }
-
-  emailErrorMessage() {
-    return this.loginForm.get('email').hasError('required') ? 'Email is required' :
-      this.loginForm.get('email').hasError('email') ? 'Not a valid email format' : '';
-  }
-
-  passwordErrorMessage() {
-    return this.loginForm.get('password').hasError('required') ? 'Password is required' :
-      this.loginForm.get('password').hasError('minlength') ? 'Password minimum length is 3' : '';
-  }
-
 }

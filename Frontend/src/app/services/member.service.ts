@@ -25,8 +25,8 @@ export class MemberService {
     12: environment.apiURL + '/members/leave/{plan_id}',
     13: environment.apiURL + '/members/follow/{plan_id}',
   };
-  membership: Array<number>;
-  membership$ = new BehaviorSubject<Array<number>>([]);
+  private membership: Array<number> = [];
+  private membership$ = new BehaviorSubject<Array<number>>(this.membership);
 
   constructor(private http: HttpClient) {
   }

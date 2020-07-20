@@ -1,29 +1,29 @@
-<div class="d-flex flex-column align-items-center">
-  <h1>Register</h1>
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm.value)" class="w-50">
+<div class="d-flex flex-column justify-content-center align-items-center h-100 background-container">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm.value)" class="register-form rounded p-3 bg-white">
+    <h3 class="d-flex justify-content-center mb-4">Register</h3>
     <mat-error style="max-width: fit-content">{{ error | async }}</mat-error>
-    <div class="d-flex flex-row w-100 mb-3">
-      <img *ngIf="preview !== null" [src]="preview" alt="avatar image preview" class="border rounded" width="100%" height="400px">
+    <div class="d-flex w-75 justify-content-center mb-3">
+      <img *ngIf="preview !== null" [src]="preview" alt="avatar image preview" class="rounded" width="100%" height="auto">
     </div>
     <div class="d-flex flex-row">
       <button mat-stroked-button type="button" (click)="avatar.click()">Upload Avatar</button>
     </div>
     <input type="file" style="display: none" (change)="onFileChange($event)" #avatar>
     <div class="d-flex flex-row justify-content-between">
-      <mat-form-field class="w-100" appearance="standard">
-        <mat-label>First Name:</mat-label>
+      <mat-form-field class="w-50 mr-2" appearance="outline">
+        <mat-label>First Name</mat-label>
         <input matInput type="text" placeholder="First Name..." name="firstname" required
                formControlName="firstname">
         <mat-error *ngIf="registerForm.get('firstname').hasError('required')">Firstname is required</mat-error>
       </mat-form-field>
-      <mat-form-field class="w-100" appearance="standard">
-        <mat-label>Last Name:</mat-label>
+      <mat-form-field class="w-50" appearance="outline">
+        <mat-label>Last Name</mat-label>
         <input matInput type="text" placeholder="Last Name..." name="lastname" required formControlName="lastname">
         <mat-error *ngIf="registerForm.get('lastname').hasError('required')">Lastname is required</mat-error>
       </mat-form-field>
     </div>
     <div>
-      <label>Gender:</label>
+      <label>Gender</label>
       <mat-radio-group aria-label="Select an option" class="group-section" formControlName="gender" required>
         <mat-radio-button class="radio-button" value="1">Male</mat-radio-button>
         <mat-radio-button class="radio-button" value="2">Female</mat-radio-button>
@@ -31,43 +31,43 @@
       </mat-radio-group>
     </div>
     <div class="d-flex flex-row justify-content-between">
-      <mat-form-field class="w-100" appearance="standard">
-        <mat-label>Birthday:</mat-label>
+      <mat-form-field class="w-50 mr-2" appearance="outline">
+        <mat-label>Birthday</mat-label>
         <input matInput [matDatepicker]="birthday" name="birthday" formControlName="birthday">
         <mat-datepicker-toggle matSuffix [for]="birthday"></mat-datepicker-toggle>
         <mat-datepicker #birthday></mat-datepicker>
       </mat-form-field>
-      <mat-form-field class="w-100" appearance="standard">
-        <mat-label>Username:</mat-label>
+      <mat-form-field class="w-50" appearance="outline">
+        <mat-label>Username</mat-label>
         <input matInput type="text" placeholder="username..." name="username" required formControlName="name">
         <mat-error *ngIf="registerForm.get('name').hasError('required')">Username is required</mat-error>
         <mat-error *ngIf="registerForm.get('name').hasError('minlength')">Username min length is 6</mat-error>
       </mat-form-field>
     </div>
     <div class="d-flex flex-row justify-content-between">
-      <mat-form-field class="w-100" appearance="standard">
-        <mat-label>Phone:</mat-label>
+      <mat-form-field class="w-50 mr-2" appearance="outline">
+        <mat-label>Phone</mat-label>
         <input matInput type="tel" placeholder="phone number..." name="phone" required formControlName="phone">
         <mat-error *ngIf="registerForm.get('phone').hasError('required')">Phone number is required</mat-error>
         <mat-error *ngIf="registerForm.get('phone').hasError('minlength')">Phone number min length is 5</mat-error>
         <mat-error *ngIf="registerForm.get('phone').hasError('maxlength')">Phone number max length is 11</mat-error>
       </mat-form-field>
-      <mat-form-field class="w-100" appearance="standard">
-        <mat-label>Email:</mat-label>
+      <mat-form-field class="w-50" appearance="outline">
+        <mat-label>Email</mat-label>
         <input matInput type="email" placeholder="email..." name="email" required formControlName="email">
         <mat-error *ngIf="registerForm.get('email').hasError('required')">Email is required</mat-error>
         <mat-error *ngIf="registerForm.get('email').hasError('email')">Email format is not valid</mat-error>
       </mat-form-field>
     </div>
     <div class="d-flex flex-row justify-content-between">
-      <mat-form-field class="w-100" appearance="standard">
-        <mat-label>Password:</mat-label>
+      <mat-form-field class="w-50 mr-2" appearance="outline">
+        <mat-label>Password</mat-label>
         <input matInput type="password" placeholder="password..." name="password" required formControlName="password">
         <mat-error *ngIf="registerForm.get('password').hasError('required')">Password is required</mat-error>
         <mat-error *ngIf="registerForm.get('password').hasError('minlength')">Password min length is 3</mat-error>
       </mat-form-field>
-      <mat-form-field class="w-100" appearance="standard">
-        <mat-label>Password Confirmation:</mat-label>
+      <mat-form-field class="w-50" appearance="outline">
+        <mat-label>Password Confirmation</mat-label>
         <input matInput type="password" placeholder="re-enter password..." name="password-confirmation" required
                formControlName="password_confirmation">
         <mat-error *ngIf="registerForm.get('password_confirmation').invalid">Password confirmation is required</mat-error>

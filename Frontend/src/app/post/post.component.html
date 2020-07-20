@@ -1,3 +1,6 @@
+<div class="border mb-3">
+  <app-post-create [planId]="planId"></app-post-create>
+</div>
 <div *ngIf="posts;then listPosts else loading"></div>
 <ng-template #loading>
   <div class="d-flex flex-row justify-content-center align-items-center h-75">
@@ -5,9 +8,6 @@
   </div>
 </ng-template>
 <ng-template #listPosts>
-  <div class="border mb-3">
-    <app-post-create [planId]="planId"></app-post-create>
-  </div>
   <div *ngFor="let post of posts">
     <mat-card id="post_{{ post.id }}" class="example-card">
       <mat-card-header>

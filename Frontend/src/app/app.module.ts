@@ -9,7 +9,6 @@ import {AuthInterceptor} from './helpers';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material';
-import {UploadModule} from './upload/upload.module';
 
 @NgModule({
   declarations: [
@@ -21,8 +20,7 @@ import {UploadModule} from './upload/upload.module';
     HttpClientModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    MatToolbarModule,
-    UploadModule
+    MatToolbarModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

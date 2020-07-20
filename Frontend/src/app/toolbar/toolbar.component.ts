@@ -61,20 +61,11 @@ export class ToolbarComponent implements OnInit {
 
   socketInteraction() {
     this.webSocketService.emit('hello', 'hello');
-    this.webSocketService.listen('welcome').subscribe(res => {
-      if (res) {
-        console.log(res);
-      }
-    });
+    this.webSocketService.listen('welcome').subscribe();
     this.webSocketService.emit('init', this.currentUser.roomData);
-    this.webSocketService.listen('init-res').subscribe(res => {
-      if (res) {
-        console.log('joined rooms');
-      }
-    });
+    this.webSocketService.listen('init-res').subscribe();
     this.webSocketService.listen('send-notification').subscribe((res: Notify) => {
       if (res && res.sender.id !== this.currentUser.id) {
-        console.log(res);
         this.notifications.unshift(res);
         this.notificationService.setUnread();
       }
@@ -93,7 +84,6 @@ export class ToolbarComponent implements OnInit {
         ))
     ).subscribe(res => {
       this.suggestPlans = res.data;
-      console.log(this.suggestPlans);
     });
   }
 
@@ -116,9 +106,7 @@ export class ToolbarComponent implements OnInit {
     const dialogRef = this.dialog.open(PlanCreateComponent, {
       width: '500', height: '500'
     });
-    dialogRef.afterClosed().subscribe(res => {
-      console.log(res);
-    });
+    dialogRef.afterClosed().subscribe();
   }
 
   openNotificationSheet() {

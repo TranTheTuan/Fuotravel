@@ -55,12 +55,12 @@ export class PlanComponent implements OnInit {
     );
     plan$.subscribe(res => {
       this.plan = res.data;
-      this.memberService.getMembership(this.plan.id);
       this.getFriends();
     });
-    this.memberService.getMembershipListener().subscribe(res => {
-      this.membership = res;
-    });
+    this.route.data.subscribe(res => {
+      //   console.log(res);
+        this.membership = res.data;
+      });
   }
 
   onInviteFriendsSubmit() {
@@ -78,7 +78,6 @@ export class PlanComponent implements OnInit {
   getFriends() {
     this.planService.getInvitableFriends(this.plan.id).subscribe(res => {
       this.inviteFriends = res.data;
-      console.log(this.inviteFriends, this.membership);
       this.friendForm = this.fb.group({
         friends: this.buildFriendsArray(this.inviteFriends)
       });
