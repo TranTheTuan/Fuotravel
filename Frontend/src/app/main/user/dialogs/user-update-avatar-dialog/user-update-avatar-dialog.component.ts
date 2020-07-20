@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {UserService} from '../../../../services/user.service';
+import {UserService} from '../../../../utility/services/user.service';
 import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
-import {User} from '../../../../models';
+import {User} from '../../../../utility/models';
 
 @Component({
   selector: 'app-user-update-avatar-dialog',

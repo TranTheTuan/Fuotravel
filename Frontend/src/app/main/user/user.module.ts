@@ -15,9 +15,9 @@ import {
 import {UserProfileComponent} from './user-profile/user-profile.component';
 import {UserPlansComponent} from './user-plans/user-plans.component';
 import {UserFriendsComponent} from './user-friends/user-friends.component';
-import {ToolbarModule} from '../../toolbar/toolbar.module';
+import {ToolbarModule} from '../toolbar/toolbar.module';
 import {UserUpdateAvatarDialogComponent} from './dialogs/user-update-avatar-dialog/user-update-avatar-dialog.component';
-import {PipesModule} from '../../pipes/pipes.module';
+import {PipesModule} from '../../utility/pipes/pipes.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {UserUpdateProfileDialogComponent} from './dialogs/user-update-profile-dialog/user-update-profile-dialog.component';
 import {MatMenuModule} from '@angular/material/menu';

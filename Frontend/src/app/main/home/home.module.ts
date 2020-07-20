@@ -7,8 +7,8 @@ import {
   MatButtonModule,
   MatToolbarModule
 } from '@angular/material';
-import {ToolbarModule} from '../../toolbar/toolbar.module';
-import {PipesModule} from '../../pipes/pipes.module';
+import {ToolbarModule} from '../toolbar/toolbar.module';
+import {PipesModule} from '../../utility/pipes/pipes.module';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 

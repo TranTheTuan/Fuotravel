@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable, Observer} from 'rxjs';
 import {Router} from '@angular/router';
-import {Plan, Tag} from '../../models';
-import {AuthService} from '../../services/auth.service';
-import {PlanService} from '../../services/plan.service';
+import {Plan, Tag} from '../../utility/models';
+import {AuthService} from '../../utility/services/auth.service';
+import {PlanService} from '../../utility/services/plan.service';
 
 @Component({
   selector: 'app-home',

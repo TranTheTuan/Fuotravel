@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {Plan, User} from '../../../models';
-import {AuthService} from '../../../services/auth.service';
-import {PlanService} from '../../../services/plan.service';
+import {Plan, User} from '../../../utility/models';
+import {AuthService} from '../../../utility/services/auth.service';
+import {PlanService} from '../../../utility/services/plan.service';
 import {FormControl} from '@angular/forms';
-import {MemberService} from '../../../services/member.service';
+import {MemberService} from '../../../utility/services/member.service';
 import {switchMap, tap} from 'rxjs/operators';
-import {UserService} from '../../../services/user.service';
+import {UserService} from '../../../utility/services/user.service';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({

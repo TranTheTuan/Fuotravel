@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {ApiResponse, Plan, User} from '../../../models';
-import {RelationshipService} from '../../../services/relationship.service';
+import {ApiResponse, Plan, User} from '../../../utility/models';
+import {RelationshipService} from '../../../utility/services/relationship.service';
 import {switchMap, tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {UserService} from '../../../services/user.service';
+import {UserService} from '../../../utility/services/user.service';
 import {ActivatedRoute} from '@angular/router';
-import {AuthService} from '../../../services/auth.service';
-import {WebSocketService} from '../../../services/web-socket.service';
+import {AuthService} from '../../../utility/services/auth.service';
+import {WebSocketService} from '../../../utility/services/web-socket.service';
 
 @Component({
   selector: 'app-user-friends',

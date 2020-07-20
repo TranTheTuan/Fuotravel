@@ -1,14 +1,14 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {UserUpdateAvatarDialogComponent} from '../dialogs/user-update-avatar-dialog/user-update-avatar-dialog.component';
-import {AuthService} from '../../../services/auth.service';
-import {User} from '../../../models';
+import {AuthService} from '../../../utility/services/auth.service';
+import {User} from '../../../utility/models';
 import {UserUpdateProfileDialogComponent} from '../dialogs/user-update-profile-dialog/user-update-profile-dialog.component';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap, tap} from 'rxjs/operators';
-import {UserService} from '../../../services/user.service';
-import {RelationshipService} from '../../../services/relationship.service';
-import {WebSocketService} from '../../../services/web-socket.service';
+import {UserService} from '../../../utility/services/user.service';
+import {RelationshipService} from '../../../utility/services/relationship.service';
+import {WebSocketService} from '../../../utility/services/web-socket.service';
 
 @Component({
   selector: 'app-user-profile',

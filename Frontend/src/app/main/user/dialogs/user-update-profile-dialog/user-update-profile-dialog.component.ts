@@ -1,13 +1,13 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {Tag, User} from '../../../../models';
-import {TagService} from '../../../../services/tag.service';
-import {TAG_USER} from '../../../../helpers';
+import {Tag, User} from '../../../../utility/models';
+import {TagService} from '../../../../utility/services/tag.service';
+import {TAG_USER} from '../../../../utility/helpers';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {formatDate} from '@angular/common';
-import {dateFormat} from '../../../../helpers/date-format';
-import {UserService} from '../../../../services/user.service';
+import {dateFormat} from '../../../../utility/helpers/date-format';
+import {UserService} from '../../../../utility/services/user.service';
 
 @Component({
   selector: 'app-user-update-profile-dialog',

@@ -4,7 +4,7 @@ import {UserComponent} from './user.component';
 import {UserPlansComponent} from './user-plans/user-plans.component';
 import {UserFriendsComponent} from './user-friends/user-friends.component';
 import {UserProfileComponent} from './user-profile/user-profile.component';
-import {AuthGuard} from '../../helpers/auth.guard';
+import {AuthGuard} from '../../utility/helpers/auth.guard';
 
 
 const routes: Routes = [{
