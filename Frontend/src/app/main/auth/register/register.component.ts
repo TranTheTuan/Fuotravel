@@ -19,7 +19,7 @@ import {AuthService} from '../../../utility/services/auth.service';
 })
 export class RegisterComponent implements OnInit {
   preview = null;
-  public error: Subject<any> = new Subject<any>();
+  error: Subject<any> = new Subject<any>();
   registerForm = this.fb.group({
     firstname: ['', [Validators.required]],
     lastname: ['', [Validators.required]],
@@ -39,21 +39,20 @@ export class RegisterComponent implements OnInit {
     private fb: FormBuilder) {
   }
 
+  ngOnInit(): void {
+  }
+
   onSubmit(formValue: any) {
     formValue.birthday = dateFormat(formValue.birthday);
     console.table(formValue);
     this.authService.register(formValue).subscribe(
       data => {
-        console.log('Registered successfully: ' + JSON.stringify(this.authService.currentUserValue));
         this.router.navigate(['/tag/add']);
       },
       error => {
         this.error.next(error.error.message);
       }
     );
-  }
-
-  ngOnInit(): void {
   }
 
   onFileChange(event) {

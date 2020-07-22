@@ -6,6 +6,7 @@ import {environment} from '../../../environments/environment';
 
 import {ApiResponse, User} from '../models';
 import {toFormData} from '../helpers/toFormData';
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -16,16 +17,14 @@ export class AuthService {
     2: environment.apiURL + '/register',
     3: environment.apiURL + '/login/provider/{provider}',
   };
-  private currentUserSubject: BehaviorSubject<any>;
-  readonly currentUser: Observable<User>;
+  private currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
+  currentUserListener = this.currentUserSubject.asObservable();
 
-  constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
-    this.currentUser = this.currentUserSubject.asObservable();
+  constructor(private http: HttpClient,
+              private router: Router) {
   }
 
   get currentUserValue() {
-    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
     return this.currentUserSubject.value;
   }
 
@@ -73,5 +72,13 @@ export class AuthService {
   logout() {
     localStorage.clear();
     this.currentUserSubject.next(null);
+  }
+
+  checkAuth() {
+    if (!this.currentUserValue) {
+      this.router.navigate(['/auth/login']);
+      return false;
+    }
+    return true;
   }
 }

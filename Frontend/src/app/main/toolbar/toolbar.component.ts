@@ -23,7 +23,6 @@ export class ToolbarComponent implements OnInit {
   isSearching = false;
   searchControl = new FormControl();
   suggestPlans = [];
-  authTags: Tag[];
   notifications: Notify[] = [];
   unreadNotificationsNumber = 0;
   @Output() tagsSelected = new EventEmitter();
@@ -41,10 +40,14 @@ export class ToolbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.onSearch();
-    this.currentUser = this.authService.currentUserValue;
-    this.authTags = this.currentUser.tags;
-    this.notificationsListener();
-    this.socketInteraction();
+    // this.currentUser = this.authService.currentUserValue;
+    this.authService.currentUserListener.subscribe(user => {
+      this.currentUser = user;
+    });
+    if (this.currentUser) {
+      this.notificationsListener();
+      this.socketInteraction();
+    }
   }
 
   notificationsListener() {
@@ -102,7 +105,7 @@ export class ToolbarComponent implements OnInit {
     this.router.navigate(['auth']);
   }
 
-  openDialog() {
+  openPlanCreateDialog() {
     const dialogRef = this.dialog.open(PlanCreateComponent, {
       width: '500', height: '500'
     });

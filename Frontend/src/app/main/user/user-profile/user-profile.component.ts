@@ -38,7 +38,9 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authUser = this.authService.currentUserValue;
+    this.authService.currentUserListener.subscribe(user => {
+      this.authUser = user;
+    });
     const user$ = this.route.parent.paramMap.pipe(
       tap(paramMap => console.log(paramMap.get('user_id'))),
       switchMap(paramMap =>

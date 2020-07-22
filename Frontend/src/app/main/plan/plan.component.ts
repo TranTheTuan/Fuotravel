@@ -58,7 +58,6 @@ export class PlanComponent implements OnInit {
       this.getFriends();
     });
     this.route.data.subscribe(res => {
-      //   console.log(res);
         this.membership = res.data;
       });
   }
@@ -76,6 +75,10 @@ export class PlanComponent implements OnInit {
   }
 
   getFriends() {
+    if (!this.currentUser) {
+      this.inviteFriends = [];
+      return;
+    }
     this.planService.getInvitableFriends(this.plan.id).subscribe(res => {
       this.inviteFriends = res.data;
       this.friendForm = this.fb.group({

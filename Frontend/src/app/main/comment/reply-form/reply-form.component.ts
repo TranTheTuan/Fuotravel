@@ -24,7 +24,7 @@ export class ReplyFormComponent implements OnInit {
   comments: Comment[];
   currentUser: User;
   replyForm = this.fb.group({
-    content: ['', [Validators.required]],
+    content: [''],
     image: [''],
     parent_id: ['']
   });
@@ -44,7 +44,14 @@ export class ReplyFormComponent implements OnInit {
     });
   }
 
-  onSubmit(formValue: any) {
+  onSubmit() {
+    if (!this.authService.checkAuth()) {
+      return;
+    }
+    const formValue = this.replyForm.value;
+    if (!formValue.content) {
+      return;
+    }
     if (!formValue.image) {
       delete formValue.image;
     }

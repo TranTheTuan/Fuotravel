@@ -31,7 +31,6 @@ export class MemberComponent implements OnInit {
     });
     this.memberService.getMembers(this.planId, MEMBER).subscribe(res => {
       this.members = res.data;
-      console.log(this.members);
     }, error => console.log(error.error.message));
   }
 

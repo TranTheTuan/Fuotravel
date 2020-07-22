@@ -24,7 +24,7 @@ export class CommentFormComponent implements OnInit {
   comments: Comment[];
   currentUser: User;
   commentForm = this.fb.group({
-    content: ['', [Validators.required]],
+    content: [''],
     image: ['']
   });
 
@@ -41,7 +41,13 @@ export class CommentFormComponent implements OnInit {
   }
 
   onSubmit() {
+    if (!this.authService.checkAuth()) {
+      return;
+    }
     const formValue = this.commentForm.value;
+    if (!formValue.content) {
+      return;
+    }
     if (!formValue.image) {
       delete formValue.image;
     }

@@ -20,20 +20,42 @@ Route::post('register', 'API\AuthController@register');
 Route::get('login/provider/{provider}', 'API\AuthController@redirectToProviderOAuth');
 Route::get('login/facebook/callback', 'API\AuthController@handleFacebookCallback');
 Route::get('login/google/callback', 'API\AuthController@handleGoogleCallback');
+
+Route::prefix('plans')->group(function() {
+    Route::get('/', 'API\PlanController@index');
+    Route::get('{plan_id}', 'API\PlanController@show');
+    Route::get('{plan_id}/waypoints', 'API\PlanController@getWaypoints');
+});
+
+Route::prefix('comments')->group(function () {
+    Route::get('{commentable_id}/commentable/{commentable}', 'API\CommentController@show');
+});
+
+Route::prefix('posts')->group(function() {
+    Route::get('{plan_id}', 'API\PostController@index');
+});
+
+Route::prefix('members')->group(function () {
+    Route::get('requesters/{plan_id}', 'API\MemberController@getRequesters');
+    Route::get('joined/{plan_id}', 'API\MemberController@getMembers');
+});
+
+Route::prefix('tags')->group(function () {
+    Route::get('/', 'API\TagController@index');
+    Route::get('{taggable_id}/taggable/{taggable}', 'API\TagController@show');
+});
+
 Route::middleware('auth:api')->group(function() {
     Route::post('logout', 'API/AuthController@logout');
 
     Route::prefix('plans')->group(function() {
-        Route::get('/', 'API\PlanController@index');
         Route::get('members-status', 'API\PlanController@getPlansByMemberStatus');
-        Route::get('{plan_id}', 'API\PlanController@show');
         Route::post('create', 'API\PlanController@create');
         Route::post('update/{plan_id}', 'API\PlanController@update');
         Route::delete('delete/{plan_id}', 'API\PlanController@delete');
         Route::put('update/status/{plan_id}', 'API\PlanController@toggleStatus');
         Route::put('cancel/{plan_id}', 'API\PlanController@cancel');
         Route::post('{plan_id}/waypoints', 'API\WaypointController');
-        Route::get('{plan_id}/waypoints', 'API\PlanController@getWaypoints');
         Route::get('{plan_id}/invitable-friends', 'API\PlanController@getInvitableFriends');
         Route::post('{plan_id}/invite-friends', 'API\PlanController@sendInvitation');
     });
@@ -57,8 +79,6 @@ Route::middleware('auth:api')->group(function() {
 
     Route::prefix('members')->group(function () {
         Route::get('membership/{plan_id}', 'API\MemberController@getMembership');
-        Route::get('requesters/{plan_id}', 'API\MemberController@getRequesters');
-        Route::get('joined/{plan_id}', 'API\MemberController@getMembers');
         Route::post('join/{plan_id}', 'API\MemberController@join');
         Route::post('follow/{plan_id}', 'API\MemberController@follow');
         Route::post('unfollow/{plan_id}', 'API\MemberController@unfollow');
@@ -74,21 +94,15 @@ Route::middleware('auth:api')->group(function() {
     });
 
     Route::prefix('posts')->group(function() {
-        Route::get('{plan_id}', 'API\PostController@index');
         Route::post('create/{plan_id}', 'API\PostController@create');
         Route::delete('{post_id}', 'API\PostController@delete');
     });
 
     Route::prefix('tags')->group(function () {
-        Route::get('/', 'API\TagController@index');
-//        Route::post('add/{taggable_id}/taggable/{taggble}', 'API\TagController@add');
-        Route::get('{taggable_id}/taggable/{taggable}', 'API\TagController@show');
-//        Route::post('detach/{taggable_id}/taggable/{taggable}', 'API\TagController@detach');
         Route::post('update/{taggable_id}/taggable/{taggable}', 'API\TagController@update');
     });
 
     Route::prefix('comments')->group(function () {
-        Route::get('{commentable_id}/commentable/{commentable}', 'API\CommentController@show');
         Route::post('create/{commentable_id}/commentable/{commentable}', 'API\CommentController@create');
         Route::delete('{comment_id}', 'API\CommentController@delete');
     });

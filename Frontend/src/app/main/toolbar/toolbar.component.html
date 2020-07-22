@@ -26,23 +26,30 @@
     </mat-autocomplete>
   </mat-form-field>
   <span class="fill-space"></span>
-  <span><button mat-button (click)="openDialog()">New Plan</button></span>
-  <span>
-    <button mat-icon-button (click)="openNotificationSheet()">
-      <mat-icon [matBadge]="unreadNotificationsNumber.toString()"
-                matBadgeColor="warn" matBadgeSize="small"
-                [matBadgeHidden]="unreadNotificationsNumber <= 0">
-        notifications
-      </mat-icon>
-    </button>
-  </span>
-  <span *ngIf="currentUser">
-    <button mat-icon-button [matMenuTriggerFor]="userMenu">
-      <img src="{{ currentUser.avatar | imageUrl}}" alt="user avatar" class="rounded-circle" width="25">
-    </button>
-    <mat-menu #userMenu>
-      <button mat-menu-item [routerLink]="['/users/' + currentUser.id]">profile</button>
-      <button mat-menu-item (click)="logout()">logout</button>
-    </mat-menu>
-  </span>
+  <span><button mat-button (click)="openPlanCreateDialog()">New Plan</button></span>
+  <div *ngIf="currentUser;then avatar else login"></div>
+  <ng-template #login>
+    <span><button mat-button [routerLink]="['/auth/login']" color="accent">login</button></span>
+    <span><button mat-button [routerLink]="['/auth/register']" color="accent">register</button></span>
+  </ng-template>
+  <ng-template #avatar>
+    <span>
+      <button mat-icon-button (click)="openNotificationSheet()">
+        <mat-icon [matBadge]="unreadNotificationsNumber.toString()"
+                  matBadgeColor="warn" matBadgeSize="small"
+                  [matBadgeHidden]="unreadNotificationsNumber <= 0">
+          notifications
+        </mat-icon>
+      </button>
+    </span>
+    <span>
+      <button mat-icon-button [matMenuTriggerFor]="userMenu">
+        <img src="{{ currentUser.avatar | imageUrl}}" alt="user avatar" class="rounded-circle" width="25">
+      </button>
+      <mat-menu #userMenu>
+        <button mat-menu-item [routerLink]="['/users/' + currentUser.id]">profile</button>
+        <button mat-menu-item (click)="logout()">logout</button>
+      </mat-menu>
+    </span>
+  </ng-template>
 </mat-toolbar>

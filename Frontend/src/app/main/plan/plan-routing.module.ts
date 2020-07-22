@@ -11,7 +11,7 @@ import {AuthGuard} from '../../utility/helpers/auth.guard';
 import {MembershipResolver} from '../../utility/helpers/membership.resolver';
 
 const routes: Routes = [{
-  path: ':plan_id', component: PlanComponent, canActivate: [AuthGuard], resolve: {
+  path: ':plan_id', component: PlanComponent, resolve: {
     data: MembershipResolver
   }, children: [
     {path: '', redirectTo: 'here-map', pathMatch: 'full'},

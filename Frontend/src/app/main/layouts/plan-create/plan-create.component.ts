@@ -53,6 +53,9 @@ export class PlanCreateComponent implements OnInit {
   }
 
   onCreatePlanSubmit() {
+    if (!this.authService.checkAuth()) {
+      return;
+    }
     const formValue = this.createPlanForm.value;
     formValue.start_at = dateFormat(formValue.start_at);
     formValue.arrival_at = dateFormat(formValue.arrival_at);
@@ -71,6 +74,9 @@ export class PlanCreateComponent implements OnInit {
   }
 
   onUpdateTagsSubmit() {
+    if (!this.authService.checkAuth()) {
+      return;
+    }
     const selectedIds = this.tagForm.value.tags
       .map((v, i) => (v ? this.tags[i].id : null))
       .filter(v => v !== null);

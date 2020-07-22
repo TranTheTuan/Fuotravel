@@ -48,7 +48,7 @@ class PlanController extends ApiController
 
     public function show($plan_id)
     {
-        $this->authorize('view', Plan::find($plan_id));
+        // $this->authorize('view', Plan::find($plan_id));
         $plan = $this->planRepo->find($plan_id);
         $plan->tags = $this->tagRepo->showTags($plan_id, Tag::PLAN);
         return $this->sendResponse($plan);

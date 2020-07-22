@@ -36,10 +36,6 @@ export class RequestComponent implements OnInit {
     this.memberService.getMembershipListener().subscribe(res => {
       this.membership = res;
     });
-    // const socket = io(environment.socket);
-    // socket.on('fuotravel_database_chat:message', (data) => {
-    //   this.snackBar.open(data.data, 'Close', {duration: 3000});
-    // });
   }
 
   onAccept(userId: any, planId: any) {
@@ -70,9 +66,5 @@ export class RequestComponent implements OnInit {
         this.snackBar.open('User has been banned, dick head >:(',
           'Close', {duration: 3000});
       });
-  }
-
-  saveme() {
-    this.http.get(environment.apiURL + '/draft').subscribe();
   }
 }

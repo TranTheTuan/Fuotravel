@@ -31,6 +31,9 @@ export class InteractionComponent implements OnInit {
   }
 
   onSendRequest() {
+    if (!this.authService.checkAuth()) {
+      return;
+    }
     this.memberService.join(this.planId);
     const newRoom = 'plan_room_' + this.planId;
     this.authService.updateUserRooms('plan', this.planId);
@@ -38,6 +41,9 @@ export class InteractionComponent implements OnInit {
   }
 
   onUnfollow() {
+    if (!this.authService.checkAuth()) {
+      return;
+    }
     this.memberService.unfollow(this.planId);
     const oldRoom = 'plan_room_' + this.planId;
     this.authService.removeUserRooms('plan', this.planId);
@@ -45,6 +51,9 @@ export class InteractionComponent implements OnInit {
   }
 
   onFollow() {
+    if (!this.authService.checkAuth()) {
+      return;
+    }
     this.memberService.follow(this.planId);
     const newRoom = 'plan_room_' + this.planId;
     this.authService.updateUserRooms('plan', this.planId);
@@ -52,6 +61,9 @@ export class InteractionComponent implements OnInit {
   }
 
   onLeave() {
+    if (!this.authService.checkAuth()) {
+      return;
+    }
     this.memberService.leave(this.planId);
     const oldRoom = 'plan_room_' + this.planId;
     this.authService.removeUserRooms('plan', this.planId);

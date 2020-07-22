@@ -12,7 +12,7 @@ import {PlanService} from '../../utility/services/plan.service';
 })
 export class HomeComponent implements OnInit {
   plans: Plan[];
-  authTags: Tag[];
+  authTags: Tag[] = [];
   selectedTags: Tag[] = [];
 
   constructor(
@@ -24,7 +24,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
       this.getPlans();
-      this.authTags = this.authService.currentUserValue.tags;
+      if (this.authService.currentUserValue) {
+        this.authTags = this.authService.currentUserValue.tags;
+      }
   }
 
   getPlans(tagIds: string = '') {

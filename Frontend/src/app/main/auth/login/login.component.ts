@@ -10,7 +10,7 @@ import {AuthService} from '../../../utility/services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  public error: Subject<any> = new Subject<any>();
+  error: Subject<any> = new Subject<any>();
   loginForm = this.fb.group({
     email: [null, [Validators.required, Validators.email]],
     password: [null, [Validators.required, Validators.minLength(3)]]
@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit {
   onSubmit(formValue: any) {
     this.authService.login(formValue).subscribe(
       data => {
-        console.log('Login successfully: ' + JSON.stringify(this.authService.currentUserValue));
         this.router.navigate(['home']);
       },
       error => {
