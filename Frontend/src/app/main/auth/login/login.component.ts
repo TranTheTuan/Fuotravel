@@ -18,7 +18,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private router: Router,
-              private fb: FormBuilder) {
+              private fb: FormBuilder
+  ) {
     if (this.authService.currentUserValue) {
       this.router.navigate(['/home']);
     }

@@ -10,11 +10,12 @@ html, body { height: 100%; }
   background-size:     cover;                      /* <------ */
   background-repeat:   no-repeat;
   background-position: center center;
+  width: 100%;
 }
 
 .group-section {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin: 15px 0;
 }
 
