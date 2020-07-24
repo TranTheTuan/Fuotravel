@@ -15,6 +15,7 @@ import {UserService} from '../../../../utility/services/user.service';
   styleUrls: ['./user-update-profile-dialog.component.css']
 })
 export class UserUpdateProfileDialogComponent implements OnInit {
+  readonly TAG_USER = TAG_USER;
   tags: Tag[];
   userId;
   updateProfileForm = this.fb.group({
@@ -71,19 +72,7 @@ export class UserUpdateProfileDialogComponent implements OnInit {
     });
   }
 
-  onUpdateTagsSubmit() {
-    const selectedIds = this.tagForm.value.tags
-      .map((v, i) => (v ? this.tags[i].id : null))
-      .filter(v => v !== null);
-    this.tagService.updateTags(this.userId, TAG_USER, selectedIds)
-      .subscribe(res => {
-        this.snackBar.open('Updated tags',
-          'Close', {duration: 3000});
-      }, error => console.log(error));
-    const selectedTags = {
-      tags: []
-    };
-    selectedTags.tags = this.tags.filter(tag => selectedIds.includes(tag.id));
+  onUpdateTags(selectedTags: any) {
     this.dialogRef.close(selectedTags);
   }
 

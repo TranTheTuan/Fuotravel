@@ -29,9 +29,6 @@ export class UpdatePlanComponent implements OnInit {
     arrival_at: ['', [Validators.required]],
     members_quantity: ['', [Validators.required, Validators.min(2)]]
   });
-  tagForm = this.fb.group({
-    tags: this.fb.array([])
-  });
 
   constructor(
     private planService: PlanService,
@@ -56,7 +53,6 @@ export class UpdatePlanComponent implements OnInit {
       arrival_at: this.data.plan.arrival_at,
       members_quantity: this.data.plan.members_quantity
     });
-    this.getTags();
   }
 
   onCancel() {
@@ -74,19 +70,7 @@ export class UpdatePlanComponent implements OnInit {
     this.dialogRef.close(formValue);
   }
 
-  onUpdateTagsSubmit() {
-    const selectedIds = this.tagForm.value.tags
-      .map((v, i) => (v ? this.tags[i].id : null))
-      .filter(v => v !== null);
-    this.tagService.updateTags(this.planId, TAG_PLAN, selectedIds)
-      .subscribe(res => {
-        this.snackBar.open('Updated tags',
-          'Close', {duration: 3000});
-      }, error => console.log(error));
-    const selectedTags = {
-      tags: []
-    };
-    selectedTags.tags = this.tags.filter(tag => selectedIds.includes(tag.id));
+  onUpdateTags(selectedTags: any) {
     this.dialogRef.close(selectedTags);
   }
 
@@ -101,30 +85,5 @@ export class UpdatePlanComponent implements OnInit {
     reader.onload = () => {
       this.preview = reader.result as string;
     };
-  }
-
-  setCheckedStatus(tagId: any) {
-    const index = this.data.plan.tags.findIndex(tag => tag.id === tagId);
-    return index !== -1;
-  }
-
-  getTags() {
-    this.tagService.getAll().subscribe(res => {
-      this.tags = res.data;
-      this.tagForm = this.fb.group({
-        tags: this.buildTagsArray(this.tags)
-      });
-    }, error => console.table(error.error.message));
-  }
-
-  get tagsArray() {
-    return this.tagForm.get('tags') as FormArray;
-  }
-
-  buildTagsArray(tags: Tag[]) {
-    const tagsArr = tags.map(tag => {
-      return this.fb.control(this.setCheckedStatus(tag.id));
-    });
-    return this.fb.array(tagsArr);
   }
 }

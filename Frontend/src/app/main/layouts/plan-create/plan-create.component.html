@@ -75,24 +75,9 @@
         </form>
       </div>
     </mat-step>
-    <mat-step [stepControl]="tagForm" optional>
+    <mat-step optional>
       <mat-dialog-content>
-        <form [formGroup]="tagForm" (ngSubmit)="onUpdateTagsSubmit()" class="common-form">
-          <ng-template matStepLabel>Update plan tags</ng-template>
-          <mat-list>
-            <mat-list-item *ngFor="let tag of tagsArray.controls; let i = index">
-              <mat-checkbox
-                [formControl]="tag"
-                labelPosition="after">{{ tags[i].name }}</mat-checkbox>
-            </mat-list-item>
-          </mat-list>
-          <div mat-dialog-actions>
-            <button mat-raised-button type="submit" color="primary">Submit</button>
-            <button mat-stroked-button type="button" matStepperPrevious>Back</button>
-            <button mat-stroked-button type="button" matStepperNext>Next</button>
-            <button mat-stroked-button type="button" (click)="onCancel()" color="accent">Cancel</button>
-          </div>
-        </form>
+        <app-tag [taggableId]="planId" (cancel)="onCancel()"></app-tag>
       </mat-dialog-content>
     </mat-step>
     <mat-step>

@@ -17,7 +17,7 @@ import {ADMIN, MEMBER} from '../../utility/helpers';
 })
 export class PlanComponent implements OnInit {
   tmpCover = '';
-  _MEMBER  = MEMBER;
+  _MEMBER = MEMBER;
   _ADMIN = ADMIN;
   links = [
     {path: 'here-map', label: 'Stages'},
@@ -58,8 +58,8 @@ export class PlanComponent implements OnInit {
       this.getFriends();
     });
     this.route.data.subscribe(res => {
-        this.membership = res.data;
-      });
+      this.membership = res.data;
+    });
   }
 
   onInviteFriendsSubmit() {
@@ -69,7 +69,7 @@ export class PlanComponent implements OnInit {
     console.log(selectedIds);
     this.planService.inviteFriends(this.plan.id, selectedIds).subscribe(res => {
       this.matSnackBar.open('Sent invitations to your friends :))',
-        'Close', { duration: 3000});
+        'Close', {duration: 3000});
       this.friendForm.reset();
     });
   }

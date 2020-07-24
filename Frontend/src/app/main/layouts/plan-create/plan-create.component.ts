@@ -1,13 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, Validators} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {MatDialogRef} from '@angular/material/dialog';
 import {dateFormat} from '../../../utility/helpers/date-format';
 import {Subject} from 'rxjs';
-import {Tag} from '../../../utility/models';
 import {TagService} from '../../../utility/services/tag.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {TAG_PLAN} from '../../../utility/helpers';
 import {PlanService} from '../../../utility/services/plan.service';
 import {WebSocketService} from '../../../utility/services/web-socket.service';
 import {AuthService} from '../../../utility/services/auth.service';
@@ -21,7 +19,6 @@ export class PlanCreateComponent implements OnInit {
   preview;
   planId;
   error: Subject<any> = new Subject<any>();
-  tags: Tag[];
   createPlanForm = this.fb.group({
     title: ['', [Validators.required]],
     description: ['', [Validators.required]],
@@ -31,9 +28,6 @@ export class PlanCreateComponent implements OnInit {
     destination: ['', [Validators.required]],
     arrival_at: ['', [Validators.required]],
     members_quantity: ['', [Validators.required, Validators.min(2)]]
-  });
-  tagForm = this.fb.group({
-    tags: this.fb.array([])
   });
 
   constructor(
@@ -49,7 +43,6 @@ export class PlanCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getTags();
   }
 
   onCreatePlanSubmit() {
@@ -71,40 +64,6 @@ export class PlanCreateComponent implements OnInit {
     }, err => {
       this.error.next(err.error.message);
     });
-  }
-
-  onUpdateTagsSubmit() {
-    if (!this.authService.checkAuth()) {
-      return;
-    }
-    const selectedIds = this.tagForm.value.tags
-      .map((v, i) => (v ? this.tags[i].id : null))
-      .filter(v => v !== null);
-    this.tagService.updateTags(this.planId, TAG_PLAN, selectedIds)
-      .subscribe(res => {
-        this.snackBar.open('Updated tags',
-          'Close', {duration: 3000});
-      }, error => console.log(error));
-  }
-
-  getTags() {
-    this.tagService.getAll().subscribe(res => {
-      this.tags = res.data;
-      this.tagForm = this.fb.group({
-        tags: this.buildTagsArray(this.tags)
-      });
-    }, error => console.table(error.error.message));
-  }
-
-  get tagsArray() {
-    return this.tagForm.get('tags') as FormArray;
-  }
-
-  buildTagsArray(tags: Tag[]) {
-    const tagsArr = tags.map(tag => {
-      return this.fb.control(false);
-    });
-    return this.fb.array(tagsArr);
   }
 
   onCancel() {

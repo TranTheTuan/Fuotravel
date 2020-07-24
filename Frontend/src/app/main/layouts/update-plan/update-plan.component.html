@@ -1,9 +1,9 @@
 <div class="form-container">
   <mat-horizontal-stepper #stepper>
     <mat-step [stepControl]="updatePlanForm">
-      <div mat-dialog-content>
-        <form [formGroup]="updatePlanForm" (ngSubmit)="onUpdatePlanSubmit()" class="common-form">
-          <ng-template matStepLabel>Update plan</ng-template>
+      <ng-template matStepLabel>Update plan</ng-template>
+      <form [formGroup]="updatePlanForm" (ngSubmit)="onUpdatePlanSubmit()" class="common-form">
+        <div mat-dialog-content>
           <mat-error style="max-width: fit-content">{{ error | async }}</mat-error>
           <img *ngIf="preview" [src]="preview" alt="cover image preview" width="100" height="50">
           <input type="file" style="display: none" (change)="onFileChange($event)" #cover>
@@ -67,32 +67,18 @@
                    formControlName="members_quantity">
             <mat-error *ngIf="updatePlanForm.get('title').invalid"></mat-error>
           </mat-form-field>
-          <div mat-dialog-actions>
-            <button mat-raised-button type="submit" [disabled]="updatePlanForm.invalid" color="primary">Submit</button>
-            <button mat-stroked-button type="button" (click)="onCancel()" color="warn">Cancel</button>
-            <button mat-stroked-button type="button" matStepperNext>Next</button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div mat-dialog-actions>
+          <button mat-raised-button type="submit" [disabled]="updatePlanForm.invalid" color="primary">Submit</button>
+          <button mat-stroked-button type="button" (click)="onCancel()" color="warn">Cancel</button>
+          <button mat-stroked-button type="button" matStepperNext>Next</button>
+        </div>
+      </form>
     </mat-step>
-    <mat-step [stepControl]="tagForm">
-      <mat-dialog-content>
-        <form [formGroup]="tagForm" (ngSubmit)="onUpdateTagsSubmit()" class="common-form">
-          <ng-template matStepLabel>Update plan tags</ng-template>
-          <mat-list>
-            <mat-list-item *ngFor="let tag of tagsArray.controls; let i = index">
-              <mat-checkbox
-                [formControl]="tag"
-                labelPosition="after">{{ tags[i].name }}</mat-checkbox>
-            </mat-list-item>
-          </mat-list>
-          <div mat-dialog-actions>
-            <button mat-raised-button type="submit" color="primary">Submit</button>
-            <button mat-stroked-button type="button" (click)="onCancel()" color="warn">Cancel</button>
-            <button mat-stroked-button type="button" matStepperPrevious>Back</button>
-          </div>
-        </form>
-      </mat-dialog-content>
+    <mat-step>
+      <ng-template matStepLabel>Choose tags</ng-template>
+      <app-tag [taggableId]="planId" [haveNext]="false" [checkedTags]="data.plan.tags"
+               (cancel)="onCancel()" (update)="onUpdateTags($event)"></app-tag>
     </mat-step>
   </mat-horizontal-stepper>
 </div>

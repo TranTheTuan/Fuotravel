@@ -7,7 +7,9 @@ import {
 import {ReactiveFormsModule} from '@angular/forms';
 import {TagRoutingModule} from './tag-routing.module';
 import { TagComponent } from './tag.component';
-import {ToolbarModule} from '../toolbar/toolbar.module';
+import {MatListModule} from '@angular/material/list';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
@@ -18,7 +20,12 @@ import {ToolbarModule} from '../toolbar/toolbar.module';
     ReactiveFormsModule,
     MatCheckboxModule,
     MatButtonModule,
-    ToolbarModule
+    MatListModule,
+    MatStepperModule,
+    MatDialogModule
+  ],
+  exports: [
+    TagComponent
   ]
 })
 export class TagModule { }

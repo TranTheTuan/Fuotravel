@@ -13,23 +13,25 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatListModule} from '@angular/material/list';
 import {RouterModule} from '@angular/router';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {TagModule} from '../tag/tag.module';
 
 @NgModule({
   declarations: [PlanCreateComponent, UpdatePlanComponent],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatButtonModule,
-    MatStepperModule,
-    MatCheckboxModule,
-    MatDialogModule,
-    MatListModule,
-    RouterModule,
-    MatSnackBarModule
-  ],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
+        MatButtonModule,
+        MatStepperModule,
+        MatCheckboxModule,
+        MatDialogModule,
+        MatListModule,
+        RouterModule,
+        MatSnackBarModule,
+        TagModule
+    ],
   exports: [PlanCreateComponent, UpdatePlanComponent]
 })
 export class LayoutModule {

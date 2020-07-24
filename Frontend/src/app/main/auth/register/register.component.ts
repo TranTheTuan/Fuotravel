@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit {
     console.table(formValue);
     this.authService.register(formValue).subscribe(
       data => {
-        this.router.navigate(['/tag/add']);
+        // this.router.navigate(['/tag/add']);
       },
       error => {
         this.error.next(error.error.message);
