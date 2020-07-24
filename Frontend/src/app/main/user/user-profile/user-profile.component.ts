@@ -77,6 +77,7 @@ export class UserProfileComponent implements OnInit {
       if (data) {
         for (const key of Object.keys(data)) {
           this.authUser[key] = data[key];
+          this.profileUser[key] = data[key];
         }
         localStorage.setItem('currentUser', JSON.stringify(this.authUser));
       }
