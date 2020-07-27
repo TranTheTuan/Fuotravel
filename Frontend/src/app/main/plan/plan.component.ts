@@ -3,7 +3,7 @@ import {AuthService} from '../../utility/services/auth.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {Plan, User} from '../../utility/models';
 import {MatDialog, MatSnackBar} from '@angular/material';
-import {UpdatePlanComponent} from '../layouts/update-plan/update-plan.component';
+import {UpdatePlanComponent} from './update-plan/update-plan.component';
 import {switchMap} from 'rxjs/operators';
 import {PlanService} from '../../utility/services/plan.service';
 import {MemberService} from '../../utility/services/member.service';

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
-import {PlanCreateComponent} from '../layouts/plan-create/plan-create.component';
+import {PlanCreateComponent} from './plan-create/plan-create.component';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, filter, finalize, switchMap, tap} from 'rxjs/operators';
 import {Tag, User} from '../../utility/models';
