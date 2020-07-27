@@ -36,6 +36,10 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTableModule} from '@angular/material/table';
+import {UpdatePlanComponent} from './update-plan/update-plan.component';
+import {MatStepperModule} from '@angular/material/stepper';
+import {TagModule} from '../tag/tag.module';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -45,6 +49,7 @@ import {MatTableModule} from '@angular/material/table';
     HereMapComponent,
     WaypointComponent,
     InteractionComponent,
+    UpdatePlanComponent
   ],
   imports: [
     CommonModule,
@@ -78,6 +83,9 @@ import {MatTableModule} from '@angular/material/table';
     MatSlideToggleModule,
     FormsModule,
     MatTableModule,
+    MatStepperModule,
+    TagModule,
+    MatDialogModule,
   ],
 })
 export class PlanModule {

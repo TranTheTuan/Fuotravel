@@ -6,7 +6,7 @@ import {environment} from '../../../environments/environment';
 
 import {ApiResponse, User} from '../models';
 import {toFormData} from '../helpers/toFormData';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'

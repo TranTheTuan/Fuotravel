@@ -1,37 +1,37 @@
 <div class="form-container">
-  <mat-horizontal-stepper #stepper>
-    <mat-step [stepControl]="updatePlanForm">
-      <ng-template matStepLabel>Update plan</ng-template>
-      <form [formGroup]="updatePlanForm" (ngSubmit)="onUpdatePlanSubmit()" class="common-form">
+  <mat-horizontal-stepper linear #stepper>
+    <mat-step [completed]="planId">
+      <ng-template matStepLabel>Create New Plan</ng-template>
+      <form [formGroup]="createPlanForm" (ngSubmit)="onCreatePlanSubmit()" class="common-form">
         <div mat-dialog-content>
           <mat-error style="max-width: fit-content">{{ error | async }}</mat-error>
           <img *ngIf="preview" [src]="preview" alt="cover image preview" width="100" height="50">
           <input type="file" style="display: none" (change)="onFileChange($event)" #cover>
-          <button mat-button type="button" (click)="cover.click()">Upload Cover</button>
+          <button mat-stroked-button type="button" (click)="cover.click()">Upload Cover</button>
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>Title</mat-label>
             <input matInput type="text" placeholder="title..." name="title" formControlName="title">
-            <mat-error *ngIf="updatePlanForm.get('title').invalid"></mat-error>
+            <mat-error *ngIf="createPlanForm.get('title').invalid"></mat-error>
           </mat-form-field>
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>Description</mat-label>
             <textarea matInput type="text" placeholder="describe your plan..." name="description"
                       formControlName="description"></textarea>
-            <mat-error *ngIf="updatePlanForm.get('title').invalid"></mat-error>
+            <mat-error *ngIf="createPlanForm.get('title').invalid"></mat-error>
           </mat-form-field>
           <div class="d-flex flex-row justify-content-between">
             <mat-form-field class="w-50 mr-2" appearance="outline">
               <mat-label>Departure</mat-label>
               <input matInput type="text" placeholder="where to start..." name="departure"
                      formControlName="departure">
-              <mat-error *ngIf="updatePlanForm.get('title').invalid"></mat-error>
+              <mat-error *ngIf="createPlanForm.get('title').invalid"></mat-error>
             </mat-form-field>
             <mat-form-field class="w-50 mr-2" appearance="outline">
               <mat-label>Start at</mat-label>
               <input matInput [matDatepicker]="startAt" name="start_at" formControlName="start_at">
               <mat-datepicker-toggle matSuffix [for]="startAt"></mat-datepicker-toggle>
               <mat-datepicker #startAt></mat-datepicker>
-              <mat-error *ngIf="updatePlanForm.get('title').invalid"></mat-error>
+              <mat-error *ngIf="createPlanForm.get('title').invalid"></mat-error>
             </mat-form-field>
           </div>
           <div class="d-flex flex-row justify-content-between">
@@ -39,35 +39,53 @@
               <mat-label>Destination</mat-label>
               <input matInput type="text" placeholder="where to arrive..." name="destination"
                      formControlName="destination">
-              <mat-error *ngIf="updatePlanForm.get('title').invalid"></mat-error>
+              <mat-error *ngIf="createPlanForm.get('title').invalid"></mat-error>
             </mat-form-field>
             <mat-form-field class="w-50 mr-2" appearance="outline">
               <mat-label>Arrive at</mat-label>
               <input matInput [matDatepicker]="arriveAt" name="arrival_at" formControlName="arrival_at">
               <mat-datepicker-toggle matSuffix [for]="arriveAt"></mat-datepicker-toggle>
               <mat-datepicker #arriveAt></mat-datepicker>
-              <mat-error *ngIf="updatePlanForm.get('title').invalid"></mat-error>
+              <mat-error *ngIf="createPlanForm.get('title').invalid"></mat-error>
             </mat-form-field>
           </div>
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>Member Quantity</mat-label>
-            <input matInput type="number" placeholder="expected participants number..." name="members_quantity" min="2"
+            <input matInput type="number" placeholder="expected participants number..." name="members_quantity"
+                   min="2"
                    formControlName="members_quantity">
-            <mat-error *ngIf="updatePlanForm.get('title').invalid"></mat-error>
+            <mat-error *ngIf="createPlanForm.get('title').invalid"></mat-error>
           </mat-form-field>
         </div>
         <div mat-dialog-actions>
-          <button mat-raised-button type="submit" [disabled]="updatePlanForm.invalid" color="primary">Submit</button>
-          <button mat-stroked-button type="button" (click)="onCancel()" color="warn">Cancel</button>
-          <button mat-stroked-button type="button" matStepperNext>Next</button>
+<<<<<<< HEAD:Frontend/src/app/main/layouts/plan-create/plan-create.component.html
+          <button mat-raised-button type="submit" [disabled]="createPlanForm.invalid" color="primary">Submit
+          </button>
+=======
+          <button mat-raised-button type="submit" [disabled]="createPlanForm.invalid" color="primary">Submit</button>
+>>>>>>> remove layout module:Frontend/src/app/main/toolbar/plan-create/plan-create.component.html
+          <button mat-stroked-button type="button" [disabled]="!planId" matStepperNext>Next</button>
+          <button mat-stroked-button type="button" (click)="onCancel()" color="accent">Cancel</button>
         </div>
       </form>
     </mat-step>
-    <mat-step>
+    <mat-step optional>
       <ng-template matStepLabel>Choose tags</ng-template>
-      <app-tag [taggableId]="planId" [haveNext]="false" [checkedTags]="data.plan.tags"
-               (cancel)="onCancel()" (update)="onUpdateTags($event)"></app-tag>
+<<<<<<< HEAD:Frontend/src/app/main/layouts/plan-create/plan-create.component.html
+      <mat-dialog-content>
+        <app-tag [taggableId]="planId" (cancel)="onCancel()"></app-tag>
+      </mat-dialog-content>
+=======
+      <app-tag [taggableId]="planId" (cancel)="onCancel()"></app-tag>
+>>>>>>> remove layout module:Frontend/src/app/main/toolbar/plan-create/plan-create.component.html
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You created your plan successfully</p>
+      <div mat-dialog-actions>
+        <button mat-stroked-button matStepperPrevious>Back</button>
+        <button mat-stroked-button (click)="onDone()" color="primary">Go to plan</button>
+      </div>
     </mat-step>
   </mat-horizontal-stepper>
 </div>
-
