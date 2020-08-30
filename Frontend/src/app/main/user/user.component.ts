@@ -22,7 +22,6 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     const user$ = this.route.paramMap.pipe(
-      tap(paramMap => console.log(paramMap.get('user_id'))),
       switchMap(paramMap =>
         this.userService.getUserDetail(paramMap.get('user_id'))
       )

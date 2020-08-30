@@ -1,17 +1,15 @@
 <form [formGroup]="tagForm" (ngSubmit)="onUpdateTagsSubmit()" class="common-form">
-  <mat-dialog-content>
-    <mat-list>
-      <mat-list-item *ngFor="let tag of tagsArray.controls; let i = index">
-        <mat-checkbox
-          [formControl]="tag"
-          labelPosition="after">{{ tags[i].name }}</mat-checkbox>
-      </mat-list-item>
-    </mat-list>
-  </mat-dialog-content>
-  <div mat-dialog-actions>
-    <button mat-raised-button type="submit" color="primary">Submit</button>
-    <button mat-stroked-button type="button" matStepperPrevious>Back</button>
-    <button mat-stroked-button type="button"
+  <mat-list class="tag-list">
+    <mat-list-item *ngFor="let tag of tagsArray.controls; let i = index">
+      <mat-checkbox
+        [formControl]="tag"
+        labelPosition="after">{{ tags[i].name }}</mat-checkbox>
+    </mat-list-item>
+  </mat-list>
+  <div class="mt-2">
+    <button mat-raised-button type="submit" class="mr-1" color="primary">Submit</button>
+    <button mat-stroked-button type="button" class="mr-1" matStepperPrevious>Back</button>
+    <button mat-stroked-button type="button" class="mr-1"
             *ngIf="haveNext" matStepperNext>Next
     </button>
     <button mat-stroked-button type="button"

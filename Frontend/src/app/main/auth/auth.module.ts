@@ -6,7 +6,7 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatButtonModule,
-  MatDividerModule
+  MatDividerModule, MatStepperModule, MatDialogModule
 } from '@angular/material';
 
 import {AuthRoutingModule} from './auth-routing.module';
@@ -17,6 +17,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatMomentDateModule, MomentDateModule} from '@angular/material-moment-adapter';
+import {TagModule} from '../tag/tag.module';
 
 @NgModule({
   declarations: [AuthComponent, LoginComponent, RegisterComponent],
@@ -33,6 +34,9 @@ import {MatMomentDateModule, MomentDateModule} from '@angular/material-moment-ad
     MatRadioModule,
     MatDatepickerModule,
     MatMomentDateModule,
+    MatStepperModule,
+    MatDialogModule,
+    TagModule,
     // MomentDateModule
   ]
 })

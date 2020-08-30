@@ -43,6 +43,10 @@ class User extends \TCG\Voyager\Models\User
         'email_verified_at' => 'datetime',
     ];
 
+    public $attributes = [
+        'avatar' => 'default/avatar/avatar.png'
+    ];
+
     public function plans()
     {
         return $this->hasMany('App\Plan');

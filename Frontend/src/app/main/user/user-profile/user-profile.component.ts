@@ -42,7 +42,6 @@ export class UserProfileComponent implements OnInit {
       this.authUser = user;
     });
     const user$ = this.route.parent.paramMap.pipe(
-      tap(paramMap => console.log(paramMap.get('user_id'))),
       switchMap(paramMap =>
         this.userService.getUserDetail(paramMap.get('user_id'))
       )
@@ -86,7 +85,6 @@ export class UserProfileComponent implements OnInit {
 
   setRelationshipStatus(data: any) {
     this.relationshipBetween = data;
-    console.log(this.relationshipBetween);
     if (this.relationshipBetween) {
       this.isAuthStart = this.relationshipBetween.first_user_id === this.authUser.id;
       this.isTargetStart = this.relationshipBetween.first_user_id === this.profileUser.id;

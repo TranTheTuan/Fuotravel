@@ -58,11 +58,11 @@ class AuthController extends ApiController
         $data = $request->except(['password_confirmation', 'avatar']);
         $validator = Validator::make($data, $this->userRepo->registerRules());
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return $this->sendError($validator->errors()->first());
         }
         $data['password'] = bcrypt($request->password);
-        if(!Hash::check($request->password_confirmation, $data['password'])) {
+        if (!Hash::check($request->password_confirmation, $data['password'])) {
             return $this->sendError('password is not matched');
         }
         if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
@@ -72,7 +72,7 @@ class AuthController extends ApiController
         $token = $user->createToken('Personal access token');
         $user->accessToken = $token->accessToken;
         $user->tags;
-        return $this->sendResponse($user);
+        return $this->sendResponse(new UserResource($user));
     }
 
     public function logout()
