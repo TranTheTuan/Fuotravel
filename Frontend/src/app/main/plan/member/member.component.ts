@@ -13,7 +13,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class MemberComponent implements OnInit {
   readonly _ADMIN = ADMIN;
   readonly _MODERATOR = MODERATOR;
-  membership: Array<number>;
+  membership = [];
   planId;
   members: User[];
 

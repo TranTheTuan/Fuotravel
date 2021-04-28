@@ -28,6 +28,9 @@ export class InteractionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.memberService.getMembershipListener().subscribe(res => {
+      this.membership = res;
+    });
   }
 
   onSendRequest() {

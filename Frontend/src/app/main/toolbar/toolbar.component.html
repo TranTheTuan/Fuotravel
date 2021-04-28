@@ -1,7 +1,6 @@
 <mat-toolbar color="primary">
   <span><a [routerLink]="['/']" class="title">
-    <mat-icon>backpack</mat-icon>
-    Fuotravel
+    <img src="../../../assets/logo/logo3.png" alt="logo" height="150" width="150">
   </a></span>
   <span class="fill-space"></span>
   <mat-form-field appearance="standard" class="w-25 form-field">
@@ -26,7 +25,7 @@
     </mat-autocomplete>
   </mat-form-field>
   <span class="fill-space"></span>
-  <span><button mat-button (click)="openPlanCreateDialog()">New Plan</button></span>
+  <span><button mat-stroked-button (click)="openPlanCreateDialog()" color="primary" class="bg-white">New Plan</button></span>
   <div *ngIf="currentUser;then avatar else login"></div>
   <ng-template #login>
     <span><button mat-button [routerLink]="['/auth/login']" color="accent">login</button></span>

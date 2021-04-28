@@ -28,7 +28,7 @@ export class PlanComponent implements OnInit {
   ];
   plan: Plan;
   currentUser: User;
-  membership;
+  membership = [];
   inviteFriends: User[];
   friendForm = this.fb.group({
     friends: this.fb.array([])

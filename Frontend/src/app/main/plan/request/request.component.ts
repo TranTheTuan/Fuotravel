@@ -16,7 +16,7 @@ import {environment} from '../../../../environments/environment';
 export class RequestComponent implements OnInit {
   planId;
   requesters: User[];
-  membership: Array<number>;
+  membership = [];
   _ADMIN = ADMIN;
   _MODERATOR = MODERATOR;
 

@@ -29,7 +29,7 @@ export class HereMapComponent implements OnInit, AfterViewInit {
   waypoints: Waypoint[] = [];
   markers = [];
   planId;
-  membership;
+  membership = [];
   _ADMIN = ADMIN;
   _MODERATOR = MODERATOR;
   displayedColumns = ['position', 'name', 'activity', 'from', 'to'];

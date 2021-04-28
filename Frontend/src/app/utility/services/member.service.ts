@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {ApiResponse} from '../models';
 import {environment} from '../../../environments/environment';
 import {map} from 'rxjs/operators';
@@ -26,7 +26,7 @@ export class MemberService {
     13: environment.apiURL + '/members/follow/{plan_id}',
   };
   private membership: Array<number> = [];
-  private membership$ = new BehaviorSubject<Array<number>>(this.membership);
+  private membership$ = new Subject<Array<number>>();
 
   constructor(private http: HttpClient) {
   }

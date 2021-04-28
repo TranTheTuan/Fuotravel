@@ -14,14 +14,14 @@
 </ng-template>
 <ng-template #menu>
   <div class="container-sm">
-    <ul style="list-style: none" class="row">
-      <li *ngFor="let plan of plans" class="col-md-4 col-sm-6">
-        <div class="d-flex flex-column m-3 m-sm-2 p-1">
+    <ul style="list-style: none" class="d-flex flex-row flex-wrap justify-content-around mt-3">
+      <li *ngFor="let plan of plans" class="card-dimension m-3 m-sm-2">
+        <div class="d-flex flex-column p-1 border border-light rounded">
           <div class="d-flex flex-row my-1">
             <img [src]="plan.cover | imageUrl" [alt]="plan.title" height="auto" width="100%">
           </div>
           <div class="d-flex flex-column">
-            <a [routerLink]="['/plans', plan.id]" class="stretched-link">
+            <a [routerLink]="['/plans', plan.id]" class="text-decoration-none">
               {{ plan.title }}
               <mat-icon class="small" [ngClass]="plan.status ? 'text-success' : 'text-danger'">fiber_manual_record</mat-icon>
             </a>
